@@ -1,0 +1,56 @@
+.informacion {
+  margin-left: 20px; /* Reducir el margen para pantallas más pequeñas */
+}
+
+.informacion img {
+  max-width: 100%; /* Hacer que la imagen sea responsive */
+}
+
+.informacion h2 {
+  font-size: 24px; /* Reducir el tamaño del texto para pantallas más pequeñas */
+  line-height: 28px;
+  text-align: center;
+  font-family: "Roboto", sans-serif;
+}
+
+.informacion mat-icon {
+  width: 100px;
+  height: 100px;
+}
+
+.login {
+  background: white;
+  width: 100%; /* Opcional: Asegurarse de que el fondo blanco se extienda al 100% del contenedor */
+}
+
+.container {
+  width: 100%;
+  height: 100vh;
+  background: url(/assets/images/diplomas.jpeg);
+  background-size: cover;
+  background-position: center;
+}
+
+@media screen and (max-width: 600px) {
+  /* Estilos específicos para pantallas más pequeñas, ajusta según sea necesario */
+  .informacion {
+    margin-left: 10px;
+  }
+
+  .informacion h2 {
+    font-size: 26px;
+    line-height: 22px;
+    color: aliceblue;
+    font-family: "Roboto", sans-serif;
+    word-spacing: 10px;
+  }
+
+  .informacion mat-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .login {
+    width: 100%;
+  }
+}
