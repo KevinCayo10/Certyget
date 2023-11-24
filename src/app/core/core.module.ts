@@ -10,12 +10,12 @@ import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
-
+import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
-
+import { RouterLink, RouterModule } from '@angular/router';
 @NgModule({
   declarations: [
     HeaderComponent,
@@ -33,10 +33,11 @@ import { MatButtonModule } from '@angular/material/button';
     ReactiveFormsModule,
     MatToolbarModule,
     MatMenuModule,
-
     MatIconModule,
     MatButtonModule,
     FlexLayoutModule,
+    MatListModule,
+    RouterModule,
   ],
   exports: [
     HeaderComponent,
@@ -45,11 +46,10 @@ import { MatButtonModule } from '@angular/material/button';
     FlexLayoutModule,
     MenuComponent,
     PageLoginComponent,
-    MenuComponent,
-    MenuComponent,
     MatSidenavModule,
     FlexLayoutModule,
     MatIconModule,
+    MatListModule,
   ],
 })
 export class CoreModule {}
