@@ -1,0 +1,54 @@
+.container {
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  display: flex; /* Usar flexbox para organizar los elementos hijos */
+}
+
+.login {
+  /* No es necesario display: flex aquí ya que hereda la propiedad del contenedor principal */
+  justify-content: center;
+  background: white;
+  width: 100%; /* Ajustar según sea necesario */
+  height: 100%;
+  background-color: #f0f6f7;
+}
+
+.informacion {
+}
+
+.informacion img {
+  max-width: 60%;
+  height: auto;
+}
+
+.informacion h2 {
+  font-size: 28px;
+  line-height: 2;
+  text-align: center;
+  padding: 10px;
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+}
+
+@media screen and (max-width: 600px) {
+  .informacion h2 {
+    font-size: 18px;
+    line-height: 2;
+    text-align: center;
+    padding: 0.8em;
+    font-family: "Roboto", sans-serif;
+    font-weight: bold;
+    color: rgb(0, 0, 0);
+    width: 60%;
+  }
+  .informacion img {
+    max-width: 60%;
+  }
+  .container {
+    width: 100%;
+    height: 100vh;
+  }
+}
