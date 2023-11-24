@@ -5,26 +5,24 @@ import { KeypadButtonComponent } from './components/keypad-button/keypad-button.
 import { PaginatorComponent } from './components/paginator/paginator.component';
 import { TableComponent } from './components/table/table.component';
 import { TitleComponent } from './components/title/title.component';
-
-
-
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
 @NgModule({
   declarations: [
     ContainerComponent,
     KeypadButtonComponent,
     PaginatorComponent,
     TableComponent,
-    TitleComponent
+    TitleComponent,
   ],
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule, MatCardModule, MatIconModule, MatToolbarModule],
   exports: [
     ContainerComponent,
     KeypadButtonComponent,
     PaginatorComponent,
     TableComponent,
-    TitleComponent
-  ]
+    TitleComponent,
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}

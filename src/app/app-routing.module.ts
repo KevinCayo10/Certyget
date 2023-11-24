@@ -7,6 +7,39 @@ const routes: Routes = [
     path: 'login',
     component: PageLoginComponent,
   },
+  {
+    path: 'categorias',
+    loadChildren: () =>
+      import('./categorias/categorias.module').then(
+        (modulo) => modulo.CategoriasModule
+      ),
+  },
+  {
+    path: 'certificados',
+    loadChildren: () =>
+      import('./certificados/certificados.module').then(
+        (modulo) => modulo.CertificadosModule
+      ),
+  },
+  {
+    path: 'cursos',
+    loadChildren: () =>
+      import('./cursos/cursos.module').then((modulo) => modulo.CursosModule),
+  },
+  {
+    path: 'instructores',
+    loadChildren: () =>
+      import('./instructores/instructores.module').then(
+        (modulo) => modulo.InstructoresModule
+      ),
+  },
+  {
+    path: 'usuarios',
+    loadChildren: () =>
+      import('./usuarios/usuarios.module').then(
+        (modulo) => modulo.UsuariosModule
+      ),
+  },
 ];
 
 @NgModule({

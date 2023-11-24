@@ -4,16 +4,18 @@ import { HeaderComponent } from './components/header/header.component';
 import { LoginComponent } from './components/login/login.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { PageLoginComponent } from './pages/page-login/page-login.component';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatListModule } from '@angular/material/list';
-import { RouterModule } from '@angular/router';
+
+import { MatIconModule } from '@angular/material/icon';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatButtonModule } from '@angular/material/button';
+
 @NgModule({
   declarations: [
     HeaderComponent,
@@ -31,7 +33,10 @@ import { RouterModule } from '@angular/router';
     ReactiveFormsModule,
     MatToolbarModule,
     MatMenuModule,
-    MatListModule,
+
+    MatIconModule,
+    MatButtonModule,
+    FlexLayoutModule,
   ],
   exports: [
     HeaderComponent,
@@ -40,6 +45,11 @@ import { RouterModule } from '@angular/router';
     FlexLayoutModule,
     MenuComponent,
     PageLoginComponent,
+    MenuComponent,
+    MenuComponent,
+    MatSidenavModule,
+    FlexLayoutModule,
+    MatIconModule,
   ],
 })
 export class CoreModule {}
