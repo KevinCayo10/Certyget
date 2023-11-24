@@ -1,5 +1,5 @@
 <form fxLayout="column" [formGroup]="loginForm" (ngSubmit)="proceedLogin()">
-  <h2>Credenciales</h2>
+  <h2 id="title_credential">Credenciales</h2>
   <mat-form-field>
     <mat-label>Usuario</mat-label>
     <input type="text" matInput required placeholder="Ingrese su usuario" formControlName="username" />
