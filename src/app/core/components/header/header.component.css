@@ -1,0 +1,16 @@
+mat-toolbar {
+  background: #00636a;
+  min-height: 73px;
+}
+.profile {
+  height: 100%;
+}
+.profile span {
+  color: rgb(255, 255, 255) !important;
+}
+mat-toolbar mat-icon {
+  border-radius: 6px;
+}
+.profile mat-icon {
+  color: rgb(255, 255, 255) !important;
+}
