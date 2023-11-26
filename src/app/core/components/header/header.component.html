@@ -1,1 +1,16 @@
-<p>header works!</p>
+<mat-toolbar fxLayout fxLayoutAlign="end center">
+  <button mat-button class="profile" [mat-menu-trigger-for]="menu">
+    <div fxLayoutAlign="center center" fxLayoutGap="10px">
+      <mat-icon svgIcon="avatar"></mat-icon>
+      <!-- <span>{{ nombreUsuario }}</span> -->
+      <span>Usuario</span>
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </div>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item routerLink="/login">
+      <mat-icon>logout</mat-icon>
+      <span>Cerrar Sesión</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>
