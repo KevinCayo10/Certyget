@@ -1,1 +1,10 @@
-<p>paginator works!</p>
+<div fxLayout fxLayoutAlign="end center" fxLayoutGap="10px">
+  <mat-paginator
+    [length]="length"
+    [pageSize]="pageSize"
+    (page)="changePage($event)"
+    showFirstLastButtons="true"
+    [pageIndex]="currentPage"
+  >
+  </mat-paginator>
+</div>
