@@ -9,6 +9,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 @NgModule({
   declarations: [
     ContainerComponent,
@@ -23,6 +25,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatIconModule,
     MatToolbarModule,
     MatPaginatorModule,
+    MatButtonModule,
+    MatTooltipModule,
   ],
   exports: [
     ContainerComponent,
@@ -30,6 +34,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     PaginatorComponent,
     TableComponent,
     TitleComponent,
+    MatButtonModule,
+    MatTooltipModule,
   ],
 })
 export class SharedModule {}
