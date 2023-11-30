@@ -4,7 +4,7 @@ import { KeypadButton } from '../../interfaces/keypadbutton.interface';
 @Component({
   selector: 'cer-keypad-button',
   templateUrl: './keypad-button.component.html',
-  styleUrls: ['./keypad-button.component.css']
+  styleUrls: ['./keypad-button.component.css'],
 })
 export class KeypadButtonComponent {
   @Input() keypadButtons: KeypadButton[] = [];
