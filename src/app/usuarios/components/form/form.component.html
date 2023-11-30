@@ -1,0 +1,43 @@
+<div mat-dialog-title>
+  <mat-toolbar fxLayout fxLayoutAlign="space-between center">
+    <h3>{{ title }}</h3>
+    <button mat-icon-button mat-dialog-close>
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-toolbar>
+</div>
+<form [formGroup]="emp_form" (ngSubmit)="saveData()">
+  <div mat-dialog-content class="content">
+    <div class="row">
+      <mat-form-field class="outline">
+        <mat-label>Usuario</mat-label>
+        <input matInput type="text" placeholder="Nombre de usuario" formControlName="user_usu" />
+        <mat-icon matSuffix>account_box</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field class="outline">
+        <mat-label>Contraseña</mat-label>
+        <input matInput type="password" placeholder="Contraseña" formControlName="pass_usu" />
+        <mat-icon matSuffix>lock</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field class="outline">
+        <mat-label>Rol</mat-label>
+        <input matInput type="text" placeholder="Rol" formControlName="rol_usu" />
+        <mat-icon matSuffix>assignment_ind</mat-icon>
+      </mat-form-field>
+    </div>
+  </div>
+  <div mat-dialog-actions class="action">
+    <button mat-button color="primary" type="button" mat-dialog-close>
+      Cancelar
+    </button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="emp_form.invalid">
+      Grabar
+    </button>
+  </div>
+</form>
