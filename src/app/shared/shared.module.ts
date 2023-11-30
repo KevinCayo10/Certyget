@@ -11,6 +11,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTableModule } from '@angular/material/table';
 @NgModule({
   declarations: [
     ContainerComponent,
@@ -25,8 +26,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatIconModule,
     MatToolbarModule,
     MatPaginatorModule,
-    MatButtonModule,
-    MatTooltipModule,
+    MatTableModule,
   ],
   exports: [
     ContainerComponent,
@@ -34,8 +34,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     PaginatorComponent,
     TableComponent,
     TitleComponent,
-    MatButtonModule,
-    MatTooltipModule,
+    MatTableModule,
   ],
 })
 export class SharedModule {}
