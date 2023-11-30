@@ -12,7 +12,7 @@ import { MatColumnDef, MatTable } from '@angular/material/table';
 @Component({
   selector: 'cer-table',
   templateUrl: './table.component.html',
-  styleUrls: ['./table.component.css']
+  styleUrls: ['./table.component.css'],
 })
 export class TableComponent {
   @Input() data: any;
@@ -30,6 +30,7 @@ export class TableComponent {
   }
 
   ngAfterContentInit() {
+    console.log(this.data);
     if (!this.columnsDef) {
       return;
     }
