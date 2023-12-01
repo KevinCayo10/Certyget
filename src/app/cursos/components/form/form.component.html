@@ -1,1 +1,59 @@
-<p>Cambio DAS!</p>
+<div mat-dialog-title>
+  <mat-toolbar fxLayout fxLayoutAlign="space-between center">
+    <h3>{{ title }}</h3>
+    <button mat-icon-button mat-dialog-close>
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-toolbar>
+</div>
+<form [formGroup]="emp_form" (ngSubmit)="saveData()">
+  <div mat-dialog-content class="content">
+    <div class="row">
+      <mat-form-field class="outline">
+        <mat-label>ID Curso</mat-label>
+        <input matInput type="text" placeholder="ID del curso" formControlName="id_cur" />
+        <mat-icon matSuffix>recent_actors</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field class="outline">
+        <mat-label>Nombre del Curso</mat-label>
+        <input matInput type="text" placeholder="Nombre del curso" formControlName="nom_cur" />
+        <mat-icon matSuffix>book</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field class="outline">
+        <mat-label>Fecha de Inicio</mat-label>
+        <input matInput type="date" placeholder="Fecha de inicio" formControlName="fecha_inicio_cur" />
+        <mat-icon matSuffix>event</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field class="outline">
+        <mat-label>Fecha de Fin</mat-label>
+        <input matInput type="date" placeholder="Fecha de fin" formControlName="fecha_fin_cur" />
+        <mat-icon matSuffix>event</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field class="outline">
+        <mat-label>Duración</mat-label>
+        <input matInput type="text" placeholder="Duración del curso" formControlName="dur_cur" />
+        <mat-icon matSuffix>access_time</mat-icon>
+      </mat-form-field>
+    </div>
+  </div>
+  <div mat-dialog-actions class="action">
+    <button mat-button color="primary" type="button" mat-dialog-close>
+      Cancelar
+    </button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="emp_form.invalid">
+      Grabar
+    </button>
+  </div>
+</form>
