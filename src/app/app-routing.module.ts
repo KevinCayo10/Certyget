@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PageLoginComponent } from './core/pages/page-login/page-login.component';
+import { authGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -13,6 +14,7 @@ const routes: Routes = [
       import('./categorias/categorias.module').then(
         (modulo) => modulo.CategoriasModule
       ),
+    canActivate: [authGuard],
   },
   {
     path: 'certificados',
@@ -20,11 +22,13 @@ const routes: Routes = [
       import('./certificados/certificados.module').then(
         (modulo) => modulo.CertificadosModule
       ),
+    canActivate: [authGuard],
   },
   {
     path: 'cursos',
     loadChildren: () =>
       import('./cursos/cursos.module').then((modulo) => modulo.CursosModule),
+    canActivate: [authGuard],
   },
   {
     path: 'instructores',
@@ -32,6 +36,7 @@ const routes: Routes = [
       import('./instructores/instructores.module').then(
         (modulo) => modulo.InstructoresModule
       ),
+    canActivate: [authGuard],
   },
   {
     path: 'usuarios',
@@ -39,6 +44,11 @@ const routes: Routes = [
       import('./usuarios/usuarios.module').then(
         (modulo) => modulo.UsuariosModule
       ),
+    canActivate: [authGuard],
+  },
+  {
+    path: '**',
+    redirectTo: 'login',
   },
 ];
 

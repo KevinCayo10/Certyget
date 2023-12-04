@@ -16,4 +16,7 @@ export class AuthService {
   login(obj: any) {
     return this.http.post(this.myAppUrl + this.myApiUrl, obj);
   }
+  IsLoggedIn() {
+    return sessionStorage.getItem('token') != null;
+  }
 }

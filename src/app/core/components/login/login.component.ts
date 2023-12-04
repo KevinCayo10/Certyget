@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -9,7 +10,11 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginComponent {
   togglePassword = true;
-  constructor(private builder: FormBuilder, private authService: AuthService) {
+  constructor(
+    private builder: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
     sessionStorage.clear();
   }
   userdata: any;
@@ -25,7 +30,16 @@ export class LoginComponent {
           pass_usu: this.loginForm.value.pass_usu,
         })
         .subscribe((res) => {
-          console.log(res);
+          this.userdata = res;
+          console.log(this.userdata);
+          if (this.userdata.token) {
+            sessionStorage.setItem('token', this.userdata.token);
+            this.router.navigate(['/categorias']);
+          } else {
+            alert(
+              this.userdata.pass_usu + '== ' + this.loginForm.value.pass_usu
+            );
+          }
         });
     }
   }
