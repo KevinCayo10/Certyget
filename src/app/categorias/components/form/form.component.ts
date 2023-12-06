@@ -33,11 +33,9 @@ export class FormComponent {
 
   constructor(
     private reference: MatDialogRef<FormComponent>,
-    //private booksService: BooksService,
-    //private authorsService: AuthorsService, // Cambiado a authorsService
+    
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
-    //private seccionService: SeccionService, // Cambiado a seccionService
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.title = data ? 'EDITAR USUARIO' : 'NUEVO USUARIO';

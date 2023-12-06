@@ -1,1 +1,146 @@
-<p>form works!</p>
+<div mat-dialog-title>
+  <mat-toolbar fxLayout fxLayoutAlign="space-between center">
+    <h3>{{ title }}</h3>
+    <button mat-icon-button mat-dialog-close>
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-toolbar>
+</div>
+<form [formGroup]="emp_form" (ngSubmit)="saveData()">
+  <div mat-dialog-content class="content">
+    <mat-form-field class="outline">
+      <mat-label>Cédula</mat-label>
+      <input
+        matInput
+        type="text"
+        placeholder="Cédula"
+        formControlName="ced_inst"
+      />
+      <mat-icon matSuffix>credit_card</mat-icon>
+    </mat-form-field>
+    <div class="row">
+      <mat-form-field class="outline">
+        <mat-label>Nombre Paterno</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="Nombre Paterno"
+          formControlName="nom_pat_inst"
+        />
+        <mat-icon matSuffix>person</mat-icon>
+      </mat-form-field>
+      <mat-form-field class="outline">
+        <mat-label>Nombre Materno</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="Nombre Materno"
+          formControlName="nom_mat_inst"
+        />
+        <mat-icon matSuffix>person</mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field class="outline">
+        <mat-label>Apellido Paterno</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="Apellido Paterno"
+          formControlName="ape_pat_inst"
+        />
+        <mat-icon matSuffix>person</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field class="outline">
+        <mat-label>Apellido Materno</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="Apellido Materno"
+          formControlName="ape_mat_inst"
+        />
+        <mat-icon matSuffix>person</mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field class="outline">
+        <mat-label>Teléfono</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="Teléfono"
+          formControlName="telf_inst"
+        />
+        <mat-icon matSuffix>phone</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field class="outline">
+        <mat-label>Dirección</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="Dirección"
+          formControlName="dir_inst"
+        />
+        <mat-icon matSuffix>location_on</mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field class="outline">
+        <mat-label>Ciudad</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="Ciudad"
+          formControlName="ciud_inst"
+        />
+        <mat-icon matSuffix>location_city</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field class="outline">
+        <mat-label>Título</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="Título"
+          formControlName="tit_inst"
+        />
+        <mat-icon matSuffix>school</mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field class="outline">
+        <mat-label>Puesto</mat-label>
+        <mat-select
+          placeholder="Selecciona un puesto"
+          formControlName="puesto_inst"
+        >
+          <mat-option *ngFor="let option of puestos" [value]="option">
+            {{ option }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <label for="fileInput" class="custom-upload-btn">Subir Archivo</label>
+      <input type="file" id="fileInput" (change)="capturarFile($event)" />
+    </div>
+    <div class="preview-container" *ngIf="previsualizacion">
+      <img [src]="previsualizacion" alt="" width="250px" height="250px" class="imgp" />
+    </div>
+  </div>
+  <div mat-dialog-actions class="action">
+    <button mat-button color="primary" type="button" mat-dialog-close>
+      Cancelar
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="emp_form.invalid"
+    >
+      Grabar
+    </button>
+  </div>
+</form>
