@@ -1,7 +1,12 @@
 import { Component } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { KeypadButton } from 'src/app/shared/interfaces/keypadbutton.interface';
 import { MetaDataColumn } from 'src/app/shared/interfaces/metacolumn.interfaces';
 import { environment } from 'src/environments/environment.development';
+import { FormComponent } from '../../components/form/form.component';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Dialog } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'cer-page-list',
@@ -21,7 +26,7 @@ export class PageListComponent {
       dir_inst: 'Calle Principal 123',
       ciud_inst: 'Ciudad',
       tit_inst: 'Licenciado en Educación',
-      puesto_inst: 'Profesor',
+      puesto_inst: 'Docente',
       url_firma: 'https://example.com/firma',
     },
   ];
@@ -50,7 +55,11 @@ export class PageListComponent {
   ];
 
   totalRecords = this.data.length;
-  constructor() {
+  constructor(
+    private bottomSheet: MatBottomSheet,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
+  ) {
     this.loadCategory();
   }
   changePage(page: number) {
@@ -90,6 +99,13 @@ export class PageListComponent {
       disableClose: true,
       data: row,
     };
+    const reference: MatDialogRef<FormComponent> = this.dialog.open(
+      FormComponent,
+      options
+    );
+    reference.afterClosed().subscribe((response) => {
+      this.loadCategory();
+    });
   }
 
   delete(id: string) {}
