@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment.development';
 import { FormComponent } from '../../components/form/form.component';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CategoriasService } from '../../services/categorias.service';
 
 @Component({
   selector: 'cer-page-list',
@@ -45,6 +46,7 @@ export class PageListComponent {
   constructor(
     private bottomSheet: MatBottomSheet,
     private dialog: MatDialog,
+    private categoriasService: CategoriasService,
     private snackBar: MatSnackBar
   ) {
     this.loadCategory();
@@ -55,12 +57,16 @@ export class PageListComponent {
     this.data = this.registros.slice(skip, skip + pageSize);
     console.log('aqui', this.data);
   }
+
   loadCategory() {
-    console.log('ENTRO A LOAD');
-    this.data = this.registros;
-    this.totalRecords = this.data.length;
-    this.changePage(0);
-    console.log(this.data);
+    this.categoriasService.getCategorias().subscribe({
+      next: (categorias) => {
+        this.data = categorias;
+        this.totalRecords = this.data.length;
+        this.changePage(0); // Si tienes paginación
+      },
+      error: () => this.snackBar.open('Error al cargar las categorías', 'Cerrar', { duration: 3000 })
+    });
   }
 
   doAction(action: string) {

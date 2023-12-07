@@ -7,6 +7,8 @@ import {
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Categoria } from '../../models/categoria.model';
+import { CategoriasService } from '../../services/categorias.service';
 
 @Component({
   selector: 'cer-form',
@@ -33,12 +35,12 @@ export class FormComponent {
 
   constructor(
     private reference: MatDialogRef<FormComponent>,
-    
+    private categoriasService: CategoriasService,
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.title = data ? 'EDITAR USUARIO' : 'NUEVO USUARIO';
+    this.title = data ? 'EDITAR CATEGORÍA' : 'NUEVA CATEGORÍA';
     this.isEdit = data ? true : false;
     this.emp_form = this.formBuilder.group({
       id_cate: '',
@@ -64,7 +66,25 @@ export class FormComponent {
 
   saveData() {
     if (this.emp_form.valid) {
-      if (this.data) {
+      const categoria: Categoria = this.emp_form.value;
+      if (this.isEdit) {
+        this.categoriasService.updateCategoria(categoria.id_cate, categoria)
+          .subscribe({
+            next: (response) => {
+              this.showMessage('Categoría actualizada con éxito');
+              this.reference.close();
+            },
+            error: () => this.showMessage('Error al actualizar la categoría', 3000, 'Cerrar')
+          });
+      } else {
+        this.categoriasService.createCategoria(categoria)
+          .subscribe({
+            next: (response) => {
+              this.showMessage('Categoría creada con éxito');
+              this.reference.close();
+            },
+            error: () => this.showMessage('Error al crear la categoría', 3000, 'Cerrar')
+          });
       }
     }
   }
