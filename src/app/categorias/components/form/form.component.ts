@@ -66,25 +66,18 @@ export class FormComponent {
 
   saveData() {
     if (this.emp_form.valid) {
-      const categoria: Categoria = this.emp_form.value;
       if (this.isEdit) {
-        this.categoriasService.updateCategoria(categoria.id_cate, categoria)
-          .subscribe({
-            next: (response) => {
-              this.showMessage('Categoría actualizada con éxito');
-              this.reference.close();
-            },
-            error: () => this.showMessage('Error al actualizar la categoría', 3000, 'Cerrar')
-          });
+        // Actualizar categoría
+        this.categoriasService.updateCategoria(this.data.id_cate, this.emp_form.value).subscribe({
+          next: (res) => this.showMessage('Categoría actualizada correctamente'),
+          error: (err) => this.showMessage('Error al actualizar la categoría')
+        });
       } else {
-        this.categoriasService.createCategoria(categoria)
-          .subscribe({
-            next: (response) => {
-              this.showMessage('Categoría creada con éxito');
-              this.reference.close();
-            },
-            error: () => this.showMessage('Error al crear la categoría', 3000, 'Cerrar')
-          });
+        // Crear nueva categoría
+        this.categoriasService.createCategoria(this.emp_form.value).subscribe({
+          next: (res) => this.showMessage('Categoría creada correctamente'),
+          error: (err) => this.showMessage('Error al crear la categoría')
+        });
       }
     }
   }

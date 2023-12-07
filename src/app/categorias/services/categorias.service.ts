@@ -1,33 +1,37 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Categoria } from '../models/categoria.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoriasService {
-  private apiUrl = 'http://localhost:4000/api/category';
+  private baseUrl = 'http://localhost:4000/api/category';
 
   constructor(private http: HttpClient) { }
 
-  getCategorias(): Observable<Categoria[]> {
-    return this.http.get<Categoria[]>(`${this.apiUrl}/`);
+  // Obtener todas las categorías
+  getCategorias(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/`);
   }
 
-  getCategoriaById(id: number): Observable<Categoria> {
-    return this.http.get<Categoria>(`${this.apiUrl}/${id}`);
+  // Obtener una categoría por su id
+  getCategoriaById(id: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/${id}`);
   }
 
-  createCategoria(categoria: Categoria): Observable<Categoria> {
-    return this.http.post<Categoria>(this.apiUrl, categoria);
+  // Crear una nueva categoría
+  createCategoria(categoria: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/`, categoria);
   }
 
-  updateCategoria(id: number, categoria: Categoria): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, categoria);
+  // Actualizar una categoría
+  updateCategoria(id: number, categoria: any): Observable<any> {
+    return this.http.put(`${this.baseUrl}/${id}`, categoria);
   }
 
+  // Eliminar una categoría
   deleteCategoria(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+    return this.http.delete(`${this.baseUrl}/${id}`);
   }
 }
