@@ -8,6 +8,7 @@ import {
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
+import { InstructoresService } from '../../services/instructores.service';
 
 @Component({
   selector: 'cer-form',
@@ -36,6 +37,7 @@ export class FormComponent {
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     private sanitizer: DomSanitizer,
+    private instructoresService: InstructoresService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.title = data ? 'EDITAR USUARIO' : 'NUEVO USUARIO';
@@ -78,6 +80,77 @@ export class FormComponent {
   saveData() {
     if (this.emp_form.valid) {
       if (this.data) {
+        /* this.administrationService
+          .updateAdministrador(this.data.cedula, this.emp_form.value)
+          .subscribe(
+            (res) => {
+              console.log(res);
+              this.showMessage('Registro actualizado correctamente');
+              this.reference.close();
+            },
+            (err) => {
+              this.showMessage('Error al actualizar el registro');
+            }
+          );
+        console.log(this.emp_form.value); */
+      } else {
+        /* this.instructoresService.addInstructor(this.emp_form.value).subscribe(
+          (res) => {
+            console.log(res);
+            this.showMessage('Registro ingresado correctamente');
+            this.reference.close();
+          },
+          (err) => {
+            this.showMessage('El usuario ya se encuentra registrado');
+          }
+        );
+        console.log(this.emp_form.value); */
+        try {
+          const formularioDatos = new FormData();
+          formularioDatos.append('ced_inst', this.emp_form.value.ced_inst);
+          formularioDatos.append(
+            'nom_pat_inst',
+            this.emp_form.value.nom_pat_inst
+          );
+          formularioDatos.append(
+            'nom_mat_inst',
+            this.emp_form.value.nom_mat_inst
+          );
+          formularioDatos.append(
+            'ape_pat_inst',
+            this.emp_form.value.ape_pat_inst
+          );
+          formularioDatos.append(
+            'ape_mat_inst',
+            this.emp_form.value.ape_mat_inst
+          );
+          formularioDatos.append('telf_inst', this.emp_form.value.telf_inst);
+          formularioDatos.append('dir_inst', this.emp_form.value.dir_inst);
+          formularioDatos.append('ciud_inst', this.emp_form.value.ciud_inst);
+          formularioDatos.append('tit_inst', this.emp_form.value.tit_inst);
+          formularioDatos.append(
+            'puesto_inst',
+            this.emp_form.value.puesto_inst
+          );
+
+          this.archivos.forEach((archivo: any) => {
+            console.log(archivo);
+            formularioDatos.append('url_firma', archivo);
+          });
+          console.log(formularioDatos);
+          this.instructoresService.addInstructor(formularioDatos).subscribe(
+            (res) => {
+              console.log(res);
+              this.showMessage('Registro ingresado correctamente');
+              this.reference.close();
+            },
+            (err) => {
+              this.showMessage(err.error.message);
+            }
+          );
+        } catch (error) {
+          console.log(error);
+        }
       }
     }
   }
