@@ -7,6 +7,7 @@ import { FormComponent } from '../../components/form/form.component';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Dialog } from '@angular/cdk/dialog';
+import { InstructoresService } from '../../services/instructores.service';
 
 @Component({
   selector: 'cer-page-list',
@@ -58,22 +59,23 @@ export class PageListComponent {
   constructor(
     private bottomSheet: MatBottomSheet,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private instructoresService: InstructoresService
   ) {
-    this.loadCategory();
+    this.loadInstructores();
   }
   changePage(page: number) {
     const pageSize = environment.PAGE_SIZE;
     const skip = pageSize * page;
-    this.data = this.registros.slice(skip, skip + pageSize);
+    this.data = this.data.slice(skip, skip + pageSize);
     console.log('aqui', this.data);
   }
-  loadCategory() {
-    console.log('ENTRO A LOAD');
-    this.data = this.registros;
-    this.totalRecords = this.data.length;
-    this.changePage(0);
-    console.log(this.data);
+  loadInstructores() {
+    this.instructoresService.loadInstructores().subscribe((data) => {
+      this.data = data.data;
+      this.totalRecords = this.data.length;
+      this.changePage(0);
+    });
   }
 
   doAction(action: string) {
@@ -104,7 +106,7 @@ export class PageListComponent {
       options
     );
     reference.afterClosed().subscribe((response) => {
-      this.loadCategory();
+      this.loadInstructores();
     });
   }
 
