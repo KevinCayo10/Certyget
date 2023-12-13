@@ -20,12 +20,6 @@ export class PageListComponent implements OnInit {
     { field: 'desc_cate', title: 'DESCRIPCION' },
   ];
   keypadButtons: KeypadButton[] = [
-    {
-      icon: 'cloud_download',
-      tooltip: 'EXPORTAR',
-      color: 'accent',
-      action: 'DOWNLOAD',
-    },
     { icon: 'add', tooltip: 'AGREGAR', color: 'primary', action: 'NEW' },
   ];
 
@@ -51,7 +45,7 @@ export class PageListComponent implements OnInit {
         this.data = res.data.slice(skip, skip + pageSize);
         this.totalRecords = res.data.length;
       },
-      error: (err) => this.showMessage('Error al cargar las categorías')
+      error: (err) => this.showMessage('Error al cargar las categorías'),
     });
   }
 
@@ -79,7 +73,7 @@ export class PageListComponent implements OnInit {
       data: row,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       this.loadCategory();
     });
   }
@@ -90,11 +84,15 @@ export class PageListComponent implements OnInit {
         this.showMessage('Categoría eliminada correctamente');
         this.loadCategory();
       },
-      error: (err) => this.showMessage('Error al eliminar la categoría')
+      error: (err) => this.showMessage('Error al eliminar la categoría'),
     });
   }
 
-  showMessage(message: string, duration: number = 3000, action: string = 'Cerrar') {
+  showMessage(
+    message: string,
+    duration: number = 3000,
+    action: string = 'Cerrar'
+  ) {
     this.snackBar.open(message, action, {
       duration: duration,
       verticalPosition: 'top',
