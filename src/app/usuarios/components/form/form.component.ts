@@ -15,6 +15,8 @@ import { UsuariosService } from '../../services/usuarios.service';
   styleUrls: ['./form.component.css'],
 })
 export class FormComponent {
+  roles: string[] = ['ADMIN', 'ESTUDIANTE'];
+
   emp_form: FormGroup;
   title = '';
   togglePassword = true;

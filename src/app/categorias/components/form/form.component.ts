@@ -56,10 +56,7 @@ export class FormComponent {
   loadForm() {
     this.emp_form = this.formBuilder.group({
       id_cate: new FormControl(this.data?.id_cate),
-      nom_cate: new FormControl(this.data?.nom_cate, [
-        Validators.pattern('^[a-zA-Z0-9]*$'), // Puedes ajustar el patrón según tus necesidades
-        Validators.required,
-      ]),
+      nom_cate: new FormControl(this.data?.nom_cate, [Validators.required]),
       desc_cate: new FormControl(this.data?.desc_cate, Validators.required),
     });
   }
@@ -68,15 +65,24 @@ export class FormComponent {
     if (this.emp_form.valid) {
       if (this.isEdit) {
         // Actualizar categoría
-        this.categoriasService.updateCategoria(this.data.id_cate, this.emp_form.value).subscribe({
-          next: (res) => this.showMessage('Categoría actualizada correctamente'),
-          error: (err) => this.showMessage('Error al actualizar la categoría')
-        });
+        this.categoriasService
+          .updateCategoria(this.data.id_cate, this.emp_form.value)
+          .subscribe({
+            next: (res) => {
+              this.showMessage('Categoría actualizada correctamente');
+              this.reference.close();
+            },
+            error: (err) =>
+              this.showMessage('Error al actualizar la categoría'),
+          });
       } else {
         // Crear nueva categoría
         this.categoriasService.createCategoria(this.emp_form.value).subscribe({
-          next: (res) => this.showMessage('Categoría creada correctamente'),
-          error: (err) => this.showMessage('Error al crear la categoría')
+          next: (res) => {
+            this.showMessage('Categoría creada correctamente');
+            this.reference.close();
+          },
+          error: (err) => this.showMessage('Error al crear la categoría'),
         });
       }
     }

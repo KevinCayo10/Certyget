@@ -22,6 +22,8 @@ export class PageListComponent {
     { field: 'rol_usu', title: 'Rol' },
   ];
 
+  rol: any[] = [];
+
   keypadButtons: KeypadButton[] = [
     {
       icon: 'cloud_download',
