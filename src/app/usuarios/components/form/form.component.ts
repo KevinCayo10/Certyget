@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UsuariosService } from '../../services/usuarios.service';
 
 @Component({
   selector: 'cer-form',
@@ -33,8 +34,7 @@ export class FormComponent {
 
   constructor(
     private reference: MatDialogRef<FormComponent>,
-    //private booksService: BooksService,
-    //private authorsService: AuthorsService, // Cambiado a authorsService
+    private userServices: UsuariosService,
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     //private seccionService: SeccionService, // Cambiado a seccionService
@@ -57,10 +57,7 @@ export class FormComponent {
   loadForm() {
     this.emp_form = this.formBuilder.group({
       id_usu: new FormControl(this.data?.id_usu),
-      user_usu: new FormControl(this.data?.user_usu, [
-        Validators.pattern('^[a-zA-Z0-9]*$'), // Puedes ajustar el patrón según tus necesidades
-        Validators.required,
-      ]),
+      user_usu: new FormControl(this.data?.user_usu, Validators.required),
       pass_usu: new FormControl(this.data?.pass_usu, Validators.required),
       rol_usu: new FormControl(this.data?.rol_usu, Validators.required),
     });
@@ -69,6 +66,20 @@ export class FormComponent {
   saveData() {
     if (this.emp_form.valid) {
       if (this.data) {
+        this.userServices
+          .updateUsers(this.data.id_usu, this.emp_form.value)
+          .subscribe((response) => {
+            this.showMessage('Registro actualizado correctamente');
+            this.reference.close();
+          });
+      } else {
+        console.log('SAVE: ', this.emp_form);
+        this.userServices
+          .addUsers(this.emp_form.value)
+          .subscribe((response) => {
+            this.showMessage('Registro ingresado correctamente');
+            this.reference.close();
+          });
       }
     }
   }

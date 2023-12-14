@@ -15,14 +15,6 @@ import { UsuariosService } from '../../services/usuarios.service';
 })
 export class PageListComponent {
   data: any[] = [];
-  registros: any[] = [
-    {
-      id_usu: 1,
-      user_usu: 'usuario123',
-      pass_usu: 'contrasena123',
-      rol_usu: 'admin',
-    },
-  ];
   metaDataColumns: MetaDataColumn[] = [
     { field: 'id_usu', title: 'ID' },
     { field: 'user_usu', title: 'Usuario' },
@@ -45,20 +37,22 @@ export class PageListComponent {
     private bottomSheet: MatBottomSheet,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private usuariosService: UsuariosService 
+    private usuariosService: UsuariosService
   ) {
     this.loadUsers();
   }
   changePage(page: number) {
     const pageSize = environment.PAGE_SIZE;
     const skip = pageSize * page;
-    this.data = this.registros.slice(skip, skip + pageSize);
+    this.data = this.data.slice(skip, skip + pageSize);
     console.log('aqui', this.data);
   }
-  
-  loadUsers() { // Cambio de método
-    this.usuariosService.getUsers().subscribe((data) => {
-      this.data = data;
+
+  loadUsers() {
+    // Cambio de método
+    this.usuariosService.loadUser().subscribe((data) => {
+      console.log('HOLA  :  ', data.data);
+      this.data = data.data;
       this.totalRecords = this.data.length;
       this.changePage(0);
     });
@@ -96,5 +90,11 @@ export class PageListComponent {
     });
   }
 
-  delete(id: string) {}
+  delete(id_usu: string) {
+    console.log(id_usu);
+    this.usuariosService.deleteUsers(id_usu).subscribe((response) => {
+      console.log(response);
+      this.loadUsers();
+    });
+  }
 }

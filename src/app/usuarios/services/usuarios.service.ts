@@ -4,40 +4,42 @@ import { environment } from 'src/environments/environment.development';
 import { Observable } from 'rxjs';
 import { User } from '../models/user.model';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UsuariosService {
   private myAppUrl: string;
-  private myApiUrl: string;
+  private myApiUrlUser: string;
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {
     this.myAppUrl = environment.endpoint;
-    this.myApiUrl = '/api/users/';
+    this.myApiUrlUser = '/api/users/';
   }
 
-  login(credentials: any): Observable<any> {
-    return this.http.post(`${this.myAppUrl}${this.myApiUrl}login`, credentials);
+  loadUser(): Observable<{ success: number; data: any[] }> {
+    return this.http.get<{ success: number; data: any[] }>(
+      `${this.myAppUrl}${this.myApiUrlUser}`
+    );
+  }
+  addUsers(formData: FormData): Observable<{ success: number; data: any }> {
+    return this.http.post<{ success: number; data: any }>(
+      `${this.myAppUrl}${this.myApiUrlUser}`,
+      formData
+    );
+  }
+  deleteUsers(id_usu: string): Observable<{ success: number; data: any }> {
+    return this.http.delete<{ success: number; data: any }>(
+      `${this.myAppUrl}${this.myApiUrlUser}/${id_usu}`
+    );
   }
 
-  createUser(user: User): Observable<any> {
-    return this.http.post(`${this.myAppUrl}${this.myApiUrl}`, user);
-  }
-
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.myAppUrl}${this.myApiUrl}`);
-  }
-
-  getUser(userId: string): Observable<User> {
-    return this.http.get<User>(`${this.myAppUrl}${this.myApiUrl}/${userId}`);
-  }
-
-  updateUser(userId: string, user: User): Observable<User> {
-    return this.http.put<User>(`${this.myAppUrl}${this.myApiUrl}/${userId}`, user);
-  }
-
-  deleteUser(userId: string): Observable<any> {
-    return this.http.delete(`${this.myAppUrl}${this.myApiUrl}/${userId}`);
+  updateUsers(
+    id_usu: string,
+    formData: FormData
+  ): Observable<{ success: number; data: any }> {
+    return this.http.put<{ success: number; data: any }>(
+      `${this.myAppUrl}${this.myApiUrlUser}/${id_usu}`,
+      formData
+    );
   }
 }
