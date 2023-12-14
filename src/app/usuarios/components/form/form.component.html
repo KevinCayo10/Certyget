@@ -26,9 +26,13 @@
 
     <div class="row">
       <mat-form-field class="outline">
-        <mat-label>Rol</mat-label>
-        <input matInput type="text" placeholder="Rol" formControlName="rol_usu" />
-        <mat-icon matSuffix>assignment_ind</mat-icon>
+        <mat-label> Rol </mat-label>
+        <mat-select formControlName="rol_usu">
+          <mat-option *ngFor="let val of roles" [value]="val">
+            {{ val }}
+          </mat-option>
+        </mat-select>
+        <mat-icon matSuffix>category</mat-icon>
       </mat-form-field>
     </div>
   </div>
