@@ -8,9 +8,15 @@
 </div>
 <form (ngSubmit)="saveData()" class="form-container">
   <div class="button-container">
-    <button mat-raised-button type="button" class="left-button">
+    <input type="file"
+      accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+      (change)="csvImport($event)" style="display:none" #fileInput>
+
+    <button mat-raised-button type="button" class="left-button" (click)="fileInput.click()">
       Cargar CSV
     </button>
+
+
     <button mat-raised-button color="warn" type="button" class="right-button">
       Generar Certificados
     </button>
