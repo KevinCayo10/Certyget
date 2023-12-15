@@ -1,0 +1,30 @@
+.form-container {
+  width: 100%;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.left-button {
+  margin-left: 27px;
+  margin-top: 10px;
+  background: #57bd9e;
+  color: whitesmoke !important;
+}
+
+.right-button {
+  margin-right: 27px;
+  margin-top: 10px;
+  color: white !important;
+}
+
+.modal-content-container {
+  margin: 15px 20px 20px 20px;
+}
+
+.action {
+  justify-content: flex-end;
+}

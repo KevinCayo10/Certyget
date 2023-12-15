@@ -14,6 +14,7 @@ import { environment } from 'src/environments/environment.development';
 })
 export class PageListComponent implements OnInit {
   data: any[] = [];
+  
   metaDataColumns: MetaDataColumn[] = [
     { field: 'id_cate', title: 'ID' },
     { field: 'nom_cate', title: 'NOMBRE' },

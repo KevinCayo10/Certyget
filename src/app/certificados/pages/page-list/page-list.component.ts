@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { KeypadButton } from 'src/app/shared/interfaces/keypadbutton.interface';
 import { MetaDataColumn } from 'src/app/shared/interfaces/metacolumn.interfaces';
 import { environment } from 'src/environments/environment.development';
-/* import { FormComponent } from '../../components/form/form.component'; */
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { CursosService } from 'src/app/cursos/services/cursos.service';
 import { CertificadosService } from '../../services/certificados.service';
+import { FormComponent } from '../../componentes/form/form.component';
 
 @Component({
   selector: 'cer-page-list',
@@ -15,6 +12,9 @@ import { CertificadosService } from '../../services/certificados.service';
   styleUrls: ['./page-list.component.css'],
 })
 export class PageListComponent {
+  public selectedCursoId: any;
+  public selectedCursoNom!: string;
+
   data: any[] = [];
   cursos: any[] = [];
   metaDataColumns: MetaDataColumn[] = [
@@ -28,9 +28,7 @@ export class PageListComponent {
 
   totalRecords = this.data.length;
   constructor(
-    private bottomSheet: MatBottomSheet,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar,
     private cursosService: CursosService,
     private certificadosService: CertificadosService
   ) {
@@ -66,21 +64,38 @@ export class PageListComponent {
   onCursoSelectionChange(selectedValue: any): void {
     console.log('Curso seleccionado:', selectedValue);
     this.loadCertificados(selectedValue);
+
+    // Establece los valores seleccionados en las variables exportadas
+    const selectedCurso = this.cursos.find(
+      (curso) => curso.id_cur === selectedValue
+    );
+    if (selectedCurso) {
+      this.selectedCursoId = selectedCurso.id_cur;
+      this.selectedCursoNom = selectedCurso.nom_cur;
+      sessionStorage.setItem('selectedCursoId', this.selectedCursoId);
+      sessionStorage.setItem('selectedCursoNom', this.selectedCursoNom);
+    }
   }
-  /* openForm(row: any = null) {
+  delete(id: string) {}
+
+  doAction(): void {
+    this.openForm();
+  }
+
+  openForm(row: any = null) {
+    console.log('Datos que se pasan al FormComponent:', row);
     const options = {
       panelClass: 'panel-container',
       disableClose: true,
-      data: row,
+      data: {
+        selectedCursoId: this.selectedCursoId,
+        selectedCursoNom: this.selectedCursoNom,
+      },
     };
     const reference: MatDialogRef<FormComponent> = this.dialog.open(
       FormComponent,
       options
     );
-    reference.afterClosed().subscribe((response) => {
-      this.loadCategory();
-    });
-  } */
-
-  delete(id: string) {}
+    reference.afterClosed().subscribe((response) => {});
+  }
 }
