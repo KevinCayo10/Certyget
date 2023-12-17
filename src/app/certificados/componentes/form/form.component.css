@@ -28,3 +28,93 @@
 .action {
   justify-content: flex-end;
 }
+#certificates-section {
+  margin-top: 20px;
+}
+
+.certificate-container {
+  display: inline-block;
+  margin: 10px;
+}
+
+.certificate {
+  height: 100%;
+  width: 954px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  color: black;
+  font-size: 14px;
+  border: 1px solid red;
+}
+
+.certificate img {
+  width: 100%; /* Ajusta el ancho de la imagen al 100% del contenedor */
+}
+
+.certificate-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  padding: 10px;
+}
+
+.certificate h2 {
+  position: absolute;
+  top: 45%;
+  left: 40%;
+  margin: 0;
+}
+
+.certificate .container_detalle {
+  position: absolute;
+  top: 55%;
+  width: 100%;
+  margin: 0;
+  border: 1px solid black;
+  text-align: center;
+  align-items: center;
+  line-height: 1.2; /* Ajusta el valor según tus necesidades */
+}
+
+.certificate .container_detalle p {
+  margin: 0; /* Elimina el margen predeterminado de los párrafos dentro de #container_detalle */
+}
+
+.container_firmas {
+  position: absolute;
+  top: 70%;
+  width: auto;
+  border: 1px solid black;
+  text-align: center;
+  display: flex;
+  align-self: auto;
+  flex-wrap: wrap;
+}
+
+.block_firma {
+  align-items: center;
+  margin: 0 10px;
+  border: 1px solid red;
+  box-sizing: border-box; /* Asegura que el margen no afecte el tamaño total */
+}
+
+.block_firma img {
+  width: 60px;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  line-height: 0.5;
+}
+
+.nombre_firma {
+  margin: 5px 0; /* Ajusta el margen superior e inferior según tus necesidades */
+}
+
+p {
+  margin: 0;
+}
+
+/* Agrega cualquier estilo adicional necesario */

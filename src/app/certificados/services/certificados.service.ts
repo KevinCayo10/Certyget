@@ -26,4 +26,30 @@ export class CertificadosService {
       `${this.myAppUrl}${this.myApiUrlCertificados}`
     );
   }
+  loadDetalleCursosInstructores(id_cur: any): Observable<{
+    success: number;
+    data: any[];
+  }> {
+    return this.http.get<{ success: number; data: any[] }>(
+      `${this.myAppUrl}${this.myApiUrlCertificados}/detalle/${id_cur}`
+    );
+  }
+  addParticipantes(partipantes: any): Observable<{
+    success: number;
+    data: any[];
+  }> {
+    return this.http.post<{ success: number; data: any[] }>(
+      `${this.myAppUrl}${this.myApiUrlCertificados}`,
+      partipantes
+    );
+  }
+  addCertificados(certificados: any): Observable<{
+    success: number;
+    data: any[];
+  }> {
+    return this.http.post<{ success: number; data: any[] }>(
+      `${this.myAppUrl}${this.myApiUrlCertificados}`,
+      certificados
+    );
+  }
 }
