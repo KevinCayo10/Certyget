@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
@@ -14,13 +14,16 @@ import { DomSanitizer } from '@angular/platform-browser';
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.css'],
 })
-export class FormComponent {
+export class FormComponent implements OnInit {
+  compareInstructores = (a: any, b: any) => a.ced_inst === b.ced_inst;
+
   emp_form: FormGroup;
   title = '';
   togglePassword = true;
   isEdit: boolean;
   categorias: any[] = []; // Supongo que cada categoría tiene un formato similar a la data de cursos
   instructores: any[] = [];
+  instructoresSeleccionados: any[] = [];
   previsualizacion!: string;
   archivos: any = [];
   constructor(
@@ -56,20 +59,20 @@ export class FormComponent {
     });
   }
   loadForm() {
-    const instructoresSeleccionados =
-      this.data?.instructores?.map((instructor: any) => instructor.ced_inst) ||
-      [];
-
     this.emp_form = this.formBuilder.group({
       nom_cur: new FormControl(this.data?.nom_cur),
       fecha_inicio_cur: new FormControl(this.data?.fecha_inicio_cur),
       fecha_fin_cur: new FormControl(this.data?.fecha_fin_cur),
       dur_cur: new FormControl(this.data?.dur_cur),
       id_cate_cur: new FormControl(this.data?.id_cate_cur),
-      ced_inst: new FormControl(instructoresSeleccionados),
+      ced_inst: new FormControl(
+        Array.isArray(this.data.ced_inst) ? this.data.ced_inst : []
+      ),
       url_cer: new FormControl(this.data?.url_cer),
     });
+
     this.previsualizacion = this.data?.url_cer || '';
+    console.log('Cargando esto: ', this.emp_form);
   }
 
   saveData() {
