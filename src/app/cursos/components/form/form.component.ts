@@ -76,38 +76,31 @@ export class FormComponent implements OnInit {
   }
 
   saveData() {
-    console.log(this.emp_form);
-    try {
-      const formularioDatos = new FormData();
-      formularioDatos.append('ced_inst', this.emp_form.value.ced_inst);
-      formularioDatos.append('nom_cur', this.emp_form.value.nom_cur);
-      formularioDatos.append(
-        'fecha_inicio_cur',
-        this.emp_form.value.fecha_inicio_cur
-      );
-      formularioDatos.append(
-        'fecha_fin_cur',
-        this.emp_form.value.fecha_fin_cur
-      );
-      formularioDatos.append('dur_cur', this.emp_form.value.dur_cur);
-      formularioDatos.append('id_cate_cur', this.emp_form.value.id_cate_cur);
-      this.archivos.forEach((archivo: any) => {
-        console.log(archivo);
-        formularioDatos.append('url_firma', archivo);
-      });
-      console.log(formularioDatos);
-      this.cursosService.addCursos(formularioDatos).subscribe(
-        (res) => {
-          console.log(res);
-          this.showMessage('Registro ingresado correctamente');
-          this.reference.close();
-        },
-        (err) => {
-          this.showMessage(err.error.message);
-        }
-      );
-    } catch (error) {
-      console.log(error);
+    if (this.emp_form.valid) {
+      if (this.data) {
+        console.log('Estoy editando: ', this.emp_form.value);
+        this.cursosService
+          .updateCurso(this.data.id_cur, this.emp_form.value)
+          .subscribe(
+            () => {
+              this.showMessage('Registro editado correctamente');
+              this.reference.close();
+            },
+            (error) => {
+              this.showMessage('Ocurrió un error');
+            }
+          );
+      } else {
+        this.cursosService.addCursos(this.emp_form.value).subscribe(
+          () => {
+            this.showMessage('Registro ingresado correctamente');
+            this.reference.close();
+          },
+          (err) => {
+            this.showMessage(err.error.message);
+          }
+        );
+      }
     }
   }
   capturarFile(event: any): any {
