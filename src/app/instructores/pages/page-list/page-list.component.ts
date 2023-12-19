@@ -57,9 +57,7 @@ export class PageListComponent {
 
   totalRecords = this.data.length;
   constructor(
-    private bottomSheet: MatBottomSheet,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar,
     private instructoresService: InstructoresService
   ) {
     this.loadInstructores();

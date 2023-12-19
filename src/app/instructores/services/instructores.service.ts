@@ -25,4 +25,8 @@ export class InstructoresService {
       formData
     );
   }
+  // Actualizar instructores
+  updateInstructor(id: number, instructor: any): Observable<any> {
+    return this.http.put(`${this.myAppUrl}${this.myApiUrl}/${id}`, instructor);
+  }
 }

@@ -1,9 +1,11 @@
 .content {
   padding-top: 10px;
+  height: auto;
 }
+
 .row {
   display: flex;
-  gap: 10px;
+  gap: 15px;
 }
 mat-form-field {
   width: 100%;
@@ -20,39 +22,9 @@ mat-toolbar {
   border-bottom: 1px solid #ccc;
   border-radius: 0px 60px 0px 0px;
 }
-/* Añade estos estilos a tu archivo CSS o al componente donde se aplica el formulario */
-
-/* Estilo para el botón de subir archivo */
-.row input[type="file"] {
-  display: none; /* Oculta el input original */
+.fixed-height-textarea {
+  height: 65px;
 }
-
-.custom-upload-btn {
-  background-color: #2196f3; /* Cambia el color de fondo según tus preferencias */
-  color: #fff; /* Cambia el color del texto según tus preferencias */
-  padding: 10px 15px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  display: inline-block;
-}
-
-.custom-upload-btn:hover {
-  background-color: #1565c0; /* Cambia el color al pasar el ratón */
-}
-
-/* Estilo para el contenedor de previsualización */
-.preview-container {
-  border: 1px solid #ccc; /* Añade un borde al contenedor de previsualización */
-  padding: 10px;
-  margin-top: 10px;
-}
-
-/* Estilo para la previsualización de la imagen */
-.row img {
-  max-width: 100%;
-  max-height: 150px; /* Ajusta la altura máxima según tus necesidades */
-  margin-top: 10px;
-  margin: 0 auto; /* Ajusta la altura máxima según tus necesidades */
+textarea {
+  resize: none;
 }

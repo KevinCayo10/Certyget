@@ -7,7 +7,6 @@ import {
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Categoria } from '../../models/categoria.model';
 import { CategoriasService } from '../../services/categorias.service';
 
 @Component({
@@ -18,21 +17,7 @@ import { CategoriasService } from '../../services/categorias.service';
 export class FormComponent {
   emp_form: FormGroup;
   title = '';
-  togglePassword = true;
   isEdit: boolean;
-  generos: string[] = [
-    'Aventura',
-    'Ciencia Ficción',
-    'Drama',
-    'Fantasía',
-    'Infantil',
-    'Romance',
-    'Terror',
-  ];
-  autores: any[] = [];
-  secciones: any[] = [];
-  disponibilidad: string[] = ['Disponible', 'No disponible'];
-
   constructor(
     private reference: MatDialogRef<FormComponent>,
     private categoriasService: CategoriasService,
@@ -69,6 +54,7 @@ export class FormComponent {
           .updateCategoria(this.data.id_cate, this.emp_form.value)
           .subscribe({
             next: (res) => {
+              console.log(res);
               this.showMessage('Categoría actualizada correctamente');
               this.reference.close();
             },
