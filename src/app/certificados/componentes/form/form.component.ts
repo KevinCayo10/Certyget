@@ -127,6 +127,7 @@ export class FormComponent {
     });
   }
   registerParticipantes() {
+    console.log('DATA : ', this.data);
     this.certificadoService.addParticipantes(this.data).subscribe(
       (response) => {
         console.log(response);

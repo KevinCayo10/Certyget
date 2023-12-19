@@ -39,7 +39,7 @@ export class CertificadosService {
     data: any[];
   }> {
     return this.http.post<{ success: number; data: any[] }>(
-      `${this.myAppUrl}${this.myApiUrlCertificados}`,
+      `${this.myAppUrl}${this.myApiUrlCertificados}/participantes/`,
       partipantes
     );
   }
