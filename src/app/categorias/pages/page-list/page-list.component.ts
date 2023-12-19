@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CategoriasService } from '../../services/categorias.service';
 import { FormComponent } from '../../components/form/form.component';
 import { MetaDataColumn } from 'src/app/shared/interfaces/metacolumn.interfaces';
 import { KeypadButton } from 'src/app/shared/interfaces/keypadbutton.interface';
 import { environment } from 'src/environments/environment.development';
+import { CategoriasService } from '../../services/categorias.service';
 
 @Component({
   selector: 'cer-page-list',
