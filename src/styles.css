@@ -8,11 +8,3 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
-.heightMaxScrollBar {
-  height: 90% !important;
-}
-
-.alignButton {
-  text-align: right !important;
-}
-

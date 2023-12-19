@@ -8,6 +8,7 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { CertificadosService } from '../../services/certificados.service';
 
+
 @Component({
   selector: 'cer-form',
   templateUrl: './form.component.html',
