@@ -46,4 +46,8 @@ export class CursosService {
   updateCurso(id: number, curso: any): Observable<any> {
     return this.http.put(`${this.myAppUrl}${this.myApiUrlCursos}${id}`, curso);
   }
+  /* Elimina los cursos */
+  deleteCurso(id: number): Observable<any> {
+    return this.http.delete(`${this.myAppUrl}${this.myApiUrlCursos}${id}`);
+  }
 }

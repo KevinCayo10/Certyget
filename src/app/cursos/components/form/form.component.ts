@@ -17,7 +17,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class FormComponent implements OnInit {
   compareInstructores = (a: any, b: any) => a.ced_inst === b.ced_inst;
 
-  emp_form: FormGroup;
+  emp_form!: FormGroup;
   title = '';
   togglePassword = true;
   isEdit: boolean;
@@ -60,15 +60,16 @@ export class FormComponent implements OnInit {
   }
   loadForm() {
     this.emp_form = this.formBuilder.group({
-      nom_cur: new FormControl(this.data?.nom_cur),
-      fecha_inicio_cur: new FormControl(this.data?.fecha_inicio_cur),
-      fecha_fin_cur: new FormControl(this.data?.fecha_fin_cur),
-      dur_cur: new FormControl(this.data?.dur_cur),
-      id_cate_cur: new FormControl(this.data?.id_cate_cur),
-      ced_inst: new FormControl(
-        Array.isArray(this.data.ced_inst) ? this.data.ced_inst : []
-      ),
-      url_cer: new FormControl(this.data?.url_cer),
+      nom_cur: [this.data?.nom_cur || '', Validators.required],
+      fecha_inicio_cur: [
+        this.data?.fecha_inicio_cur || '',
+        Validators.required,
+      ],
+      fecha_fin_cur: [this.data?.fecha_fin_cur || '', Validators.required],
+      dur_cur: [this.data?.dur_cur || '', Validators.required],
+      id_cate_cur: [this.data?.id_cate_cur || '', Validators.required],
+      ced_inst: [this.data?.ced_inst || '', Validators.required],
+      url_cer: [this.data?.url_cer || '', Validators.required],
     });
 
     this.previsualizacion = this.data?.url_cer || '';
@@ -77,29 +78,35 @@ export class FormComponent implements OnInit {
 
   saveData() {
     if (this.emp_form.valid) {
+      const formData = this.buildFormData();
       if (this.data) {
-        console.log('Estoy editando: ', this.emp_form.value);
-        this.cursosService
-          .updateCurso(this.data.id_cur, this.emp_form.value)
-          .subscribe(
-            () => {
-              this.showMessage('Registro editado correctamente');
-              this.reference.close();
-            },
-            (error) => {
-              this.showMessage('Ocurrió un error');
-            }
-          );
-      } else {
-        this.cursosService.addCursos(this.emp_form.value).subscribe(
+        console.log(formData);
+        this.cursosService.updateCurso(this.data.id_cur, formData).subscribe(
           () => {
-            this.showMessage('Registro ingresado correctamente');
+            this.showMessage('Registro editado correctamente');
+            console.log('editando' + this.data.id + formData);
             this.reference.close();
           },
           (err) => {
             this.showMessage(err.error.message);
+            console.log(err);
           }
         );
+      } else {
+        try {
+          const formData = this.buildFormData();
+          this.cursosService.addCursos(formData).subscribe(
+            () => {
+              this.showMessage('Registro ingresado correctamente');
+              this.reference.close();
+            },
+            (err) => {
+              this.showMessage(err.error.message);
+            }
+          );
+        } catch (error) {
+          console.log(error);
+        }
       }
     }
   }
@@ -142,6 +149,29 @@ export class FormComponent implements OnInit {
     });
   showMessage(message: string, duration: number = 5000, action: string = 'Ok') {
     this.snackBar.open(message, action, { duration, verticalPosition: 'top' });
+  }
+  buildFormData(): FormData {
+    const formData = new FormData();
+    formData.append('nom_cur', this.emp_form.value.nom_cur);
+    formData.append('fecha_inicio_cur', this.emp_form.value.fecha_inicio_cur);
+    formData.append('fecha_fin_cur', this.emp_form.value.fecha_fin_cur);
+    formData.append('dur_cur', this.emp_form.value.dur_cur);
+    formData.append('id_cate_cur', this.emp_form.value.id_cate_cur);
+    formData.append('ced_inst', this.emp_form.value.ced_inst);
+    formData.append('url_cer', this.emp_form.value.url_cer);
+
+    const nuevaImagen = this.archivos[0];
+    if (nuevaImagen) {
+      formData.append('url_cer', nuevaImagen);
+    } else {
+      // Si no hay nueva imagen, verifica si hay una imagen existente y agrégala
+      const imagenExistente = this.data?.url_cer;
+      if (imagenExistente) {
+        console.log(imagenExistente);
+        formData.append('url_cer', imagenExistente);
+      }
+    }
+    return formData;
   }
 }
 interface Instructor {
