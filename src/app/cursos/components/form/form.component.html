@@ -76,13 +76,15 @@
           >
             {{ categoria.nom_cate }}
           </mat-option>
-        </mat-select> </mat-form-field
-      ><mat-form-field class="outline">
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="outline">
         <mat-label>Instructores</mat-label>
         <mat-select
           multiple
           formControlName="ced_inst"
           placeholder="Selecciona instructores"
+          [compareWith]="compareInstructores"
         >
           <mat-option
             *ngFor="let instructor of instructores"

@@ -43,7 +43,7 @@ export class CursosService {
     );
   }
   // Actualizar cursos
-  updateInstructor(id: number, curso: any): Observable<any> {
+  updateCurso(id: number, curso: any): Observable<any> {
     return this.http.put(`${this.myAppUrl}${this.myApiUrlCursos}/${id}`, curso);
   }
 }
