@@ -67,8 +67,9 @@ export class FormComponent {
       dur_cur: new FormControl(this.data?.dur_cur),
       id_cate_cur: new FormControl(this.data?.id_cate_cur),
       ced_inst: new FormControl(instructoresSeleccionados),
-      url_firma: new FormControl(this.data?.url_firma),
+      url_cer: new FormControl(this.data?.url_cer),
     });
+    this.previsualizacion = this.data?.url_cer || '';
   }
 
   saveData() {
