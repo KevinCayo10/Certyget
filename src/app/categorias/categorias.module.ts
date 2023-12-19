@@ -8,6 +8,11 @@ import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [PageListComponent, FormComponent],
-  imports: [CommonModule, CategoriasRoutingModule, SharedModule, HttpClientModule],
+  imports: [
+    CommonModule,
+    CategoriasRoutingModule,
+    SharedModule,
+    HttpClientModule,
+  ],
 })
 export class CategoriasModule {}

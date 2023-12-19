@@ -9,30 +9,42 @@
 
 <form [formGroup]="emp_form" (ngSubmit)="saveData()">
   <div mat-dialog-content class="content">
-
     <div class="row">
       <mat-form-field class="outline">
         <mat-label>Nombre</mat-label>
-        <input matInput type="text" placeholder="Nombre" formControlName="nom_cate" />
+        <input
+          matInput
+          type="text"
+          placeholder="Nombre"
+          formControlName="nom_cate"
+        />
         <mat-icon matSuffix>text_fields</mat-icon>
       </mat-form-field>
     </div>
-
     <div class="row">
       <mat-form-field class="outline">
         <mat-label>Descripción</mat-label>
-        <!-- Cambiado a un textarea para permitir un campo más grande -->
-        <textarea matInput placeholder="Descripción" formControlName="desc_cate" rows="5"></textarea>
+        <textarea
+          matInput
+          type="textarea"
+          placeholder="Descripción"
+          formControlName="desc_cate"
+          class="fixed-height-textarea"
+        ></textarea>
         <mat-icon matSuffix>description</mat-icon>
       </mat-form-field>
     </div>
-
   </div>
   <div mat-dialog-actions class="action">
     <button mat-button color="primary" type="button" mat-dialog-close>
       Cancelar
     </button>
-    <button mat-raised-button color="primary" type="submit" [disabled]="emp_form.invalid">
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="emp_form.invalid"
+    >
       Grabar
     </button>
   </div>

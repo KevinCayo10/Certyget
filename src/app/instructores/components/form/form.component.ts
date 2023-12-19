@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -15,22 +15,18 @@ import { InstructoresService } from '../../services/instructores.service';
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.css'],
 })
-export class FormComponent {
+export class FormComponent implements OnInit {
   previsualizacion!: string;
-  archivos: any = [];
-  emp_form: FormGroup;
+  archivos: any[] = [];
+  emp_form!: FormGroup;
   title = '';
-  togglePassword = true;
-  isEdit: boolean;
+  isEdit: boolean = false;
   puestos: string[] = [
     'Decano',
     'Coordinador de Carrera',
     'Docente',
     'Coordinador de Unidad de Investigación',
   ];
-  autores: any[] = [];
-  secciones: any[] = [];
-  disponibilidad: string[] = ['Disponible', 'No disponible'];
 
   constructor(
     private reference: MatDialogRef<FormComponent>,
@@ -39,108 +35,56 @@ export class FormComponent {
     private sanitizer: DomSanitizer,
     private instructoresService: InstructoresService,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {
-    this.title = data ? 'EDITAR USUARIO' : 'NUEVO USUARIO';
-    this.isEdit = data ? true : false;
-    this.emp_form = this.formBuilder.group({
-      ced_inst: '',
-      nom_pat_inst: '',
-      nom_mat_inst: '',
-      ape_pat_inst: '',
-      ape_mat_inst: '',
-      telf_inst: '',
-      dir_inst: '',
-      ciud_inst: '',
-      tit_inst: '',
-      puesto_inst: '',
-      url_firma: '',
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
+    this.title = this.data ? 'EDITAR USUARIO' : 'NUEVO USUARIO';
+    this.isEdit = !!this.data;
     this.loadForm();
   }
 
   loadForm() {
     this.emp_form = this.formBuilder.group({
-      ced_inst: new FormControl(this.data?.ced_inst),
-      nom_pat_inst: new FormControl(this.data?.nom_pat_inst),
-      nom_mat_inst: new FormControl(this.data?.nom_mat_inst),
-      ape_pat_inst: new FormControl(this.data?.ape_pat_inst),
-      ape_mat_inst: new FormControl(this.data?.ape_mat_inst),
-      telf_inst: new FormControl(this.data?.telf_inst),
-      dir_inst: new FormControl(this.data?.dir_inst),
-      ciud_inst: new FormControl(this.data?.ciud_inst),
-      tit_inst: new FormControl(this.data?.tit_inst),
-      puesto_inst: new FormControl(this.data?.puesto_inst),
-      url_firma: new FormControl(this.data?.url_firma),
+      ced_inst: [this.data?.ced_inst || '', Validators.required],
+      nom_pat_inst: [this.data?.nom_pat_inst || '', Validators.required],
+      nom_mat_inst: [this.data?.nom_mat_inst || '', Validators.required],
+      ape_pat_inst: [this.data?.ape_pat_inst || '', Validators.required],
+      ape_mat_inst: [this.data?.ape_mat_inst || '', Validators.required],
+      telf_inst: [this.data?.telf_inst || '', Validators.required],
+      dir_inst: [this.data?.dir_inst || '', Validators.required],
+      ciud_inst: [this.data?.ciud_inst || '', Validators.required],
+      tit_inst: [this.data?.tit_inst || '', Validators.required],
+      puesto_inst: [this.data?.puesto_inst || '', Validators.required],
+      url_firma: [this.data?.url_firma || '', Validators.required],
     });
+
+    this.previsualizacion = this.data?.url_firma || '';
   }
 
   saveData() {
     if (this.emp_form.valid) {
+      const formData = this.buildFormData();
       if (this.data) {
-        /* this.administrationService
-          .updateAdministrador(this.data.cedula, this.emp_form.value)
+        console.log(formData);
+        this.instructoresService
+          .updateInstructor(this.data.ced_inst, formData)
           .subscribe(
-            (res) => {
-              console.log(res);
-              this.showMessage('Registro actualizado correctamente');
+            () => {
+              this.showMessage('Registro editado correctamente');
+              console.log('editando' + this.data.id + formData);
               this.reference.close();
             },
             (err) => {
-              this.showMessage('Error al actualizar el registro');
+              this.showMessage(err.error.message);
+              console.log(err);
             }
           );
-        console.log(this.emp_form.value); */
       } else {
-        /* this.instructoresService.addInstructor(this.emp_form.value).subscribe(
-          (res) => {
-            console.log(res);
-            this.showMessage('Registro ingresado correctamente');
-            this.reference.close();
-          },
-          (err) => {
-            this.showMessage('El usuario ya se encuentra registrado');
-          }
-        );
-        console.log(this.emp_form.value); */
         try {
-          const formularioDatos = new FormData();
-          formularioDatos.append('ced_inst', this.emp_form.value.ced_inst);
-          formularioDatos.append(
-            'nom_pat_inst',
-            this.emp_form.value.nom_pat_inst
-          );
-          formularioDatos.append(
-            'nom_mat_inst',
-            this.emp_form.value.nom_mat_inst
-          );
-          formularioDatos.append(
-            'ape_pat_inst',
-            this.emp_form.value.ape_pat_inst
-          );
-          formularioDatos.append(
-            'ape_mat_inst',
-            this.emp_form.value.ape_mat_inst
-          );
-          formularioDatos.append('telf_inst', this.emp_form.value.telf_inst);
-          formularioDatos.append('dir_inst', this.emp_form.value.dir_inst);
-          formularioDatos.append('ciud_inst', this.emp_form.value.ciud_inst);
-          formularioDatos.append('tit_inst', this.emp_form.value.tit_inst);
-          formularioDatos.append(
-            'puesto_inst',
-            this.emp_form.value.puesto_inst
-          );
+          const formData = this.buildFormData();
 
-          this.archivos.forEach((archivo: any) => {
-            console.log(archivo);
-            formularioDatos.append('url_firma', archivo);
-          });
-          console.log(formularioDatos);
-          this.instructoresService.addInstructor(formularioDatos).subscribe(
-            (res) => {
-              console.log(res);
+          this.instructoresService.addInstructor(formData).subscribe(
+            () => {
               this.showMessage('Registro ingresado correctamente');
               this.reference.close();
             },
@@ -155,10 +99,40 @@ export class FormComponent {
     }
   }
 
+  buildFormData(): FormData {
+    const formData = new FormData();
+    formData.append('ced_inst', this.emp_form.value.ced_inst);
+    formData.append('nom_pat_inst', this.emp_form.value.nom_pat_inst);
+    formData.append('nom_mat_inst', this.emp_form.value.nom_mat_inst);
+    formData.append('ape_pat_inst', this.emp_form.value.ape_pat_inst);
+    formData.append('ape_mat_inst', this.emp_form.value.ape_mat_inst);
+    formData.append('telf_inst', this.emp_form.value.telf_inst);
+    formData.append('dir_inst', this.emp_form.value.dir_inst);
+    formData.append('ciud_inst', this.emp_form.value.ciud_inst);
+    formData.append('tit_inst', this.emp_form.value.tit_inst);
+    formData.append('puesto_inst', this.emp_form.value.puesto_inst);
+
+    // Verifica si hay una nueva imagen y la añade al FormData
+    const nuevaImagen = this.archivos[0];
+    if (nuevaImagen) {
+      formData.append('url_firma', nuevaImagen);
+    } else {
+      // Si no hay nueva imagen, verifica si hay una imagen existente y agrégala
+      const imagenExistente = this.data?.url_firma;
+      if (imagenExistente) {
+        console.log(imagenExistente);
+        formData.append('url_firma', imagenExistente);
+      }
+    }
+
+    return formData;
+  }
+
   showMessage(message: string, duration: number = 5000, action: string = 'Ok') {
     this.snackBar.open(message, action, { duration, verticalPosition: 'top' });
   }
-  capturarFile(event: any): any {
+
+  capturarFile(event: any): void {
     const archivoCapturado = event.target.files[0];
     this.extraerBase64(archivoCapturado).then((imagen: any) => {
       this.previsualizacion = imagen.base;
@@ -166,8 +140,9 @@ export class FormComponent {
     });
     this.archivos.push(archivoCapturado);
   }
-  extraerBase64 = async ($event: any) =>
-    new Promise((resolve, reject) => {
+
+  extraerBase64 = async ($event: any): Promise<any> =>
+    new Promise((resolve) => {
       try {
         const unsafeImg = window.URL.createObjectURL($event);
         const image = this.sanitizer.bypassSecurityTrustUrl(unsafeImg);
@@ -180,7 +155,7 @@ export class FormComponent {
             base: reader.result,
           });
         };
-        reader.onerror = (error) => {
+        reader.onerror = () => {
           resolve({
             blob: null,
             image: null,
