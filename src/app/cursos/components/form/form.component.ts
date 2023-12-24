@@ -69,22 +69,20 @@ export class FormComponent implements OnInit {
       dur_cur: [this.data?.dur_cur || '', Validators.required],
       id_cate_cur: [this.data?.id_cate_cur || '', Validators.required],
       ced_inst: [this.data?.ced_inst || '', Validators.required],
-      url_cer: [this.data?.url_cer || '', Validators.required],
+      url_cer: [this.data?.url_cer || ''],
     });
 
     this.previsualizacion = this.data?.url_cer || '';
-    console.log('Cargando esto: ', this.emp_form);
   }
 
   saveData() {
     if (this.emp_form.valid) {
       const formData = this.buildFormData();
       if (this.data) {
-        console.log(formData);
         this.cursosService.updateCurso(this.data.id_cur, formData).subscribe(
           () => {
             this.showMessage('Registro editado correctamente');
-            console.log('editando' + this.data.id + formData);
+            console.log('editando' + this.data.id_cur + formData);
             this.reference.close();
           },
           (err) => {
@@ -151,6 +149,7 @@ export class FormComponent implements OnInit {
     this.snackBar.open(message, action, { duration, verticalPosition: 'top' });
   }
   buildFormData(): FormData {
+    console.log('HORA');
     const formData = new FormData();
     formData.append('nom_cur', this.emp_form.value.nom_cur);
     formData.append('fecha_inicio_cur', this.emp_form.value.fecha_inicio_cur);
@@ -158,19 +157,21 @@ export class FormComponent implements OnInit {
     formData.append('dur_cur', this.emp_form.value.dur_cur);
     formData.append('id_cate_cur', this.emp_form.value.id_cate_cur);
     formData.append('ced_inst', this.emp_form.value.ced_inst);
-    formData.append('url_cer', this.emp_form.value.url_cer);
+    //formData.append('url_cer', this.emp_form.value.url_cer);
 
     const nuevaImagen = this.archivos[0];
     if (nuevaImagen) {
+      //formData.append('url_cer', this.emp_form.value.url_cer);
       formData.append('url_cer', nuevaImagen);
     } else {
       // Si no hay nueva imagen, verifica si hay una imagen existente y agrégala
       const imagenExistente = this.data?.url_cer;
+
       if (imagenExistente) {
-        console.log(imagenExistente);
         formData.append('url_cer', imagenExistente);
       }
     }
+
     return formData;
   }
 }
