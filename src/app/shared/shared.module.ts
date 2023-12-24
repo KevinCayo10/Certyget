@@ -27,6 +27,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatMenuModule } from '@angular/material/menu';
+import { ModalCertificadosComponent } from './components/modal-certificados/modal-certificados.component';
 @NgModule({
   declarations: [
     TitleComponent,
@@ -34,6 +35,7 @@ import { MatMenuModule } from '@angular/material/menu';
     TableComponent,
     KeypadButtonComponent,
     PaginatorComponent,
+    ModalCertificadosComponent,
   ],
   imports: [
     CommonModule,
@@ -76,6 +78,7 @@ import { MatMenuModule } from '@angular/material/menu';
     MatNativeDateModule,
     MatSelectModule,
     MatInputModule,
+    ModalCertificadosComponent,
   ],
 })
 export class SharedModule {}
