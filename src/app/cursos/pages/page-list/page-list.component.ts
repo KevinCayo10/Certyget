@@ -72,7 +72,7 @@ export class PageListComponent {
         this.data = response.data;
         this.totalRecords = this.data.length;
         this.changePage(0);
-        console.log(this.data);
+        console.log('aqui esta cargando la data: ', this.data);
       }
     });
   }

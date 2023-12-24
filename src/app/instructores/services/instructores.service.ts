@@ -29,4 +29,9 @@ export class InstructoresService {
   updateInstructor(id: number, instructor: any): Observable<any> {
     return this.http.put(`${this.myAppUrl}${this.myApiUrl}/${id}`, instructor);
   }
+  /* Elimina los instructores */
+
+  deleteInstructor(id: number): Observable<any> {
+    return this.http.delete(`${this.myAppUrl}${this.myApiUrl}/${id}`);
+  }
 }

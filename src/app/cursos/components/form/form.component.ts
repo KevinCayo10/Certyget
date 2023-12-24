@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
@@ -14,13 +14,16 @@ import { DomSanitizer } from '@angular/platform-browser';
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.css'],
 })
-export class FormComponent {
-  emp_form: FormGroup;
+export class FormComponent implements OnInit {
+  compareInstructores = (a: any, b: any) => a.ced_inst === b.ced_inst;
+
+  emp_form!: FormGroup;
   title = '';
   togglePassword = true;
   isEdit: boolean;
   categorias: any[] = []; // Supongo que cada categoría tiene un formato similar a la data de cursos
   instructores: any[] = [];
+  instructoresSeleccionados: any[] = [];
   previsualizacion!: string;
   archivos: any = [];
   constructor(
@@ -56,54 +59,53 @@ export class FormComponent {
     });
   }
   loadForm() {
-    const instructoresSeleccionados =
-      this.data?.instructores?.map((instructor: any) => instructor.ced_inst) ||
-      [];
-
     this.emp_form = this.formBuilder.group({
-      nom_cur: new FormControl(this.data?.nom_cur),
-      fecha_inicio_cur: new FormControl(this.data?.fecha_inicio_cur),
-      fecha_fin_cur: new FormControl(this.data?.fecha_fin_cur),
-      dur_cur: new FormControl(this.data?.dur_cur),
-      id_cate_cur: new FormControl(this.data?.id_cate_cur),
-      ced_inst: new FormControl(instructoresSeleccionados),
-      url_firma: new FormControl(this.data?.url_firma),
+      nom_cur: [this.data?.nom_cur || '', Validators.required],
+      fecha_inicio_cur: [
+        this.data?.fecha_inicio_cur || '',
+        Validators.required,
+      ],
+      fecha_fin_cur: [this.data?.fecha_fin_cur || '', Validators.required],
+      dur_cur: [this.data?.dur_cur || '', Validators.required],
+      id_cate_cur: [this.data?.id_cate_cur || '', Validators.required],
+      ced_inst: [this.data?.ced_inst || '', Validators.required],
+      url_cer: [this.data?.url_cer || ''],
     });
+
+    this.previsualizacion = this.data?.url_cer || '';
   }
 
   saveData() {
-    console.log(this.emp_form);
-    try {
-      const formularioDatos = new FormData();
-      formularioDatos.append('ced_inst', this.emp_form.value.ced_inst);
-      formularioDatos.append('nom_cur', this.emp_form.value.nom_cur);
-      formularioDatos.append(
-        'fecha_inicio_cur',
-        this.emp_form.value.fecha_inicio_cur
-      );
-      formularioDatos.append(
-        'fecha_fin_cur',
-        this.emp_form.value.fecha_fin_cur
-      );
-      formularioDatos.append('dur_cur', this.emp_form.value.dur_cur);
-      formularioDatos.append('id_cate_cur', this.emp_form.value.id_cate_cur);
-      this.archivos.forEach((archivo: any) => {
-        console.log(archivo);
-        formularioDatos.append('url_firma', archivo);
-      });
-      console.log(formularioDatos);
-      this.cursosService.addCursos(formularioDatos).subscribe(
-        (res) => {
-          console.log(res);
-          this.showMessage('Registro ingresado correctamente');
-          this.reference.close();
-        },
-        (err) => {
-          this.showMessage(err.error.message);
+    if (this.emp_form.valid) {
+      const formData = this.buildFormData();
+      if (this.data) {
+        this.cursosService.updateCurso(this.data.id_cur, formData).subscribe(
+          () => {
+            this.showMessage('Registro editado correctamente');
+            console.log('editando' + this.data.id_cur + formData);
+            this.reference.close();
+          },
+          (err) => {
+            this.showMessage(err.error.message);
+            console.log(err);
+          }
+        );
+      } else {
+        try {
+          const formData = this.buildFormData();
+          this.cursosService.addCursos(formData).subscribe(
+            () => {
+              this.showMessage('Registro ingresado correctamente');
+              this.reference.close();
+            },
+            (err) => {
+              this.showMessage(err.error.message);
+            }
+          );
+        } catch (error) {
+          console.log(error);
         }
-      );
-    } catch (error) {
-      console.log(error);
+      }
     }
   }
   capturarFile(event: any): any {
@@ -145,6 +147,32 @@ export class FormComponent {
     });
   showMessage(message: string, duration: number = 5000, action: string = 'Ok') {
     this.snackBar.open(message, action, { duration, verticalPosition: 'top' });
+  }
+  buildFormData(): FormData {
+    console.log('HORA');
+    const formData = new FormData();
+    formData.append('nom_cur', this.emp_form.value.nom_cur);
+    formData.append('fecha_inicio_cur', this.emp_form.value.fecha_inicio_cur);
+    formData.append('fecha_fin_cur', this.emp_form.value.fecha_fin_cur);
+    formData.append('dur_cur', this.emp_form.value.dur_cur);
+    formData.append('id_cate_cur', this.emp_form.value.id_cate_cur);
+    formData.append('ced_inst', this.emp_form.value.ced_inst);
+    //formData.append('url_cer', this.emp_form.value.url_cer);
+
+    const nuevaImagen = this.archivos[0];
+    if (nuevaImagen) {
+      //formData.append('url_cer', this.emp_form.value.url_cer);
+      formData.append('url_cer', nuevaImagen);
+    } else {
+      // Si no hay nueva imagen, verifica si hay una imagen existente y agrégala
+      const imagenExistente = this.data?.url_cer;
+
+      if (imagenExistente) {
+        formData.append('url_cer', imagenExistente);
+      }
+    }
+
+    return formData;
   }
 }
 interface Instructor {
