@@ -4,10 +4,8 @@ import { KeypadButton } from 'src/app/shared/interfaces/keypadbutton.interface';
 import { MetaDataColumn } from 'src/app/shared/interfaces/metacolumn.interfaces';
 import { environment } from 'src/environments/environment.development';
 import { FormComponent } from '../../components/form/form.component';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Dialog } from '@angular/cdk/dialog';
 import { InstructoresService } from '../../services/instructores.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'cer-page-list',
@@ -16,21 +14,7 @@ import { InstructoresService } from '../../services/instructores.service';
 })
 export class PageListComponent {
   data: any[] = [];
-  registros: any[] = [
-    {
-      ced_inst: '1234567890',
-      nom_pat_inst: 'Juan',
-      nom_mat_inst: 'Carlos',
-      ape_pat_inst: 'Pérez',
-      ape_mat_inst: 'Gómez',
-      telf_inst: '123456789',
-      dir_inst: 'Calle Principal 123',
-      ciud_inst: 'Ciudad',
-      tit_inst: 'Licenciado en Educación',
-      puesto_inst: 'Docente',
-      url_firma: 'https://example.com/firma',
-    },
-  ];
+
   metaDataColumns: MetaDataColumn[] = [
     { field: 'ced_inst', title: 'Cédula' },
     { field: 'nom_pat_inst', title: 'Nombre Paterno' },
@@ -58,7 +42,8 @@ export class PageListComponent {
   totalRecords = this.data.length;
   constructor(
     private dialog: MatDialog,
-    private instructoresService: InstructoresService
+    private instructoresService: InstructoresService,
+    private snackBar: MatSnackBar
   ) {
     this.loadInstructores();
   }
@@ -108,5 +93,26 @@ export class PageListComponent {
     });
   }
 
-  delete(id: string) {}
+  delete(id: number) {
+    this.instructoresService.deleteInstructor(id).subscribe({
+      next: (res) => {
+        this.showMessage('Instructor eliminado exitosamente');
+        this.loadInstructores();
+      },
+      error: (err) => {
+        this.showMessage('Error al eliminar el instructor');
+        console.log(err);
+      },
+    });
+  }
+  showMessage(
+    message: string,
+    duration: number = 3000,
+    action: string = 'Cerrar'
+  ) {
+    this.snackBar.open(message, action, {
+      duration: duration,
+      verticalPosition: 'top',
+    });
+  }
 }

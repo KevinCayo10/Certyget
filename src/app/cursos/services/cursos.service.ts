@@ -2,8 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
-import { Instructores } from '../models/instructores.models';
-import { Cursos } from '../models/cursos.models';
 
 @Injectable({
   providedIn: 'root',
@@ -32,9 +30,6 @@ export class CursosService {
     );
   }
 
-  // loadCursos(): Observable<Cursos[]> {
-  //   return this.http.get<Cursos[]>(`${this.myAppUrl}${this.myApiUrlCursos}`);
-  // }
   loadCursos(): Observable<{ success: number; data: any[] }> {
     return this.http.get<{ success: number; data: any[] }>(
       `${this.myAppUrl}${this.myApiUrlCursos}`
@@ -46,5 +41,13 @@ export class CursosService {
       `${this.myAppUrl}${this.myApiUrlCursos}`,
       formData
     );
+  }
+  // Actualizar cursos
+  updateCurso(id: number, curso: any): Observable<any> {
+    return this.http.put(`${this.myAppUrl}${this.myApiUrlCursos}${id}`, curso);
+  }
+  /* Elimina los cursos */
+  deleteCurso(id: number): Observable<any> {
+    return this.http.delete(`${this.myAppUrl}${this.myApiUrlCursos}${id}`);
   }
 }
