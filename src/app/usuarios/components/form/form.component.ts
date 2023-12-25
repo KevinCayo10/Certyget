@@ -21,19 +21,6 @@ export class FormComponent {
   title = '';
   togglePassword = true;
   isEdit: boolean;
-  generos: string[] = [
-    'Aventura',
-    'Ciencia Ficción',
-    'Drama',
-    'Fantasía',
-    'Infantil',
-    'Romance',
-    'Terror',
-  ];
-  autores: any[] = [];
-  secciones: any[] = [];
-  disponibilidad: string[] = ['Disponible', 'No disponible'];
-
   constructor(
     private reference: MatDialogRef<FormComponent>,
     private userServices: UsuariosService,
@@ -60,7 +47,7 @@ export class FormComponent {
     this.emp_form = this.formBuilder.group({
       id_usu: new FormControl(this.data?.id_usu),
       user_usu: new FormControl(this.data?.user_usu, Validators.required),
-      pass_usu: new FormControl(this.data?.pass_usu, Validators.required),
+      pass_usu: new FormControl('', Validators.required),
       rol_usu: new FormControl(this.data?.rol_usu, Validators.required),
     });
   }
@@ -71,6 +58,7 @@ export class FormComponent {
         this.userServices
           .updateUsers(this.data.id_usu, this.emp_form.value)
           .subscribe((response) => {
+            console.log('UPDATE: ', this.emp_form);
             this.showMessage('Registro actualizado correctamente');
             this.reference.close();
           });
