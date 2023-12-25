@@ -4,7 +4,6 @@ import { KeypadButton } from 'src/app/shared/interfaces/keypadbutton.interface';
 import { MetaDataColumn } from 'src/app/shared/interfaces/metacolumn.interfaces';
 import { environment } from 'src/environments/environment.development';
 import { FormComponent } from '../../components/form/form.component';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CursosService } from '../../services/cursos.service';
 import { Cursos } from '../../models/cursos.models';
@@ -16,16 +15,6 @@ import { Cursos } from '../../models/cursos.models';
 })
 export class PageListComponent {
   data: any[] = [];
-  /*registros: any[] = [
-    {
-      id_cur: 1,
-      nom_cur: 'HatunSoft',
-      fecha_inicio_cur: '27/05/2023',
-      fecha_fin_cur: '28/06/2023',
-      dur_cur: '2 meses',
-      nom_cate: 'Concurso',
-    },
-  ];*/
   metaDataColumns: MetaDataColumn[] = [
     { field: 'id_cur', title: 'ID' },
     { field: 'nom_cur', title: 'NOMBRE' },
@@ -48,12 +37,11 @@ export class PageListComponent {
 
   totalRecords = this.data.length;
   constructor(
-    private bottomSheet: MatBottomSheet,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar,
-    private cursosService: CursosService
+    private cursosService: CursosService,
+    private snackBar: MatSnackBar
   ) {
-    this.loadCategory();
+    this.loadCursos();
   }
   changePage(page: number) {
     const pageSize = environment.PAGE_SIZE;
@@ -62,7 +50,7 @@ export class PageListComponent {
     console.log('aqui', this.data);
   }
 
-  loadCategory() {
+  loadCursos() {
     this.cursosService.loadCursos().subscribe((response) => {
       /*this.data = this.registros;
       this.totalRecords = this.data.length;
@@ -104,13 +92,31 @@ export class PageListComponent {
       options
     );
     reference.afterClosed().subscribe((response) => {
-      this.loadCategory();
+      this.loadCursos();
     });
   }
 
-  delete(id: string) {}
+  delete(id: number) {
+    this.cursosService.deleteCurso(id).subscribe({
+      next: (res) => {
+        this.showMessage('Curso eliminado correctamente');
+        this.loadCursos();
+      },
+      error: (err) => this.showMessage('Error al eliminar el curso'),
+    });
+  }
+  showMessage(
+    message: string,
+    duration: number = 3000,
+    action: string = 'Cerrar'
+  ) {
+    this.snackBar.open(message, action, {
+      duration: duration,
+      verticalPosition: 'top',
+    });
+  }
 }
 interface ApiResponse {
   success: number;
-  data: Cursos[]; // Suponiendo que Cursos es el tipo de tus objetos
+  data: Cursos[];
 }
