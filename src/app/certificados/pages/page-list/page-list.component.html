@@ -4,11 +4,8 @@
     <div class="botones">
       <mat-form-field class="outline cursos">
         <mat-label>Cursos</mat-label>
-        <mat-select
-          formControlName="id_cate_cur"
-          placeholder="Seleccionar un curso"
-          (selectionChange)="onCursoSelectionChange($event.value)"
-        >
+        <mat-select formControlName="id_cate_cur" placeholder="Seleccionar un curso"
+          (selectionChange)="onCursoSelectionChange($event.value)">
           <mat-option *ngFor="let curso of cursos" [value]="curso.id_cur">
             {{ curso.nom_cur }}
           </mat-option>
@@ -35,20 +32,12 @@
           >
             <mat-icon color="sucess">preview</mat-icon>
           </button>
-          <button
-            mat-icon-button
-            color="accent"
-            (click)="delete(row.cedula)"
-            matTooltip="ELIMINAR"
-          >
+          <button mat-icon-button color="accent" (click)="delete(row.id_gen_cer)" matTooltip="ELIMINAR">
             <mat-icon>delete</mat-icon>
           </button>
         </td>
       </ng-container>
     </cer-table>
   </ng-scrollbar>
-  <cer-paginator
-    (onChangePage)="changePage($event)"
-    [length]="totalRecords"
-  ></cer-paginator>
+  <cer-paginator (onChangePage)="changePage($event)" [length]="totalRecords"></cer-paginator>
 </cer-container>

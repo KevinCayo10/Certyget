@@ -27,6 +27,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatMenuModule } from '@angular/material/menu';
+import { ModalCertificadosComponent } from './components/modal-certificados/modal-certificados.component';
 @NgModule({
   declarations: [
     TitleComponent,

@@ -78,7 +78,11 @@ export class PageListComponent {
       sessionStorage.setItem('selectedCursoNom', this.selectedCursoNom);
     }
   }
-  delete(id: string) {}
+  delete(id: string) {
+    this.certificadosService.deleteCertificados(id).subscribe((response) => {
+      this.loadCertificados('');
+    });
+  }
 
   doAction(): void {
     this.openForm();
