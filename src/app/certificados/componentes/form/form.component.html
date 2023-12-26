@@ -8,30 +8,16 @@
 </div>
 <form (ngSubmit)="saveData()" class="form-container">
   <div class="button-container">
-    <input
-      type="file"
+    <input type="file"
       accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-      (change)="csvImport($event)"
-      style="display: none"
-      #fileInput
-    />
+      (change)="csvImport($event)" style="display: none" #fileInput />
 
-    <button
-      mat-raised-button
-      type="button"
-      class="left-button"
-      (click)="fileInput.click()"
-    >
+    <button mat-raised-button type="button" class="left-button" (click)="fileInput.click()">
       Cargar CSV
     </button>
 
-    <button
-      mat-raised-button
-      color="warn"
-      type="button"
-      class="right-button"
-      (click)="registerParticipantes(); generateCertificates()"
-    >
+    <button mat-raised-button color="warn" type="button" class="right-button"
+      (click)="registerParticipantes(); generateCertificates()">
       Generar Certificados
     </button>
   </div>
@@ -48,35 +34,35 @@
     </cer-paginator>
 
     <div id="certificates-section">
-      <div
-        *ngFor="let row of data; let i = index"
-        class="certificate-container"
-      >
-        <div class="certificate" id="certificate-container-{{ i }}">
-          <img
-            [src]="detalleCursosInstructores.curso.url_plantilla"
-            alt="Certificado"
-          />
-          <h2>{{ row.nom_pat_par }} {{ row.ape_pat_par }}</h2>
-          <div class="container_detalle">
-            <p>Por haber aprobado el curso</p>
-            <h1>{{ detalleCursosInstructores.curso.nom_cur }}</h1>
-            <p>
-              Realizado el
-              {{ detalleCursosInstructores.curso.fecha_inicio_cur }} , con
-              duración de {{ detalleCursosInstructores.curso.dur_cur }}
-            </p>
-          </div>
-          <div
-            class="container_firmas"
-            *ngFor="let instructor of detalleCursosInstructores.instructores"
-          >
-            <div class="block_firma">
-              <img [src]="instructor.url_firma" alt="Firma" />
-              <h3 class="nombre_firma">
-                {{ instructor.nom_pat_inst }}{{ instructor.ape_pat_inst }}
-              </h3>
-              <p>{{ instructor.puesto_inst }}</p>
+      <div id="certificates-section-container" style="display: block;">
+        <div *ngFor="let row of data; let i = index" class="certificate-container">
+          <div class="certificate" id="certificate-container-{{ i }}">
+            <img [src]="detalleCursosInstructores.curso.url_cer" alt="Certificado" />
+            <div class="participanteNom">
+              <h2>{{ row.nom_pat_par }} {{ row.ape_pat_par }}</h2>
+            </div>
+            <div class="certificadoInfo">
+              <p>
+                Por haber completado satisfactoriamente el diplomado de {{detalleCursosInstructores.curso.nom_cur}} en
+                la
+                {{detalleCursosInstructores.curso.nom_cate}}
+                realizado
+                el
+                {{detalleCursosInstructores.curso.fecha_inicio_cur}} con
+                una duracion de {{detalleCursosInstructores.curso.dur_cur}}
+              </p>
+            </div>
+            <div class="fechaHoy">
+              <p>19/12/2023</p>
+            </div>
+            <div class="container_firmas">
+              <div class="block_firma" *ngFor="let instructor of detalleCursosInstructores.instructores">
+                <img [src]="instructor.url_firma" alt="Firma" />
+                <h3 class="nombre_firma">
+                  {{ instructor.nom_pat_inst }}{{ instructor.ape_pat_inst }}
+                </h3>
+                <p class="puesto_firma">{{ instructor.puesto_inst }}</p>
+              </div>
             </div>
           </div>
         </div>

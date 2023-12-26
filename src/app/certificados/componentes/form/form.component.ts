@@ -7,6 +7,7 @@ import { read, utils } from 'xlsx';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { CertificadosService } from '../../services/certificados.service';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'cer-form',
@@ -32,6 +33,7 @@ export class FormComponent {
   ];
 
   constructor(
+    private reference: MatDialogRef<FormComponent>,
     private snackBar: MatSnackBar,
     private pageListComponent: PageListComponent,
     private certificadoService: CertificadosService
@@ -58,30 +60,31 @@ export class FormComponent {
     // Puedes agregar lógica de guardado si es necesario
   }
   public generateCertificates() {
+    // Muestra el contenedor antes de la captura de pantalla
+    const certificatesContainer = document.getElementById(
+      'certificates-section-container'
+    );
+    if (certificatesContainer) {
+      certificatesContainer.style.display = 'block';
+    }
+
     const promises = this.data.map((participante, index) => {
       return new Promise<void>((resolve, reject) => {
         const certificateElement = document.querySelector(
           `#certificate-container-${index}`
         );
-        console.log(certificateElement);
-
         html2canvas(certificateElement as HTMLElement, {
           allowTaint: true,
           logging: true,
           useCORS: true,
+          scale: 4,
         })
           .then((canvas) => {
+            // Convertir el canvas a una imagen PNG
             const contentDataURL = canvas.toDataURL('image/png');
-            const pdf = new jsPDF();
-            const width = pdf.internal.pageSize.getWidth();
-            const height = (canvas.height * width) / canvas.width;
 
-            pdf.addImage(contentDataURL, 'PNG', 0, 0, width, height);
-
-            // Convert the PDF document to a Blob
-            const certificado = pdf.output('blob');
-            console.log('cer', certificado);
-            this.saveOrSendPDF(certificado, participante)
+            // Llamar a saveOrSendImage para guardar o enviar la imagen
+            this.saveOrSendImage(contentDataURL, participante)
               .then(() => {
                 resolve();
               })
@@ -95,22 +98,39 @@ export class FormComponent {
       });
     });
 
-    // Espera a que todas las promesas se resuelvan o una se rechace
+    // Esperar a que todas las promesas se resuelvan o una se rechace
     Promise.all(promises)
       .then(() => {
         console.log('Todos los certificados fueron procesados con éxito');
+
+        // Oculta el contenedor después de la captura de pantalla
+        if (certificatesContainer) {
+          certificatesContainer.style.display = 'none';
+        }
       })
       .catch((error) => {
         console.error('Error al procesar certificados:', error);
+
+        // Asegúrate de ocultar el contenedor incluso en caso de error
+        if (certificatesContainer) {
+          certificatesContainer.style.display = 'none';
+        }
       });
   }
 
-  private saveOrSendPDF(pdfBlob: Blob, participante: any): Promise<void> {
+  private saveOrSendImage(
+    imageDataURL: string,
+    participante: any
+  ): Promise<void> {
     return new Promise<void>((resolve, reject) => {
-      // Additional data needed for the certificado
-      const ced_par = participante.ced_par; // Replace with the actual participant data
+      // Datos adicionales necesarios para el certificado
+      const ced_par = participante.ced_par; // Reemplazar con los datos reales del participante
       const formData = new FormData();
-      formData.append('certificado', pdfBlob, 'certificado.pdf');
+      formData.append(
+        'certificado',
+        this.dataURItoBlob(imageDataURL), // Call as a member function using 'this'
+        'certificado.png'
+      );
       formData.append('ced_par', ced_par);
       formData.append('id_cur', this.id_cur!);
 
@@ -118,14 +138,30 @@ export class FormComponent {
         (response) => {
           console.log(response);
           resolve();
+          this.reference.close();
         },
         (error) => {
-          console.error('Error al guardar el certificado:', error);
+          console.error('Error al guardar el certificado como imagen:', error);
           reject(error);
         }
       );
     });
   }
+
+  // Función auxiliar para convertir un URI de datos a Blob
+  private dataURItoBlob(dataURI: string): Blob {
+    const byteString = atob(dataURI.split(',')[1]);
+    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+
+    return new Blob([ab], { type: mimeString });
+  }
+
   registerParticipantes() {
     console.log('DATA : ', this.data);
     this.certificadoService.addParticipantes(this.data).subscribe(
