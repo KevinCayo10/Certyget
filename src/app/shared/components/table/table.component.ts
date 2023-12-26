@@ -39,4 +39,9 @@ export class TableComponent {
       this.table.addColumnDef(columnDef);
     });
   }
+  isImageField(field: string): boolean {
+    const imageFields = ['url_cer', 'url_firma'];
+
+    return imageFields.includes(field);
+  }
 }
