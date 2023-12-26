@@ -53,13 +53,13 @@
               </p>
             </div>
             <div class="fechaHoy">
-              <p>19/12/2023</p>
+              <p>{{fecha_actual}}</p>
             </div>
             <div class="container_firmas">
               <div class="block_firma" *ngFor="let instructor of detalleCursosInstructores.instructores">
                 <img [src]="instructor.url_firma" alt="Firma" />
                 <h3 class="nombre_firma">
-                  {{ instructor.nom_pat_inst }}{{ instructor.ape_pat_inst }}
+                  {{ instructor.nom_pat_inst }} {{ instructor.ape_pat_inst }}
                 </h3>
                 <p class="puesto_firma">{{ instructor.puesto_inst }}</p>
               </div>

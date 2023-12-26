@@ -23,6 +23,8 @@
 
 .modal-content-container {
   margin: 15px 20px 20px 20px;
+  max-height: 400px; /* Ajusta la altura máxima según tus necesidades */
+  overflow-y: auto;
 }
 
 .action {

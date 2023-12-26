@@ -35,7 +35,6 @@ import { ModalCertificadosComponent } from './components/modal-certificados/moda
     TableComponent,
     KeypadButtonComponent,
     PaginatorComponent,
-    ModalCertificadosComponent,
   ],
   imports: [
     CommonModule,
@@ -78,7 +77,6 @@ import { ModalCertificadosComponent } from './components/modal-certificados/moda
     MatNativeDateModule,
     MatSelectModule,
     MatInputModule,
-    ModalCertificadosComponent,
   ],
 })
 export class SharedModule {}

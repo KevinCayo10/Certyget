@@ -21,6 +21,7 @@ export class FormComponent {
   totalRecords = 0;
   title = sessionStorage.getItem('selectedCursoNom');
   id_cur = sessionStorage.getItem('selectedCursoId');
+  fecha_actual: any;
   certificates: any[] = [];
   metaDataColumns: MetaDataColumn[] = [
     { field: 'ced_par', title: 'CEDULA' },
@@ -46,6 +47,21 @@ export class FormComponent {
     // this.loadParticipantes();
   }
   loadDetalleCursosInstructores() {
+    // Obtener la fecha actual
+    const fecha = new Date();
+
+    // Obtener día, mes y año
+    const dia = fecha.getDate();
+    const mes = fecha.getMonth() + 1; // Los meses van de 0 a 11, por lo que sumamos 1
+    const año = fecha.getFullYear();
+
+    // Formatear los componentes de fecha con ceros a la izquierda si es necesario
+    const diaFormateado = dia < 10 ? `0${dia}` : dia.toString();
+    const mesFormateado = mes < 10 ? `0${mes}` : mes.toString();
+
+    // Crear la cadena de fecha con el formato dd/mm/aaaa
+    this.fecha_actual = `${diaFormateado}/${mesFormateado}/${año}`;
+
     this.certificadoService
       .loadDetalleCursosInstructores(this.id_cur)
       .subscribe((response) => {
