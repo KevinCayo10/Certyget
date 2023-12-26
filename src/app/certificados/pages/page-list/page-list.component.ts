@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment.development';
 import { CursosService } from 'src/app/cursos/services/cursos.service';
 import { CertificadosService } from '../../services/certificados.service';
 import { FormComponent } from '../../componentes/form/form.component';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'cer-page-list',
@@ -30,7 +31,8 @@ export class PageListComponent {
   constructor(
     private dialog: MatDialog,
     private cursosService: CursosService,
-    private certificadosService: CertificadosService
+    private certificadosService: CertificadosService,
+    private sanitizer: DomSanitizer
   ) {
     this.loadCursos();
     this.loadCertificados('');
@@ -101,5 +103,9 @@ export class PageListComponent {
       options
     );
     reference.afterClosed().subscribe((response) => {});
+  }
+  openCertificate(url: string): void {
+    // Abre la URL en una nueva pestaña
+    window.open(url, '_blank');
   }
 }
