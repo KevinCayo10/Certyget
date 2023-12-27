@@ -1,0 +1,40 @@
+<form fxLayout="column" [formGroup]="loginForm" (ngSubmit)="proceedLogin()">
+  <h2 id="title_credential">Credenciales</h2>
+  <mat-form-field>
+    <mat-label>Usuario</mat-label>
+    <input
+      type="text"
+      matInput
+      required
+      placeholder="Ingrese su usuario"
+      formControlName="user_usu"
+    />
+    <mat-icon matSuffix>account_circle</mat-icon>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Contraseña</mat-label>
+    <input
+      type="{{ togglePassword ? 'password' : 'text' }}"
+      matInput
+      required
+      placeholder="Ingrese su contraseña"
+      formControlName="pass_usu"
+    />
+    <button
+      mat-icon-button
+      matSuffix
+      type="button"
+      (click)="togglePassword = !togglePassword"
+    >
+      <mat-icon matSuffix>{{ togglePassword ? "lock" : "lock_open" }}</mat-icon>
+    </button>
+  </mat-form-field>
+  <button
+    mat-raised-button
+    color="primary"
+    type="submit"
+    [disabled]="loginForm.invalid"
+  >
+    Iniciar Sesión
+  </button>
+</form>

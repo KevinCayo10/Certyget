@@ -1,0 +1,36 @@
+div[fxLayout="column"] {
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+tr.mat-header-row {
+  background-color: #f2f2f2;
+}
+
+tr.mat-row {
+  background-color: #fff;
+}
+
+tr.highLine {
+  background-color: #e0e0e0;
+}
+
+.table-image {
+  max-width: 100px;
+  max-height: 50px;
+  object-fit: contain;
+  display: block;
+  margin: auto;
+}

@@ -1,0 +1,191 @@
+.form-container {
+  width: 100%;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.left-button {
+  margin-left: 27px;
+  margin-top: 10px;
+  background: #57bd9e;
+  color: whitesmoke !important;
+}
+
+.right-button {
+  margin-right: 27px;
+  margin-top: 10px;
+  color: white !important;
+}
+
+.modal-content-container {
+  margin: 15px 20px 20px 20px;
+  max-height: 400px; /* Ajusta la altura máxima según tus necesidades */
+  overflow-y: auto;
+}
+
+.action {
+  justify-content: flex-end;
+}
+#certificates-section {
+  margin-top: 20px;
+}
+
+.certificate-container {
+  display: inline-block;
+  margin: 10px;
+}
+
+.certificate {
+  height: 100%;
+  width: 954px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  color: black;
+  font-size: 14px;
+}
+.certificate .participanteNom {
+  position: absolute;
+  top: 40%;
+  width: 100%;
+  height: fit-content;
+  /* background-color: red; */
+}
+.certificate .participanteNom h2 {
+  font-family: "Pinyon Script", cursive;
+  font-size: 64px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: underline;
+  margin: 0; /* Elimina el margen predeterminado del h2 */
+}
+.certificate img {
+  width: calc(100% - 0%); /* Restando el 80% del ancho del contenedor */
+}
+
+.certificadoInfo p {
+  font-size: 12px;
+  text-align: justify;
+  letter-spacing: 001px;
+  margin: 0; /* Elimina el margen predeterminado del p */
+  line-height: 13px;
+}
+.certificate .container_detalle {
+  position: absolute;
+  top: 55%;
+  width: 100%;
+  margin: 0;
+  text-align: center;
+  align-items: center;
+  line-height: 1.2; /* Ajusta el valor según tus necesidades */
+}
+
+.certificate .container_detalle p {
+  margin: 0; /* Elimina el margen predeterminado de los párrafos dentro de #container_detalle */
+}
+
+.container_firmas {
+  width: 80%;
+  height: auto;
+  display: flex;
+  align-content: center;
+  justify-content: space-around;
+  position: absolute;
+  top: 65%;
+  left: 10%;
+}
+
+.block_firma {
+  margin: 0 10px; /* Espacio entre las firmas */
+  text-align: center; /* Centrar el contenido dentro de cada firma */
+}
+
+.block_firma img {
+  position: relative;
+  width: 100px;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  line-height: 0.5;
+}
+.nombre_firma {
+  font-weight: bold;
+  margin-bottom: 3px; /* Reducir aún más el margen inferior del h2 */
+}
+
+.puesto_firma {
+  font-size: 12px;
+  text-align: center;
+  letter-spacing: 0.01em;
+  margin: 0;
+  line-height: 13px;
+}
+
+/* Agrega cualquier estilo adicional necesario */
+
+.datos {
+  /*  background-color: salmon; */
+  /*  opacity: 0.5; */
+  width: 100%;
+  height: 90%;
+  position: absolute;
+  margin: 0 auto;
+}
+.infoGen {
+  width: 100%;
+  height: 100%;
+  /*   background-color: blue; */
+  /*   border: 1px solid red; */
+  position: relative;
+}
+.certificadoPlant {
+  width: fit-content;
+  height: fit-content;
+  /* background-color: black; */
+}
+.certificadoPlant img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.certificadoInfo {
+  position: absolute;
+  top: 50%;
+  left: 25%;
+  height: fit-content;
+  width: 50%;
+  align-items: center;
+  padding-top: 10px;
+  /* background-color: green; */
+}
+.certificadoInfo p {
+  font-size: 12px;
+  text-align: justify;
+  letter-spacing: 001px;
+  margin: 0; /* Elimina el margen predeterminado del p */
+  line-height: 13px;
+}
+.fechaHoy {
+  position: absolute;
+  width: 100%;
+  height: fit-content;
+  top: 60%;
+  align-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* background-color: yellow; */
+}
+
+.fechaHoy p {
+  font-size: 12px;
+  text-align: center; /* Centrar horizontalmente el texto */
+  letter-spacing: 0.01em; /* Ajuste en el espaciado de las letras */
+  margin: 0;
+  line-height: 13px;
+}
