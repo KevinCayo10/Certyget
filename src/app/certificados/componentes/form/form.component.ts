@@ -140,14 +140,17 @@ export class FormComponent {
   ): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       // Datos adicionales necesarios para el certificado
-      const ced_par = participante.ced_par; // Reemplazar con los datos reales del participante
       const formData = new FormData();
       formData.append(
         'certificado',
         this.dataURItoBlob(imageDataURL), // Call as a member function using 'this'
         'certificado.png'
       );
-      formData.append('ced_par', ced_par);
+      formData.append('ced_par', participante.ced_par);
+      formData.append('nom_par', participante.nom_pat_par);
+      formData.append('ape_par', participante.ape_pat_par);
+      formData.append('email_par', participante.email_par);
+      formData.append('nom_cur', this.title!);
       formData.append('id_cur', this.id_cur!);
 
       this.certificadoService.addCertificados(formData).subscribe(
