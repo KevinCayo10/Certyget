@@ -55,7 +55,7 @@ export class FormComponent implements OnInit {
       ciud_inst: [this.data?.ciud_inst || '', Validators.required],
       tit_inst: [this.data?.tit_inst || '', Validators.required],
       puesto_inst: [this.data?.puesto_inst || '', Validators.required],
-      url_firma: [this.data?.url_firma || '', Validators.required],
+      url_firma: [this.data?.url_firma || '',],
     });
 
     this.previsualizacion = this.data?.url_firma || '';
