@@ -36,7 +36,6 @@ export class FormComponent {
   constructor(
     private reference: MatDialogRef<FormComponent>,
     private snackBar: MatSnackBar,
-    private pageListComponent: PageListComponent,
     private certificadoService: CertificadosService
   ) {
     this.loadDetalleCursosInstructores();
