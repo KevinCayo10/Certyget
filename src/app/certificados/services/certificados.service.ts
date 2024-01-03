@@ -57,4 +57,5 @@ export class CertificadosService {
       `${this.myAppUrl}${this.myApiUrlCertificados}${id_gen_cer}`
     );
   }
+  
 }

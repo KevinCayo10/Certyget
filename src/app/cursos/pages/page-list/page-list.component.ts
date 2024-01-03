@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { KeypadButton } from 'src/app/shared/interfaces/keypadbutton.interface';
 import { MetaDataColumn } from 'src/app/shared/interfaces/metacolumn.interfaces';
@@ -29,7 +29,7 @@ export class PageListComponent {
     { icon: 'add', tooltip: 'AGREGAR', color: 'primary', action: 'NEW' },
   ];
 
-  totalRecords = this.data.length;
+  totalRecords = 0;
   constructor(
     private dialog: MatDialog,
     private cursosService: CursosService,
@@ -37,11 +37,18 @@ export class PageListComponent {
   ) {
     this.loadCursos();
   }
+
   changePage(page: number) {
     const pageSize = environment.PAGE_SIZE;
     const skip = pageSize * page;
-    this.data = this.data.slice(skip, skip + pageSize);
-    console.log('aqui', this.data);
+    this.cursosService.loadCursos().subscribe({
+      next: (res) => {
+        // Si el backend ya maneja la paginación, ajuste la llamada para pasar `page` y `pageSize`.
+        this.data = res.data.slice(skip, skip + pageSize);
+        this.totalRecords = res.data.length;
+      },
+      error: (err) => this.showMessage('Error al cargar las categorías'),
+    });
   }
 
   loadCursos() {
@@ -110,6 +117,7 @@ export class PageListComponent {
     });
   }
 }
+
 interface ApiResponse {
   success: number;
   data: Cursos[];
