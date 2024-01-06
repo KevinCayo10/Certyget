@@ -6,6 +6,12 @@ import { PageListComponent } from './pages/page-list/page-list.component';
 import { SharedModule } from '../shared/shared.module';
 import { FormComponent } from './components/form/form.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import {
+  HtmlEditorService,
+  QuickToolbarService,
+  RichTextEditorModule,
+  ToolbarService,
+} from '@syncfusion/ej2-angular-richtexteditor';
 @NgModule({
   declarations: [PageListComponent, FormComponent],
   imports: [
@@ -13,6 +19,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     CursosRoutingModule,
     SharedModule,
     MatDatepickerModule,
+    RichTextEditorModule,
   ],
+  providers: [ToolbarService, HtmlEditorService, QuickToolbarService],
 })
 export class CursosModule {}

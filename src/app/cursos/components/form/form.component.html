@@ -11,11 +11,7 @@
     <div class="row">
       <mat-form-field class="outline">
         <mat-label>Nombre del Curso</mat-label>
-        <textarea
-          matInput
-          placeholder="Nombre del curso"
-          formControlName="nom_cur"
-        ></textarea>
+        <textarea matInput placeholder="Nombre del curso" formControlName="nom_cur"></textarea>
         <mat-icon matSuffix>text_fields</mat-icon>
       </mat-form-field>
     </div>
@@ -23,27 +19,16 @@
     <div class="row">
       <mat-form-field class="outline">
         <mat-label>Fecha de Inicio</mat-label>
-        <input
-          matInput
-          type="text"
-          (click)="fecha_inicio_cur.open()"
-          [matDatepicker]="fecha_inicio_cur"
-          formControlName="fecha_inicio_cur"
-        />
+        <input matInput type="text" (click)="fecha_inicio_cur.open()" [matDatepicker]="fecha_inicio_cur"
+          formControlName="fecha_inicio_cur" />
         <mat-hint>dd-mm-yyyy</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="fecha_inicio_cur">
           <mat-icon matDatepickerToggleIcon>event</mat-icon>
         </mat-datepicker-toggle>
-        <mat-datepicker #fecha_inicio_cur></mat-datepicker> </mat-form-field
-      ><mat-form-field class="outline">
+        <mat-datepicker #fecha_inicio_cur></mat-datepicker> </mat-form-field><mat-form-field class="outline">
         <mat-label>Fecha de Finalización</mat-label>
-        <input
-          matInput
-          type="text"
-          (click)="fecha_fin_cur.open()"
-          [matDatepicker]="fecha_fin_cur"
-          formControlName="fecha_fin_cur"
-        />
+        <input matInput type="text" (click)="fecha_fin_cur.open()" [matDatepicker]="fecha_fin_cur"
+          formControlName="fecha_fin_cur" />
         <mat-hint>dd-mm-yyyy</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="fecha_fin_cur">
           <mat-icon matDatepickerToggleIcon>event</mat-icon>
@@ -55,59 +40,44 @@
     <div class="row">
       <mat-form-field class="outline">
         <mat-label>Duración del Curso</mat-label>
-        <textarea
-          matInput
-          placeholder="Duración del curso"
-          formControlName="dur_cur"
-        ></textarea>
+        <textarea matInput placeholder="Duración del curso" formControlName="dur_cur"></textarea>
         <mat-icon matSuffix>access_time</mat-icon>
       </mat-form-field>
     </div>
     <div class="row">
       <mat-form-field class="outline">
         <mat-label>Categoría del Curso</mat-label>
-        <mat-select
-          formControlName="id_cate_cur"
-          placeholder="Selecciona una categoría"
-        >
-          <mat-option
-            *ngFor="let categoria of categorias"
-            [value]="categoria.id_cate"
-          >
+        <mat-select formControlName="id_cate_cur" placeholder="Selecciona una categoría">
+          <mat-option *ngFor="let categoria of categorias" [value]="categoria.id_cate">
             {{ categoria.nom_cate }}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field class="outline">
         <mat-label>Instructores</mat-label>
-        <mat-select
-          multiple
-          formControlName="ced_inst"
-          placeholder="Selecciona instructores"
-          [compareWith]="compareInstructores"
-        >
-          <mat-option
-            *ngFor="let instructor of instructores"
-            [value]="instructor.ced_inst"
-          >
+        <mat-select multiple formControlName="ced_inst" placeholder="Selecciona instructores"
+          [compareWith]="compareInstructores">
+          <mat-option *ngFor="let instructor of instructores" [value]="instructor.ced_inst">
             {{ instructor.nom_pat_inst + " " + instructor.ape_pat_inst }}
           </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
+    <div class="row">
+      <div class="outline">
+        <mat-label>Detalle del Certificado</mat-label>
+        <ejs-richtexteditor [(ngModel)]="certificadoContent" formControlName="det_cer"
+          [toolbarSettings]="toolbarSettings" style="border:1px solid red; width: 100px;">
 
+        </ejs-richtexteditor>
+      </div>
+    </div>
     <div class="row">
       <label for="fileInput" class="custom-upload-btn">Subir Archivo</label>
       <input type="file" id="fileInput" (change)="capturarFile($event)" />
     </div>
     <div class="preview-container" *ngIf="previsualizacion">
-      <img
-        [src]="previsualizacion"
-        alt=""
-        width="250px"
-        height="250px"
-        class="imgp"
-      />
+      <img [src]="previsualizacion" alt="" width="250px" height="250px" class="imgp" />
     </div>
   </div>
   <div mat-dialog-actions class="action">

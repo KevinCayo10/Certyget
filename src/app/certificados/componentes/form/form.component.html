@@ -41,17 +41,8 @@
             <div class="participanteNom">
               <h2>{{ row.nom_pat_par }} {{ row.ape_pat_par }}</h2>
             </div>
-            <div class="certificadoInfo">
-              <p>
-                Por haber completado satisfactoriamente el diplomado de {{detalleCursosInstructores.curso.nom_cur}} en
-                la
-                {{detalleCursosInstructores.curso.nom_cate}}
-                realizado
-                el
-                {{detalleCursosInstructores.curso.fecha_inicio_cur}} con
-                una duracion de {{detalleCursosInstructores.curso.dur_cur}}
-              </p>
-            </div>
+            <div *ngIf="certificadoContent" class="certificadoInfo" [innerHTML]="certificadoContent"></div>
+
             <div class="fechaHoy">
               <p>{{fecha_actual}}</p>
             </div>
@@ -63,6 +54,9 @@
                 </h3>
                 <p class="puesto_firma">{{ instructor.puesto_inst }}</p>
               </div>
+            </div>
+            <div>
+              <p class="codigo">{{ detalleCursosInstructores.curso.id_cur }}{{row.ced_par}}</p>
             </div>
           </div>
         </div>

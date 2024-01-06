@@ -189,3 +189,14 @@
   margin: 0;
   line-height: 13px;
 }
+
+.codigo {
+  position: absolute;
+  width: auto;
+  height: fit-content;
+  bottom: 1px;
+  left: 10px;
+  font-size: 12px;
+  text-align: justify;
+  /* background-color: yellow; */
+}
