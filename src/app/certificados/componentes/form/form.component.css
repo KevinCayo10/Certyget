@@ -11,6 +11,13 @@
 .left-button {
   margin-left: 27px;
   margin-top: 10px;
+  background: #00636a;
+  color: whitesmoke !important;
+}
+
+.center-button {
+  margin-left: 27px;
+  margin-top: 10px;
   background: #57bd9e;
   color: whitesmoke !important;
 }
