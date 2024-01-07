@@ -4,6 +4,7 @@
 .row {
   display: flex;
   gap: 10px;
+  margin-bottom: 5px;
 }
 mat-form-field {
   width: 100%;
