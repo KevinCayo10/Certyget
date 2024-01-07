@@ -11,9 +11,14 @@
     <input type="file"
       accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
       (change)="csvImport($event)" style="display: none" #fileInput />
+    <a href="../../../../assets/archives/participantes.csv" download="participantes.csv">
+      <button mat-raised-button type="button" class="left-button">
+        <mat-icon>cloud_download</mat-icon>Plantilla CSV
+      </button>
+    </a>
 
-    <button mat-raised-button type="button" class="left-button" (click)="fileInput.click()">
-      Cargar CSV
+    <button mat-raised-button type="button" class="center-button" (click)="fileInput.click()">
+      <mat-icon>cloud_upload</mat-icon> Cargar CSV
     </button>
 
     <button mat-raised-button color="warn" type="button" class="right-button"
@@ -41,17 +46,8 @@
             <div class="participanteNom">
               <h2>{{ row.nom_pat_par }} {{ row.ape_pat_par }}</h2>
             </div>
-            <div class="certificadoInfo">
-              <p>
-                Por haber completado satisfactoriamente el diplomado de {{detalleCursosInstructores.curso.nom_cur}} en
-                la
-                {{detalleCursosInstructores.curso.nom_cate}}
-                realizado
-                el
-                {{detalleCursosInstructores.curso.fecha_inicio_cur}} con
-                una duracion de {{detalleCursosInstructores.curso.dur_cur}}
-              </p>
-            </div>
+            <div *ngIf="certificadoContent" class="certificadoInfo" [innerHTML]="certificadoContent"></div>
+
             <div class="fechaHoy">
               <p>{{fecha_actual}}</p>
             </div>
@@ -63,6 +59,9 @@
                 </h3>
                 <p class="puesto_firma">{{ instructor.puesto_inst }}</p>
               </div>
+            </div>
+            <div>
+              <p class="codigo">{{ detalleCursosInstructores.curso.id_cur }}{{row.ced_par}}</p>
             </div>
           </div>
         </div>

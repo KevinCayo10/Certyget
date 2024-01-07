@@ -1,13 +1,13 @@
-import { Component, Injectable, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Injectable, Input } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MetaDataColumn } from 'src/app/shared/interfaces/metacolumn.interfaces';
 import { environment } from 'src/environments/environment.development';
-import { PageListComponent } from '../../pages/page-list/page-list.component';
 import { read, utils } from 'xlsx';
 import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
 import { CertificadosService } from '../../services/certificados.service';
 import { MatDialogRef } from '@angular/material/dialog';
+
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'cer-form',
@@ -23,6 +23,11 @@ export class FormComponent {
   id_cur = sessionStorage.getItem('selectedCursoId');
   fecha_actual: any;
   certificates: any[] = [];
+  nom_cur: any = '';
+  fecha_inicio_cur: any = '';
+  dur_cur: any = '';
+  nom_cate: any = '';
+
   metaDataColumns: MetaDataColumn[] = [
     { field: 'ced_par', title: 'CEDULA' },
     { field: 'nom_pat_par', title: '1ER NOMBRE' },
@@ -36,10 +41,13 @@ export class FormComponent {
   constructor(
     private reference: MatDialogRef<FormComponent>,
     private snackBar: MatSnackBar,
-    private certificadoService: CertificadosService
+    private certificadoService: CertificadosService,
+    private cdr: ChangeDetectorRef,
+    private sanitizer: DomSanitizer
   ) {
     this.loadDetalleCursosInstructores();
   }
+  certificadoContent!: SafeHtml;
 
   ngOnInit(): void {}
   loadDetalleCursosInstructores() {
@@ -58,9 +66,21 @@ export class FormComponent {
       .loadDetalleCursosInstructores(this.id_cur)
       .subscribe((response) => {
         this.detalleCursosInstructores = response.data;
-        console.log(
-          'detalleCursosInstructores : ',
-          this.detalleCursosInstructores.curso.url_plantilla
+        console.log(this.detalleCursosInstructores);
+        this.nom_cur = this.detalleCursosInstructores.curso.nom_cur;
+        this.fecha_inicio_cur =
+          this.detalleCursosInstructores.curso.fecha_inicio_cur;
+        this.dur_cur = this.detalleCursosInstructores.curso.dur_cur;
+        this.nom_cate = this.detalleCursosInstructores.curso.nom_cate;
+
+        const contenidoHtml = this.detalleCursosInstructores.curso.det_cer;
+        console.log(contenidoHtml);
+        this.certificadoContent = this.sanitizer.bypassSecurityTrustHtml(
+          contenidoHtml
+            .replace('{{nom_cur}}', this.nom_cur)
+            .replace('{{nom_cate}}', this.nom_cate)
+            .replace('{{fecha_inicio_cur}}', this.fecha_inicio_cur)
+            .replace('{{dur_cur}}', this.dur_cur)
         );
       });
   }
