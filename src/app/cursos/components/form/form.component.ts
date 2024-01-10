@@ -9,6 +9,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CursosService } from '../../services/cursos.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ToolbarSettingsModel } from '@syncfusion/ej2-angular-richtexteditor';
 @Component({
   selector: 'cer-form',
   templateUrl: './form.component.html',
@@ -16,7 +17,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class FormComponent implements OnInit {
   compareInstructores = (a: any, b: any) => a.ced_inst === b.ced_inst;
-
+  customToolbar: Object = {
+    items: ['bold', 'Italic', 'Undo', 'Redo'],
+  };
   emp_form!: FormGroup;
   title = '';
   togglePassword = true;
@@ -26,6 +29,33 @@ export class FormComponent implements OnInit {
   instructoresSeleccionados: any[] = [];
   previsualizacion!: string;
   archivos: any = [];
+  detalleCursosInstructores: any = [];
+  certificadoContent = ` <p>
+            Por haber completado satisfactoriamente el diplomado de {{nom_cur}} de la categoria {{nom_cate}}
+            realizado el
+            {{fecha_inicio_cur}} con una duración de
+            {{dur_cur}}
+          </p>`;
+  public toolbarSettings: ToolbarSettingsModel = {
+    items: [
+      'Bold',
+      'Italic',
+      'Underline',
+      '|',
+      'FontSize',
+      'FontColor',
+      '|',
+      'SourceCode',
+    ],
+  };
+
+  nom_cur: any = '';
+  fecha_inicio_cur: any = '';
+  dur_cur: any = '';
+  nom_cate: any = '';
+
+  // Definir las etiquetas HTML permitidas
+
   constructor(
     private reference: MatDialogRef<FormComponent>,
     private cursosService: CursosService,
@@ -69,6 +99,7 @@ export class FormComponent implements OnInit {
       dur_cur: [this.data?.dur_cur || '', Validators.required],
       id_cate_cur: [this.data?.id_cate_cur || '', Validators.required],
       ced_inst: [this.data?.ced_inst || '', Validators.required],
+      det_cer: [this.data?.det_cer || ''],
       url_cer: [this.data?.url_cer || ''],
     });
 
@@ -157,7 +188,7 @@ export class FormComponent implements OnInit {
     formData.append('dur_cur', this.emp_form.value.dur_cur);
     formData.append('id_cate_cur', this.emp_form.value.id_cate_cur);
     formData.append('ced_inst', this.emp_form.value.ced_inst);
-    //formData.append('url_cer', this.emp_form.value.url_cer);
+    formData.append('det_cer', this.emp_form.value.det_cer);
 
     const nuevaImagen = this.archivos[0];
     if (nuevaImagen) {

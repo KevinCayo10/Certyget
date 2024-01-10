@@ -11,6 +11,13 @@
 .left-button {
   margin-left: 27px;
   margin-top: 10px;
+  background: #00636a;
+  color: whitesmoke !important;
+}
+
+.center-button {
+  margin-left: 27px;
+  margin-top: 10px;
   background: #57bd9e;
   color: whitesmoke !important;
 }
@@ -188,4 +195,15 @@
   letter-spacing: 0.01em; /* Ajuste en el espaciado de las letras */
   margin: 0;
   line-height: 13px;
+}
+
+.codigo {
+  position: absolute;
+  width: auto;
+  height: fit-content;
+  bottom: 1px;
+  left: 10px;
+  font-size: 12px;
+  text-align: justify;
+  /* background-color: yellow; */
 }

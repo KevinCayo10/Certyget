@@ -28,7 +28,7 @@ export class PageListComponent {
     { icon: 'add', tooltip: 'AGREGAR', color: 'primary', action: 'NEW' },
   ];
 
-  totalRecords = this.data.length;
+  totalRecords = 0;
   constructor(
     private bottomSheet: MatBottomSheet,
     private dialog: MatDialog,
@@ -40,8 +40,13 @@ export class PageListComponent {
   changePage(page: number) {
     const pageSize = environment.PAGE_SIZE;
     const skip = pageSize * page;
-    this.data = this.data.slice(skip, skip + pageSize);
-    console.log('aqui', this.data);
+    this.usuariosService.loadUser().subscribe({
+      next: (res) => {
+        // Si el backend ya maneja la paginación, ajuste la llamada para pasar `page` y `pageSize`.
+        this.data = res.data.slice(skip, skip + pageSize);
+        this.totalRecords = res.data.length;
+      },
+    });
   }
 
   loadUsers() {

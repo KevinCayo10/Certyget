@@ -27,22 +27,24 @@ export class PageListComponent {
     { field: 'estado_cer', title: 'ESTADO' },
   ];
 
-  totalRecords = this.data.length;
+  totalRecords = 0;
+  currentPage = 0;
+  pageSize = environment.PAGE_SIZE;
+
   constructor(
     private dialog: MatDialog,
     private cursosService: CursosService,
-    private certificadosService: CertificadosService,
-    private sanitizer: DomSanitizer
+    private certificadosService: CertificadosService
   ) {
     this.loadCursos();
     this.loadCertificados('');
   }
+
   changePage(page: number) {
-    const pageSize = environment.PAGE_SIZE;
-    const skip = pageSize * page;
-    this.data = this.data.slice(skip, skip + pageSize);
-    console.log('aqui', this.data);
+    this.currentPage = page;
+    this.loadCertificados(this.selectedCursoId);
   }
+
   loadCursos() {
     this.cursosService.loadCursos().subscribe((response) => {
       this.cursos = response.data;
@@ -52,22 +54,29 @@ export class PageListComponent {
   loadCertificados(id_cur: any) {
     if (id_cur === '') {
       this.certificadosService.loadCertificados().subscribe((response) => {
-        console.log('DATA:  ', response.data);
-        this.data = response.data;
+        this.totalRecords = response.data.length;
+        this.data = this.paginateData(response.data, this.currentPage, this.pageSize);
       });
     } else {
       this.certificadosService
         .loadCertificadosByCursos(id_cur)
         .subscribe((response) => {
-          this.data = response.data;
+          this.totalRecords = response.data.length;
+          this.data = this.paginateData(response.data, this.currentPage, this.pageSize);
         });
     }
   }
+
+  paginateData(data: any[], page: number, pageSize: number): any[] {
+    const startIndex = pageSize * page;
+    const endIndex = startIndex + pageSize;
+    return data.slice(startIndex, endIndex);
+  }
+
   onCursoSelectionChange(selectedValue: any): void {
     console.log('Curso seleccionado:', selectedValue);
     this.loadCertificados(selectedValue);
 
-    // Establece los valores seleccionados en las variables exportadas
     const selectedCurso = this.cursos.find(
       (curso) => curso.id_cur === selectedValue
     );
@@ -78,9 +87,10 @@ export class PageListComponent {
       sessionStorage.setItem('selectedCursoNom', this.selectedCursoNom);
     }
   }
+
   delete(id: string) {
     this.certificadosService.deleteCertificados(id).subscribe((response) => {
-      this.loadCertificados('');
+      this.loadCertificados(this.selectedCursoId);
     });
   }
 
@@ -104,8 +114,8 @@ export class PageListComponent {
     );
     reference.afterClosed().subscribe((response) => {});
   }
+
   openCertificate(url: string): void {
-    // Abre la URL en una nueva pestaña
     window.open(url, '_blank');
   }
 }

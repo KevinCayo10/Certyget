@@ -1,13 +1,13 @@
-import { Component, Injectable, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Injectable, Input } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MetaDataColumn } from 'src/app/shared/interfaces/metacolumn.interfaces';
 import { environment } from 'src/environments/environment.development';
-import { PageListComponent } from '../../pages/page-list/page-list.component';
 import { read, utils } from 'xlsx';
 import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
 import { CertificadosService } from '../../services/certificados.service';
 import { MatDialogRef } from '@angular/material/dialog';
+
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'cer-form',
@@ -23,6 +23,11 @@ export class FormComponent {
   id_cur = sessionStorage.getItem('selectedCursoId');
   fecha_actual: any;
   certificates: any[] = [];
+  nom_cur: any = '';
+  fecha_inicio_cur: any = '';
+  dur_cur: any = '';
+  nom_cate: any = '';
+
   metaDataColumns: MetaDataColumn[] = [
     { field: 'ced_par', title: 'CEDULA' },
     { field: 'nom_pat_par', title: '1ER NOMBRE' },
@@ -36,47 +41,51 @@ export class FormComponent {
   constructor(
     private reference: MatDialogRef<FormComponent>,
     private snackBar: MatSnackBar,
-    private pageListComponent: PageListComponent,
-    private certificadoService: CertificadosService
+    private certificadoService: CertificadosService,
+    private cdr: ChangeDetectorRef,
+    private sanitizer: DomSanitizer
   ) {
     this.loadDetalleCursosInstructores();
   }
+  certificadoContent!: SafeHtml;
 
-  ngOnInit(): void {
-    // Puedes agregar lógica de inicialización si es necesario
-    // this.loadParticipantes();
-  }
+  ngOnInit(): void {}
   loadDetalleCursosInstructores() {
-    // Obtener la fecha actual
     const fecha = new Date();
 
-    // Obtener día, mes y año
     const dia = fecha.getDate();
-    const mes = fecha.getMonth() + 1; // Los meses van de 0 a 11, por lo que sumamos 1
+    const mes = fecha.getMonth() + 1;
     const año = fecha.getFullYear();
 
-    // Formatear los componentes de fecha con ceros a la izquierda si es necesario
     const diaFormateado = dia < 10 ? `0${dia}` : dia.toString();
     const mesFormateado = mes < 10 ? `0${mes}` : mes.toString();
 
-    // Crear la cadena de fecha con el formato dd/mm/aaaa
     this.fecha_actual = `${diaFormateado}/${mesFormateado}/${año}`;
 
     this.certificadoService
       .loadDetalleCursosInstructores(this.id_cur)
       .subscribe((response) => {
         this.detalleCursosInstructores = response.data;
-        console.log(
-          'detalleCursosInstructores : ',
-          this.detalleCursosInstructores.curso.url_plantilla
+        console.log(this.detalleCursosInstructores);
+        this.nom_cur = this.detalleCursosInstructores.curso.nom_cur;
+        this.fecha_inicio_cur =
+          this.detalleCursosInstructores.curso.fecha_inicio_cur;
+        this.dur_cur = this.detalleCursosInstructores.curso.dur_cur;
+        this.nom_cate = this.detalleCursosInstructores.curso.nom_cate;
+
+        const contenidoHtml = this.detalleCursosInstructores.curso.det_cer;
+        console.log(contenidoHtml);
+        this.certificadoContent = this.sanitizer.bypassSecurityTrustHtml(
+          contenidoHtml
+            .replace('{{nom_cur}}', this.nom_cur)
+            .replace('{{nom_cate}}', this.nom_cate)
+            .replace('{{fecha_inicio_cur}}', this.fecha_inicio_cur)
+            .replace('{{dur_cur}}', this.dur_cur)
         );
       });
   }
-  saveData() {
-    // Puedes agregar lógica de guardado si es necesario
-  }
+
   public generateCertificates() {
-    // Muestra el contenedor antes de la captura de pantalla
     const certificatesContainer = document.getElementById(
       'certificates-section-container'
     );
@@ -96,10 +105,8 @@ export class FormComponent {
           scale: 4,
         })
           .then((canvas) => {
-            // Convertir el canvas a una imagen PNG
             const contentDataURL = canvas.toDataURL('image/png');
 
-            // Llamar a saveOrSendImage para guardar o enviar la imagen
             this.saveOrSendImage(contentDataURL, participante)
               .then(() => {
                 resolve();
@@ -114,12 +121,10 @@ export class FormComponent {
       });
     });
 
-    // Esperar a que todas las promesas se resuelvan o una se rechace
     Promise.all(promises)
       .then(() => {
         console.log('Todos los certificados fueron procesados con éxito');
 
-        // Oculta el contenedor después de la captura de pantalla
         if (certificatesContainer) {
           certificatesContainer.style.display = 'none';
         }
@@ -127,24 +132,22 @@ export class FormComponent {
       .catch((error) => {
         console.error('Error al procesar certificados:', error);
 
-        // Asegúrate de ocultar el contenedor incluso en caso de error
         if (certificatesContainer) {
           certificatesContainer.style.display = 'none';
         }
       });
   }
-
+  saveData() {}
   private saveOrSendImage(
     imageDataURL: string,
     participante: any
   ): Promise<void> {
     return new Promise<void>((resolve, reject) => {
-      // Datos adicionales necesarios para el certificado
-      const ced_par = participante.ced_par; // Reemplazar con los datos reales del participante
+      const ced_par = participante.ced_par;
       const formData = new FormData();
       formData.append(
         'certificado',
-        this.dataURItoBlob(imageDataURL), // Call as a member function using 'this'
+        this.dataURItoBlob(imageDataURL),
         'certificado.png'
       );
       formData.append('ced_par', ced_par);
@@ -164,7 +167,6 @@ export class FormComponent {
     });
   }
 
-  // Función auxiliar para convertir un URI de datos a Blob
   private dataURItoBlob(dataURI: string): Blob {
     const byteString = atob(dataURI.split(',')[1]);
     const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
@@ -200,7 +202,6 @@ export class FormComponent {
     const pageSize = tamReg;
     const startIndex = pageSize * page;
 
-    // Hace referencia a 'allData' en lugar de 'data'
     this.data = this.data.slice(startIndex, startIndex + pageSize);
     this.totalRecords = this.data.length;
   }
