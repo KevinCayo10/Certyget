@@ -152,6 +152,10 @@ export class FormComponent {
       );
       formData.append('ced_par', ced_par);
       formData.append('id_cur', this.id_cur!);
+      formData.append('nom_par', participante.nom_pat_par);
+      formData.append('ape_par', participante.ape_pat_par);
+      formData.append('email_par', participante.email_par);
+      formData.append('nom_cur', this.nom_cur);
 
       this.certificadoService.addCertificados(formData).subscribe(
         (response) => {
