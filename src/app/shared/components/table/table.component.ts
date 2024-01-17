@@ -40,7 +40,7 @@ export class TableComponent {
     });
   }
   isImageField(field: string): boolean {
-    const imageFields = ['url_cer', 'url_firma'];
+    const imageFields = ['url_cer', 'url_firma', 'url_gen_cer'];
 
     return imageFields.includes(field);
   }

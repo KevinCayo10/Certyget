@@ -20,14 +20,14 @@ export class MenuService {
       icon: 'certificados',
     },
     {
-      title: 'Cursos y eventos',
+      title: 'Eventos académicos',
       url: '/cursos',
       icon: 'cursos',
     },
     {
-      title: 'Instructores',
+      title: 'Firmas',
       url: '/instructores',
-      icon: 'instructores',
+      icon: 'firmas',
     },
     {
       title: 'Usuarios',
