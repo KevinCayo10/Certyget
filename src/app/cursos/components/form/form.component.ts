@@ -66,10 +66,11 @@ export class FormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     private sanitizer: DomSanitizer,
+
     //private seccionService: SeccionService, // Cambiado a seccionService
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.title = data ? 'EDITAR CURSO' : 'NUEVO CURSO';
+    this.title = data ? 'EDITAR EVENTO ACADÉMICO' : 'NUEVO EVENTO ACADÉMICO';
     this.isEdit = data ? true : false;
     this.emp_form = this.formBuilder.group({});
   }
@@ -156,6 +157,7 @@ export class FormComponent implements OnInit {
         );
       } else {
         try {
+          console.log('HOLA');
           const formData = this.buildFormData();
           this.cursosService.addCursos(formData).subscribe(
             () => {
@@ -213,7 +215,7 @@ export class FormComponent implements OnInit {
     this.snackBar.open(message, action, { duration, verticalPosition: 'top' });
   }
   buildFormData(): FormData {
-    console.log('HORA');
+    console.log('ESTADO : ', this.estado_cur);
     const formData = new FormData();
     formData.append('nom_cur', this.emp_form.value.nom_cur);
     formData.append('fecha_inicio_cur', this.emp_form.value.fecha_inicio_cur);
