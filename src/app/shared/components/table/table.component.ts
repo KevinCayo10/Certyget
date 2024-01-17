@@ -46,7 +46,7 @@ export class TableComponent {
   }
   // Función que verifica si un campo es una URL de imagen
   isImageField(field: string): boolean {
-    const imageFields = ['url_cer', 'url_firma'];
+    const imageFields = ['url_cer', 'url_firma', 'url_gen_cer'];
 
     return imageFields.includes(field);
   }

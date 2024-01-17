@@ -24,6 +24,7 @@ export class IconService {
     { name: 'cursos', path: './../../assets/imagenes/cursos.svg' },
     { name: 'menu', path: './../../assets/imagenes/menu.svg' },
     { name: 'instructores', path: './../../assets/imagenes/instructores.svg' },
+    { name: 'firmas', path: './../../assets/imagenes/firmas.svg' },
   ];
   constructor(
     private matIconRegistry: MatIconRegistry,

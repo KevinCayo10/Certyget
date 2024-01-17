@@ -6,6 +6,8 @@ import { PageListComponent } from './pages/page-list/page-list.component';
 import { SharedModule } from '../shared/shared.module';
 import { FormComponent } from './components/form/form.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
 import {
   HtmlEditorService,
   QuickToolbarService,
@@ -20,6 +22,7 @@ import {
     SharedModule,
     MatDatepickerModule,
     RichTextEditorModule,
+    MatSlideToggleModule,
   ],
   providers: [ToolbarService, HtmlEditorService, QuickToolbarService],
 })

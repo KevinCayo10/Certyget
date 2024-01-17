@@ -10,6 +10,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { CursosService } from '../../services/cursos.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ToolbarSettingsModel } from '@syncfusion/ej2-angular-richtexteditor';
+import { registerLicense } from '@syncfusion/ej2-base';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+registerLicense(
+  'Ngo9BigBOggjHTQxAR8/V1NAaF5cWWZCfEx3Rnxbf1x0ZFREal5UTndZUiweQnxTdEFjWH5acHRXQGFbUkF1XA=='
+);
+
 @Component({
   selector: 'cer-form',
   templateUrl: './form.component.html',
@@ -34,13 +40,8 @@ export class FormComponent implements OnInit {
   previsualizacion!: string;
   archivos: any = [];
   detalleCursosInstructores: any = [];
-  certificadoContent = ` <p>
-            Por haber completado satisfactoriamente el diplomado de {{nom_cur}} de la categoria {{nom_cate}}
-            realizado el
-            {{fecha_inicio_cur}} con una duración de
-            {{dur_cur}}
-          </p>`;
-  // Configuración para el Editor de Texto Enriquecido
+  certificadoContent: any;
+  estado_cur!: boolean;
   public toolbarSettings: ToolbarSettingsModel = {
     items: [
       'Bold',
@@ -53,11 +54,12 @@ export class FormComponent implements OnInit {
       'SourceCode',
     ],
   };
-  // Variables para campos específicos del formulario
-  nom_cur: any = '';
-  fecha_inicio_cur: any = '';
-  dur_cur: any = '';
-  nom_cate: any = '';
+
+  evento: any = '';
+  fecha_inicio: any = '';
+  duración: any = '';
+  categoria: any = '';
+  estado: any = false; // Inicializa el estado según sea necesario
 
   // Definir las etiquetas HTML permitidas
 
@@ -68,13 +70,24 @@ export class FormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     private sanitizer: DomSanitizer,
+
     //private seccionService: SeccionService, // Cambiado a seccionService
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    // Inicialización de variables y construcción del formulario
-    this.title = data ? 'EDITAR CURSO' : 'NUEVO CURSO';
+    this.title = data ? 'EDITAR EVENTO ACADÉMICO' : 'NUEVO EVENTO ACADÉMICO';
     this.isEdit = data ? true : false;
     this.emp_form = this.formBuilder.group({});
+  }
+  // isSlideChecked: boolean = true;
+  //toggleEvents: string[] = [];
+  toggleChanges($event: MatSlideToggleChange) {
+    //this.toggleEvents.push('Toggle Event: ' + $event.checked);
+    this.estado_cur = $event.checked;
+    if (this.estado_cur === false) {
+      this.emp_form.disable();
+    } else {
+      this.emp_form.enable();
+    }
   }
   instructores_form: any[] = [];
 
@@ -97,6 +110,9 @@ export class FormComponent implements OnInit {
   }
   // Cargar el formulario con los datos actuales si es una edición
   loadForm() {
+    this.estado_cur =
+      this.data?.estado_cur === 1 || this.data?.estado_cur === undefined;
+
     this.emp_form = this.formBuilder.group({
       nom_cur: [this.data?.nom_cur || '', Validators.required],
       fecha_inicio_cur: [
@@ -109,12 +125,28 @@ export class FormComponent implements OnInit {
       ced_inst: [this.data?.ced_inst || '', Validators.required],
       det_cer: [this.data?.det_cer || ''],
       url_cer: [this.data?.url_cer || ''],
+      estado_cur: [this.estado_cur],
     });
-
+    if (this.emp_form.value.det_cer == '') {
+      this.certificadoContent = `<p>
+            Por haber completado satisfactoriamente el diplomado de {{evento}} de la categoria {{categoria}}
+            realizado el
+            {{fecha_inicio}} con una duración de
+            {{duración}}
+          </p>`;
+    } else {
+      this.certificadoContent = this.emp_form.value.det_cer;
+    }
+    if (this.estado_cur === false) {
+      this.emp_form.disable();
+    }
     this.previsualizacion = this.data?.url_cer || '';
   }
   // Guardar los datos del formulario
   saveData() {
+    // console.log('VALIDO : ', this.emp_form.valid);
+    this.emp_form.enable();
+    console.log('ESTADO : ', this.estado_cur);
     if (this.emp_form.valid) {
       const formData = this.buildFormData();
       if (this.data) {
@@ -131,6 +163,7 @@ export class FormComponent implements OnInit {
         );
       } else {
         try {
+          console.log('HOLA');
           const formData = this.buildFormData();
           this.cursosService.addCursos(formData).subscribe(
             () => {
@@ -192,7 +225,7 @@ export class FormComponent implements OnInit {
   }
   // Construir FormData con los datos del formulario
   buildFormData(): FormData {
-    console.log('HORA');
+    console.log('ESTADO : ', this.estado_cur);
     const formData = new FormData();
     formData.append('nom_cur', this.emp_form.value.nom_cur);
     formData.append('fecha_inicio_cur', this.emp_form.value.fecha_inicio_cur);
@@ -201,6 +234,7 @@ export class FormComponent implements OnInit {
     formData.append('id_cate_cur', this.emp_form.value.id_cate_cur);
     formData.append('ced_inst', this.emp_form.value.ced_inst);
     formData.append('det_cer', this.emp_form.value.det_cer);
+    formData.append('estado_cur', `${this.estado_cur === true ? 1 : 0} `);
 
     const nuevaImagen = this.archivos[0];
     if (nuevaImagen) {

@@ -39,7 +39,7 @@ export class FormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.title = this.data ? 'EDITAR USUARIO' : 'NUEVO USUARIO';
+    this.title = this.data ? 'EDITAR FIRMA' : 'NUEVO FIRMA';
     this.isEdit = !!this.data;
     this.loadForm();
   }

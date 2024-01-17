@@ -81,10 +81,10 @@ export class FormComponent {
         console.log(contenidoHtml);
         this.certificadoContent = this.sanitizer.bypassSecurityTrustHtml(
           contenidoHtml
-            .replace('{{nom_cur}}', this.nom_cur)
-            .replace('{{nom_cate}}', this.nom_cate)
-            .replace('{{fecha_inicio_cur}}', this.fecha_inicio_cur)
-            .replace('{{dur_cur}}', this.dur_cur)
+            .replace('{{evento}}', this.nom_cur)
+            .replace('{{categoria}}', this.nom_cate)
+            .replace('{{fecha_inicio}}', this.fecha_inicio_cur)
+            .replace('{{duración}}', this.dur_cur)
         );
       });
   }
@@ -158,6 +158,10 @@ export class FormComponent {
       );
       formData.append('ced_par', ced_par);
       formData.append('id_cur', this.id_cur!);
+      formData.append('nom_par', participante.nom_pat_par);
+      formData.append('ape_par', participante.ape_pat_par);
+      formData.append('email_par', participante.email_par);
+      formData.append('nom_cur', this.nom_cur);
 
       this.certificadoService.addCertificados(formData).subscribe(
         (response) => {
