@@ -16,6 +16,7 @@ import { InstructoresService } from '../../services/instructores.service';
   styleUrls: ['./form.component.css'],
 })
 export class FormComponent implements OnInit {
+  // Propiedades del componente
   previsualizacion!: string;
   archivos: any[] = [];
   emp_form!: FormGroup;
@@ -42,7 +43,7 @@ export class FormComponent implements OnInit {
     this.isEdit = !!this.data;
     this.loadForm();
   }
-
+  // Método para cargar el formulario
   loadForm() {
     this.emp_form = this.formBuilder.group({
       ced_inst: [this.data?.ced_inst || '', Validators.required],
@@ -55,12 +56,12 @@ export class FormComponent implements OnInit {
       ciud_inst: [this.data?.ciud_inst || '', Validators.required],
       tit_inst: [this.data?.tit_inst || '', Validators.required],
       puesto_inst: [this.data?.puesto_inst || '', Validators.required],
-      url_firma: [this.data?.url_firma || '',],
+      url_firma: [this.data?.url_firma || ''],
     });
 
     this.previsualizacion = this.data?.url_firma || '';
   }
-
+  // Método para guardar los datos del formulario
   saveData() {
     if (this.emp_form.valid) {
       const formData = this.buildFormData();
@@ -98,7 +99,7 @@ export class FormComponent implements OnInit {
       }
     }
   }
-
+  // Método para construir el FormData a partir de los datos del formulario
   buildFormData(): FormData {
     const formData = new FormData();
     formData.append('ced_inst', this.emp_form.value.ced_inst);
@@ -127,11 +128,11 @@ export class FormComponent implements OnInit {
 
     return formData;
   }
-
+  // Método para mostrar mensajes en un Snackbar
   showMessage(message: string, duration: number = 5000, action: string = 'Ok') {
     this.snackBar.open(message, action, { duration, verticalPosition: 'top' });
   }
-
+  // Método para capturar el archivo seleccionado por el usuario
   capturarFile(event: any): void {
     const archivoCapturado = event.target.files[0];
     this.extraerBase64(archivoCapturado).then((imagen: any) => {
@@ -140,7 +141,7 @@ export class FormComponent implements OnInit {
     });
     this.archivos.push(archivoCapturado);
   }
-
+  // Método para extraer la representación en base64 de un archivo
   extraerBase64 = async ($event: any): Promise<any> =>
     new Promise((resolve) => {
       try {

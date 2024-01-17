@@ -1,17 +1,25 @@
 <mat-nav-list fxLayout="column" fxLayoutAlign="space-between">
+  <!-- Primera sección de la lista de navegación -->
   <div>
+    <!-- Itera sobre cada elemento del array listMenu -->
     <mat-list-item *ngFor="let menu of listMenu">
+      <!-- Enlaza cada ítem de la lista a una ruta utilizando [routerLink] -->
       <a [routerLink]="menu.url">
         <button mat-icon-button>
+          <!-- Botón con un ícono y título del menú -->
           <mat-icon [svgIcon]="menu.icon"></mat-icon>
+          <!-- Muestra el título del menú si la variable expanded es verdadera -->
           <span *ngIf="expanded">{{ menu.title }}</span>
         </button>
       </a>
     </mat-list-item>
   </div>
+  <!-- Segunda sección de la lista de navegación -->
   <div>
+    <!-- Ítem de lista para el botón de expansión/cierre del menú -->
     <mat-list-item class="menu">
       <div>
+        <!-- Botón que activa el método toggleExpanded() al hacer clic -->
         <button mat-icon-button (click)="toggleExpanded()">
           <mat-icon svgIcon="menu"></mat-icon>
         </button>

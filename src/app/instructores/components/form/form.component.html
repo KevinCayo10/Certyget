@@ -1,13 +1,20 @@
+<!-- Componente del cuadro de diálogo para edición o creación de un registro relacionado con empleados o instructores -->
 <div mat-dialog-title>
+  <!-- Barra de herramientas con diseño flexible -->
   <mat-toolbar fxLayout fxLayoutAlign="space-between center">
+    <!-- Título dinámico que puede ser pasado como entrada al componente -->
     <h3>{{ title }}</h3>
+    <!-- Botón de cierre del cuadro de diálogo -->
     <button mat-icon-button mat-dialog-close>
       <mat-icon>close</mat-icon>
     </button>
   </mat-toolbar>
 </div>
+<!-- Formulario Reactivo de Angular -->
 <form [formGroup]="emp_form" (ngSubmit)="saveData()">
+  <!-- Contenido del cuadro de diálogo -->
   <div mat-dialog-content class="content">
+    <!-- Campo para la cédula del instructor -->
     <mat-form-field class="outline">
       <mat-label>Cédula</mat-label>
       <input
@@ -19,6 +26,7 @@
       />
       <mat-icon matSuffix>credit_card</mat-icon>
     </mat-form-field>
+    <!-- Sección de nombres y apellidos -->
     <div class="row">
       <mat-form-field class="outline">
         <mat-label>Nombre Paterno</mat-label>
@@ -123,10 +131,12 @@
         </mat-select>
       </mat-form-field>
     </div>
+    <!-- Sección para cargar un archivo -->
     <div class="row">
       <label for="fileInput" class="custom-upload-btn">Subir Archivo</label>
       <input type="file" id="fileInput" (change)="capturarFile($event)" />
     </div>
+    <!-- Vista previa de la imagen cargada (mostrada si hay una imagen cargada) -->
     <div class="preview-container" *ngIf="previsualizacion">
       <img
         [src]="previsualizacion"
@@ -137,10 +147,13 @@
       />
     </div>
   </div>
+  <!-- Acciones del cuadro de diálogo -->
   <div mat-dialog-actions class="action">
+    <!-- Botón para cancelar el cuadro de diálogo -->
     <button mat-button color="primary" type="button" mat-dialog-close>
       Cancelar
     </button>
+    <!-- Botón para grabar los datos del formulario (habilitado solo si el formulario es válido) -->
     <button
       mat-raised-button
       color="primary"

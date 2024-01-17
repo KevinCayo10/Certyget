@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
+// Interfaz que define la estructura de un ícono con un nombre y una ruta
 interface IIcon {
   name: string;
   path: string;
@@ -9,6 +10,7 @@ interface IIcon {
   providedIn: 'root',
 })
 export class IconService {
+  // Lista de íconos con sus nombres y rutas
   private listIcons: IIcon[] = [
     { name: 'logo', path: './../../assets/imagenes/logo.svg' },
     { name: 'avatar', path: './../../assets/imagenes/avatar.svg' },
@@ -29,6 +31,7 @@ export class IconService {
   ) {
     this.registryIcons();
   }
+  // Método para registrar los íconos en MatIconRegistry
   registryIcons() {
     this.listIcons.forEach((icon) => {
       this.matIconRegistry.addSvgIcon(

@@ -16,15 +16,19 @@ import { ToolbarSettingsModel } from '@syncfusion/ej2-angular-richtexteditor';
   styleUrls: ['./form.component.css'],
 })
 export class FormComponent implements OnInit {
+  // Función para comparar instructores
   compareInstructores = (a: any, b: any) => a.ced_inst === b.ced_inst;
+  // Configuración personalizada de la barra de herramientas
   customToolbar: Object = {
     items: ['bold', 'Italic', 'Undo', 'Redo'],
   };
+  // Declaración del formulario
   emp_form!: FormGroup;
   title = '';
   togglePassword = true;
   isEdit: boolean;
-  categorias: any[] = []; // Supongo que cada categoría tiene un formato similar a la data de cursos
+  // Arreglos para almacenar datos
+  categorias: any[] = [];
   instructores: any[] = [];
   instructoresSeleccionados: any[] = [];
   previsualizacion!: string;
@@ -36,6 +40,7 @@ export class FormComponent implements OnInit {
             {{fecha_inicio_cur}} con una duración de
             {{dur_cur}}
           </p>`;
+  // Configuración para el Editor de Texto Enriquecido
   public toolbarSettings: ToolbarSettingsModel = {
     items: [
       'Bold',
@@ -48,7 +53,7 @@ export class FormComponent implements OnInit {
       'SourceCode',
     ],
   };
-
+  // Variables para campos específicos del formulario
   nom_cur: any = '';
   fecha_inicio_cur: any = '';
   dur_cur: any = '';
@@ -66,6 +71,7 @@ export class FormComponent implements OnInit {
     //private seccionService: SeccionService, // Cambiado a seccionService
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
+    // Inicialización de variables y construcción del formulario
     this.title = data ? 'EDITAR CURSO' : 'NUEVO CURSO';
     this.isEdit = data ? true : false;
     this.emp_form = this.formBuilder.group({});
@@ -77,17 +83,19 @@ export class FormComponent implements OnInit {
     this.loadCategorys();
     this.loadInstructors();
   }
-
+  // Cargar la lista de instructores
   loadInstructors() {
     this.cursosService.loadInstructors().subscribe((response) => {
       this.instructores = response.data;
     });
   }
+  // Cargar la lista de categorías
   loadCategorys() {
     this.cursosService.loadCategorys().subscribe((response) => {
       this.categorias = response.data;
     });
   }
+  // Cargar el formulario con los datos actuales si es una edición
   loadForm() {
     this.emp_form = this.formBuilder.group({
       nom_cur: [this.data?.nom_cur || '', Validators.required],
@@ -105,7 +113,7 @@ export class FormComponent implements OnInit {
 
     this.previsualizacion = this.data?.url_cer || '';
   }
-
+  // Guardar los datos del formulario
   saveData() {
     if (this.emp_form.valid) {
       const formData = this.buildFormData();
@@ -139,6 +147,7 @@ export class FormComponent implements OnInit {
       }
     }
   }
+  // Capturar archivo seleccionado
   capturarFile(event: any): any {
     const archivoCapturado = event.target.files[0];
     this.extraerBase64(archivoCapturado).then((imagen: any) => {
@@ -147,6 +156,7 @@ export class FormComponent implements OnInit {
     });
     this.archivos.push(archivoCapturado);
   }
+  // Extraer información base64 de una imagen
   extraerBase64 = async ($event: any) =>
     new Promise((resolve, reject) => {
       try {
@@ -176,9 +186,11 @@ export class FormComponent implements OnInit {
         });
       }
     });
+  // Mostrar mensaje en el snackbar
   showMessage(message: string, duration: number = 5000, action: string = 'Ok') {
     this.snackBar.open(message, action, { duration, verticalPosition: 'top' });
   }
+  // Construir FormData con los datos del formulario
   buildFormData(): FormData {
     console.log('HORA');
     const formData = new FormData();
@@ -206,7 +218,7 @@ export class FormComponent implements OnInit {
     return formData;
   }
 }
+// Interfaz para el tipo de datos de un instructor
 interface Instructor {
   id_inst: number;
-  // ... otras propiedades
 }

@@ -1,4 +1,7 @@
+<!-- Barra de herramientas de Angular Material con disposición horizontal y espacio entre elementos -->
 <mat-toolbar fxLayout fxLayoutGap="10px">
+  <!-- Icono de Material Design usando la directiva [svgIcon] y vinculado dinámicamente al icono definido en la variable 'path' -->
   <mat-icon [svgIcon]="path.icon"></mat-icon>
+  <!-- Título de la barra de herramientas, dinámicamente vinculado al título definido en la variable 'path' -->
   <h2>Gestor de {{ path.title }}</h2>
 </mat-toolbar>

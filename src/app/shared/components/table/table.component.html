@@ -1,6 +1,10 @@
+<!-- Contenedor principal con disposición de columna -->
 <div fxLayout="column">
+  <!-- Proyección de contenido para insertar elementos antes de la tabla -->
   <ng-content></ng-content>
+  <!-- Tabla de Angular Material con la directiva mat-table y enlace a una fuente de datos -->
   <table mat-table [dataSource]="data">
+    <!-- Itera sobre los metadatos de las columnas para definir las columnas de la tabla -->
     <ng-container
       [matColumnDef]="metaData.field"
       *ngFor="let metaData of metaDataColumns"

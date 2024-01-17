@@ -14,16 +14,18 @@ import { UsuariosService } from '../../services/usuarios.service';
   styleUrls: ['./page-list.component.css'],
 })
 export class PageListComponent {
+  // Arreglo que almacena los datos de usuarios
   data: any[] = [];
+  // Configuración de las columnas de la tabla de usuarios
   metaDataColumns: MetaDataColumn[] = [
     { field: 'id_usu', title: 'ID' },
     { field: 'user_usu', title: 'Usuario' },
     { field: 'pass_usu', title: 'Contraseña' },
     { field: 'rol_usu', title: 'Rol' },
   ];
-
+  // Arreglo que almacena información sobre roles
   rol: any[] = [];
-
+  // Botones del teclado virtual
   keypadButtons: KeypadButton[] = [
     { icon: 'add', tooltip: 'AGREGAR', color: 'primary', action: 'NEW' },
   ];
@@ -37,6 +39,7 @@ export class PageListComponent {
   ) {
     this.loadUsers();
   }
+  // Método para cambiar la página de resultados
   changePage(page: number) {
     const pageSize = environment.PAGE_SIZE;
     const skip = pageSize * page;
@@ -48,7 +51,7 @@ export class PageListComponent {
       },
     });
   }
-
+  // Método para cargar los usuarios
   loadUsers() {
     // Cambio de método
     this.usuariosService.loadUser().subscribe((data) => {
@@ -58,7 +61,7 @@ export class PageListComponent {
       this.changePage(0);
     });
   }
-
+  // Método para realizar acciones específicas en función del botón de teclado virtual presionado
   doAction(action: string) {
     switch (action) {
       case 'DOWNLOAD':
@@ -68,14 +71,14 @@ export class PageListComponent {
         break;
     }
   }
-
+  // Método para mostrar un bottom sheet con información específica
   showBottonSheet(
     title: string,
     fileName: string,
     data: any,
     metaDataColumn: MetaDataColumn[]
   ) {}
-
+  // Método para abrir el formulario de edición o creación de usuarios
   openForm(row: any = null) {
     const options = {
       panelClass: 'panel-container',
@@ -90,7 +93,7 @@ export class PageListComponent {
       this.loadUsers();
     });
   }
-
+  // Método para eliminar un usuario
   delete(id_usu: string) {
     console.log(id_usu);
     this.usuariosService.deleteUsers(id_usu).subscribe((response) => {

@@ -1,10 +1,18 @@
+<!-- cer-title: Componente personalizado para el título -->
 <cer-title></cer-title>
+<!-- cer-container: Contenedor principal para la tabla, scrollbar, paginador y teclado numérico -->
 <cer-container>
+  <!-- ng-scrollbar: Barra de desplazamiento personalizada con altura máxima -->
   <ng-scrollbar class="heightMaxScrollBar">
+    <!-- cer-table: Componente personalizado para la tabla con datos y columnas de metadatos -->
     <cer-table [data]="data" [metaDataColumns]="metaDataColumns">
+      <!-- ng-container matColumnDef="actions": Definición de columna para acciones -->
       <ng-container matColumnDef="actions">
+        <!-- th mat-header-cell: Celda de encabezado para acciones -->
         <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <!-- td mat-cell: Celda de datos para acciones, incluye botones de editar y eliminar -->
         <td mat-cell *matCellDef="let row" class="alignButton">
+          <!-- Botón de edición -->
           <button
             mat-icon-button
             color="primary"
@@ -13,6 +21,7 @@
           >
             <mat-icon>edit</mat-icon>
           </button>
+          <!-- Botón de eliminación -->
           <button
             mat-icon-button
             color="accent"
@@ -25,8 +34,10 @@
       </ng-container>
     </cer-table>
   </ng-scrollbar>
+  <!-- cer-paginator: Componente personalizado para el paginador -->
   <cer-paginator (onChangePage)="changePage($event)" [length]="totalRecords">
   </cer-paginator>
 </cer-container>
+<!-- cer-keypad-button: Componente personalizado para el teclado numérico -->
 <cer-keypad-button [keypadButtons]="keypadButtons" (onClick)="doAction($event)">
 </cer-keypad-button>

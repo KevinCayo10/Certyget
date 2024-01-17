@@ -13,40 +13,42 @@ export class CursosService {
   private myApiUrlCategory: string;
 
   constructor(private http: HttpClient) {
+    // Configuración de las URL de la API basadas en el entorno
     this.myAppUrl = environment.endpoint;
     this.myApiUrlInstructor = '/api/instructor/';
     this.myApiUrlCursos = '/api/cursos/';
     this.myApiUrlCategory = '/api/category/';
   }
-
+  // Método para cargar instructores desde la API
   loadInstructors(): Observable<{ success: number; data: any[] }> {
     return this.http.get<{ success: number; data: any[] }>(
       `${this.myAppUrl}${this.myApiUrlInstructor}`
     );
   }
+  // Método para cargar categorías desde la API
   loadCategorys(): Observable<{ success: number; data: any[] }> {
     return this.http.get<{ success: number; data: any[] }>(
       `${this.myAppUrl}${this.myApiUrlCategory}`
     );
   }
-
+  // Método para cargar cursos desde la API
   loadCursos(): Observable<{ success: number; data: any[] }> {
     return this.http.get<{ success: number; data: any[] }>(
       `${this.myAppUrl}${this.myApiUrlCursos}`
     );
   }
-
+  // Método para agregar cursos enviando datos mediante POST
   addCursos(formData: FormData): Observable<{ success: number; data: any }> {
     return this.http.post<{ success: number; data: any }>(
       `${this.myAppUrl}${this.myApiUrlCursos}`,
       formData
     );
   }
-  // Actualizar cursos
+  // Método para actualizar cursos enviando datos mediante PUT
   updateCurso(id: number, curso: any): Observable<any> {
     return this.http.put(`${this.myAppUrl}${this.myApiUrlCursos}${id}`, curso);
   }
-  /* Elimina los cursos */
+  // Método para eliminar cursos enviando una solicitud DELETE
   deleteCurso(id: number): Observable<any> {
     return this.http.delete(`${this.myAppUrl}${this.myApiUrlCursos}${id}`);
   }
