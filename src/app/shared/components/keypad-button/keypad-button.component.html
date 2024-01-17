@@ -1,11 +1,14 @@
+<!-- Contenedor principal con disposición de columna y un espacio de 10px entre elementos -->
 <div fxLayout="column" fxLayoutGap="10px">
-    <button
-      mat-fab
-      *ngFor="let button of keypadButtons"
-      [color]="button.color"
-      [matTooltip]="button.tooltip"
-      (click)="doAction(button.action)"
-    >
-      <mat-icon>{{ button.icon }}</mat-icon>
-    </button>
-  </div>
+  <!-- Utiliza la directiva *ngFor para iterar sobre la lista de botones del teclado -->
+  <button
+    mat-fab
+    *ngFor="let button of keypadButtons"
+    [color]="button.color"
+    [matTooltip]="button.tooltip"
+    (click)="doAction(button.action)"
+  >
+    <!-- Icono dentro del botón obtenido de la propiedad 'icon' del objeto button -->
+    <mat-icon>{{ button.icon }}</mat-icon>
+  </button>
+</div>

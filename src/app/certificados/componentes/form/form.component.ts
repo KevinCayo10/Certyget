@@ -15,10 +15,12 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   styleUrls: ['./form.component.css'],
 })
 export class FormComponent {
+  // Propiedades de Datos
   allData: any[] = []; // Agrega una referencia a todos los datos
   data: any[] = [];
   detalleCursosInstructores: any = {};
   totalRecords = 0;
+  // Propiedades para la Vista
   title = sessionStorage.getItem('selectedCursoNom');
   id_cur = sessionStorage.getItem('selectedCursoId');
   fecha_actual: any;
@@ -27,7 +29,7 @@ export class FormComponent {
   fecha_inicio_cur: any = '';
   dur_cur: any = '';
   nom_cate: any = '';
-
+  // Metadatos de Columnas para la Tabla
   metaDataColumns: MetaDataColumn[] = [
     { field: 'ced_par', title: 'CEDULA' },
     { field: 'nom_pat_par', title: '1ER NOMBRE' },
@@ -47,9 +49,11 @@ export class FormComponent {
   ) {
     this.loadDetalleCursosInstructores();
   }
+  // Propiedad para Contenido Seguro de Certificado HTML
   certificadoContent!: SafeHtml;
 
   ngOnInit(): void {}
+  // Método para cargar detalles de cursos e instructores
   loadDetalleCursosInstructores() {
     const fecha = new Date();
 
@@ -84,7 +88,7 @@ export class FormComponent {
         );
       });
   }
-
+  // Método para generar certificados
   public generateCertificates() {
     const certificatesContainer = document.getElementById(
       'certificates-section-container'
@@ -137,7 +141,9 @@ export class FormComponent {
         }
       });
   }
+  // Método para guardar datos (a implementar)
   saveData() {}
+  // Método para guardar o enviar imagen del certificado
   private saveOrSendImage(
     imageDataURL: string,
     participante: any
@@ -170,7 +176,7 @@ export class FormComponent {
       );
     });
   }
-
+  // Método para convertir URI de datos en Blob
   private dataURItoBlob(dataURI: string): Blob {
     const byteString = atob(dataURI.split(',')[1]);
     const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
@@ -183,7 +189,7 @@ export class FormComponent {
 
     return new Blob([ab], { type: mimeString });
   }
-
+  // Método para registrar participantes
   registerParticipantes() {
     console.log('DATA : ', this.data);
     this.certificadoService.addParticipantes(this.data).subscribe(
@@ -196,10 +202,11 @@ export class FormComponent {
       }
     );
   }
+  // Método para mostrar mensajes con Snackbar
   showMessage(message: string, duration: number = 5000, action: string = 'Ok') {
     this.snackBar.open(message, action, { duration, verticalPosition: 'top' });
   }
-
+  // Método para cambiar la página en la tabla paginada
   changePage(page: number) {
     let tamReg = environment.PAGE_SIZE;
     tamReg = 4;
@@ -209,7 +216,7 @@ export class FormComponent {
     this.data = this.data.slice(startIndex, startIndex + pageSize);
     this.totalRecords = this.data.length;
   }
-  users: any[] = [];
+  // Método para importar datos desde un archivo CSV
   csvImport($event: any) {
     const files = $event.target.files;
     if (files.length) {
@@ -228,7 +235,7 @@ export class FormComponent {
       reader.readAsArrayBuffer(file);
     }
   }
-
+  // Método para cargar participantes (¿utilizada?)
   loadParticipantes() {
     console.log(sessionStorage.getItem('selectedCursoId'));
 

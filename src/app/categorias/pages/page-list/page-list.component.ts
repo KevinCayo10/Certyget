@@ -13,17 +13,19 @@ import { CategoriasService } from '../../services/categorias.service';
   styleUrls: ['./page-list.component.css'],
 })
 export class PageListComponent implements OnInit {
+  // Arreglo para almacenar datos de la tabla
   data: any[] = [];
-
+  // Metadatos de las columnas de la tabla
   metaDataColumns: MetaDataColumn[] = [
     { field: 'id_cate', title: 'ID' },
     { field: 'nom_cate', title: 'NOMBRE' },
     { field: 'desc_cate', title: 'DESCRIPCION' },
   ];
+  // Botones del teclado numérico
   keypadButtons: KeypadButton[] = [
     { icon: 'add', tooltip: 'AGREGAR', color: 'primary', action: 'NEW' },
   ];
-
+  // Número total de registros para la paginación
   totalRecords = 0;
 
   constructor(
@@ -35,25 +37,24 @@ export class PageListComponent implements OnInit {
   ngOnInit() {
     this.loadCategory();
   }
-
+  // Método para cambiar de página en la tabla
   changePage(page: number) {
     const pageSize = environment.PAGE_SIZE;
     const skip = pageSize * page;
-    // Aquí debe asegurarse de que la paginación se maneje adecuadamente
+    // Obtener categorías del servicio (ajustar para manejar paginación en el backend)
     this.categoriasService.getCategorias().subscribe({
       next: (res) => {
-        // Si el backend ya maneja la paginación, ajuste la llamada para pasar `page` y `pageSize`.
         this.data = res.data.slice(skip, skip + pageSize);
         this.totalRecords = res.data.length;
       },
       error: (err) => this.showMessage('Error al cargar las categorías'),
     });
   }
-
+  // Método para cargar categorías al iniciar o cambiar de página
   loadCategory() {
     this.changePage(0);
   }
-
+  // Método para realizar acciones según el botón del teclado numérico presionado
   doAction(action: string) {
     switch (action) {
       case 'DOWNLOAD':
@@ -67,7 +68,7 @@ export class PageListComponent implements OnInit {
         break;
     }
   }
-
+  // Método para abrir el formulario de edición o creación
   openForm(row: any = null) {
     const dialogRef = this.dialog.open(FormComponent, {
       width: 'auto',
@@ -78,7 +79,7 @@ export class PageListComponent implements OnInit {
       this.loadCategory();
     });
   }
-
+  // Método para eliminar una categoría
   delete(id: number) {
     this.categoriasService.deleteCategoria(id).subscribe({
       next: (res) => {
@@ -88,7 +89,7 @@ export class PageListComponent implements OnInit {
       error: (err) => this.showMessage('Error al eliminar la categoría'),
     });
   }
-
+  // Método para mostrar mensajes con Snackbar
   showMessage(
     message: string,
     duration: number = 3000,

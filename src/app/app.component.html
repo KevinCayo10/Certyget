@@ -1,14 +1,18 @@
 <mat-sidenav-container autosize="true">
+  <!-- Sidebar (mat-sidenav) -->
   <mat-sidenav [opened]="abrir" mode="side" *ngIf="isMenuRequired">
     <div class="logo" fxLayout fxLayoutGap="20px" fxLayoutAlign="start center">
       <mat-icon>face</mat-icon>
+      <!-- Título del sistema, visible solo si la variable 'expanded' es verdadera -->
       <h3 *ngIf="expanded">Sistema de Gestión</h3>
     </div>
+    <!-- Componente 'cer-menu' para mostrar el menú -->
     <cer-menu (onToggleExpanded)="toggleExpanded($event)"></cer-menu>
   </mat-sidenav>
   <mat-sidenav-content>
+    <!-- Componente 'cer-header', visible solo si 'isHeaderRequired' es verdadero -->
     <cer-header *ngIf="isHeaderRequired"></cer-header>
+    <!-- Ruta dinámica para cargar componentes principales -->
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
-<!-- <cer-modal-certificados></cer-modal-certificados> -->

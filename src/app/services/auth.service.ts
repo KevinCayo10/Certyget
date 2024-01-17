@@ -12,10 +12,11 @@ export class AuthService {
     this.myAppUrl = environment.endpoint;
     this.myApiUrl = '/api/users/login';
   }
-
+  // Función para realizar la autenticación mediante una petición POST
   login(obj: any) {
     return this.http.post(this.myAppUrl + this.myApiUrl, obj);
   }
+  // Función para verificar si el usuario ha iniciado sesión
   IsLoggedIn() {
     return sessionStorage.getItem('token') != null;
   }

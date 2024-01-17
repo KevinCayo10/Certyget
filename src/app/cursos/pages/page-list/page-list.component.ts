@@ -14,6 +14,7 @@ import { Cursos } from '../../models/cursos.models';
   styleUrls: ['./page-list.component.css'],
 })
 export class PageListComponent {
+  // Propiedades del componente
   data: any[] = [];
   metaDataColumns: MetaDataColumn[] = [
     { field: 'id_cur', title: 'ID' },
@@ -30,6 +31,7 @@ export class PageListComponent {
   ];
 
   totalRecords = 0;
+  // Constructor del componente con inyección de dependencias
   constructor(
     private dialog: MatDialog,
     private cursosService: CursosService,
@@ -37,7 +39,7 @@ export class PageListComponent {
   ) {
     this.loadCursos();
   }
-
+  // Método para cambiar la página de resultados
   changePage(page: number) {
     const pageSize = environment.PAGE_SIZE;
     const skip = pageSize * page;
@@ -50,7 +52,7 @@ export class PageListComponent {
       error: (err) => this.showMessage('Error al cargar las categorías'),
     });
   }
-
+  // Método para cargar los cursos desde el servicio
   loadCursos() {
     this.cursosService.loadCursos().subscribe((response) => {
       /*this.data = this.registros;
@@ -65,7 +67,7 @@ export class PageListComponent {
       }
     });
   }
-
+  // Método para realizar acciones según el botón presionado
   doAction(action: string) {
     switch (action) {
       case 'DOWNLOAD':
@@ -75,13 +77,14 @@ export class PageListComponent {
         break;
     }
   }
-
+  // Método para mostrar una hoja de botones (sin implementar en el código actual)
   showBottonSheet(
     title: string,
     fileName: string,
     data: any,
     metaDataColumn: MetaDataColumn[]
   ) {}
+  // Método para abrir el formulario (modal) para editar o agregar un curso
   openForm(row: any = null) {
     const options = {
       panelClass: 'panel-container',
@@ -96,7 +99,7 @@ export class PageListComponent {
       this.loadCursos();
     });
   }
-
+  // Método para eliminar un curso
   delete(id: number) {
     this.cursosService.deleteCurso(id).subscribe({
       next: (res) => {
@@ -106,6 +109,7 @@ export class PageListComponent {
       error: (err) => this.showMessage('Error al eliminar el curso'),
     });
   }
+  // Método para mostrar mensajes de notificación
   showMessage(
     message: string,
     duration: number = 3000,
@@ -117,7 +121,7 @@ export class PageListComponent {
     });
   }
 }
-
+// Interfaz para la respuesta del servicio que devuelve cursos
 interface ApiResponse {
   success: number;
   data: Cursos[];

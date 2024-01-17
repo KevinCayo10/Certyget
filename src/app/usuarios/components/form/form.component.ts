@@ -15,11 +15,15 @@ import { UsuariosService } from '../../services/usuarios.service';
   styleUrls: ['./form.component.css'],
 })
 export class FormComponent {
+  // Array de roles disponibles para usuarios
   roles: string[] = ['ADMIN', 'ESTUDIANTE'];
-
+  // Instancia del formulario FormGroup
   emp_form: FormGroup;
+  // Título del formulario, dinámicamente vinculado según si se está editando o creando un usuario
   title = '';
+  // Variable para alternar la visibilidad de la contraseña en el formulario
   togglePassword = true;
+  // Bandera que indica si se está editando un usuario
   isEdit: boolean;
   constructor(
     private reference: MatDialogRef<FormComponent>,
@@ -29,6 +33,7 @@ export class FormComponent {
     //private seccionService: SeccionService, // Cambiado a seccionService
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
+    // Inicialización de propiedades
     this.title = data ? 'EDITAR USUARIO' : 'NUEVO USUARIO';
     this.isEdit = data ? true : false;
     this.emp_form = this.formBuilder.group({
@@ -42,7 +47,7 @@ export class FormComponent {
   ngOnInit(): void {
     this.loadForm();
   }
-
+  // Método para cargar los datos iniciales en el formulario
   loadForm() {
     this.emp_form = this.formBuilder.group({
       id_usu: new FormControl(this.data?.id_usu),
@@ -51,7 +56,7 @@ export class FormComponent {
       rol_usu: new FormControl(this.data?.rol_usu, Validators.required),
     });
   }
-
+  // Método para guardar los datos del formulario
   saveData() {
     if (this.emp_form.valid) {
       if (this.data) {
@@ -73,7 +78,7 @@ export class FormComponent {
       }
     }
   }
-
+  // Método para mostrar un mensaje emergente
   showMessage(message: string, duration: number = 5000, action: string = 'Ok') {
     this.snackBar.open(message, action, { duration, verticalPosition: 'top' });
   }

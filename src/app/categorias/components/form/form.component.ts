@@ -15,9 +15,13 @@ import { CategoriasService } from '../../services/categorias.service';
   styleUrls: ['./form.component.css'],
 })
 export class FormComponent {
+  // Formulario reactivo que representa los campos del componente
   emp_form: FormGroup;
+  // Título del formulario (Nuevo o Editar)
   title = '';
+  // Bandera para indicar si se está editando una categoría existente
   isEdit: boolean;
+  // Constructor del componente
   constructor(
     private reference: MatDialogRef<FormComponent>,
     private categoriasService: CategoriasService,
@@ -25,8 +29,10 @@ export class FormComponent {
     private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
+    // Determina el título del formulario (Nuevo o Editar) y si se está editando
     this.title = data ? 'EDITAR CATEGORÍA' : 'NUEVA CATEGORÍA';
     this.isEdit = data ? true : false;
+    // Inicializa el formulario reactivo con los campos de la categoría
     this.emp_form = this.formBuilder.group({
       id_cate: '',
       nom_cate: '',
@@ -37,7 +43,7 @@ export class FormComponent {
   ngOnInit(): void {
     this.loadForm();
   }
-
+  // Método para cargar los datos en el formulario reactivo
   loadForm() {
     this.emp_form = this.formBuilder.group({
       id_cate: new FormControl(this.data?.id_cate),
@@ -45,7 +51,7 @@ export class FormComponent {
       desc_cate: new FormControl(this.data?.desc_cate, Validators.required),
     });
   }
-
+  // Método llamado al intentar guardar los datos del formulario
   saveData() {
     if (this.emp_form.valid) {
       if (this.isEdit) {
@@ -73,6 +79,7 @@ export class FormComponent {
       }
     }
   }
+  // Método para mostrar un mensaje en la interfaz usando el servicio SnackBar
 
   showMessage(message: string, duration: number = 5000, action: string = 'Ok') {
     this.snackBar.open(message, action, { duration, verticalPosition: 'top' });

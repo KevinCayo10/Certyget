@@ -1,3 +1,4 @@
+<!-- Encabezado del cuadro de diálogo -->
 <div mat-dialog-title>
   <mat-toolbar fxLayout fxLayoutAlign="space-between center">
     <h3>{{ title }}</h3>
@@ -6,7 +7,7 @@
     </button>
   </mat-toolbar>
 </div>
-
+<!-- Formulario con controles para la categoría -->
 <form [formGroup]="emp_form" (ngSubmit)="saveData()">
   <div mat-dialog-content class="content">
     <div class="row">
@@ -35,10 +36,13 @@
       </mat-form-field>
     </div>
   </div>
+  <!-- Acciones del cuadro de diálogo (botones) -->
   <div mat-dialog-actions class="action">
+    <!-- Botón para cerrar el cuadro de diálogo sin guardar cambios -->
     <button mat-button color="primary" type="button" mat-dialog-close>
       Cancelar
     </button>
+    <!-- Botón para enviar el formulario y guardar los cambios -->
     <button
       mat-raised-button
       color="primary"

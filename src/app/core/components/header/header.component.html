@@ -1,13 +1,20 @@
+<!-- Barra de herramientas con alineación y diseño flex -->
 <mat-toolbar fxLayout fxLayoutAlign="end center">
+  <!-- Botón con un menú desplegable -->
   <button mat-button class="profile" [mat-menu-trigger-for]="menu">
+    <!-- Diseño flex para centrar y espaciar elementos -->
     <div fxLayoutAlign="center center" fxLayoutGap="10px">
+      <!-- Icono SVG para el avatar del usuario -->
       <mat-icon svgIcon="avatar"></mat-icon>
-      <!-- <span>{{ nombreUsuario }}</span> -->
+      <!-- Texto que muestra "Usuario" (puedes reemplazar esto con el nombre del usuario) -->
       <span>Usuario</span>
+      <!-- Icono de flecha hacia abajo indicando que hay un menú desplegable -->
       <mat-icon>keyboard_arrow_down</mat-icon>
     </div>
   </button>
+  <!-- Menú desplegable asociado al botón anterior -->
   <mat-menu #menu="matMenu">
+    <!-- Elemento de menú para cerrar sesión con un ícono y un texto -->
     <button mat-menu-item routerLink="/login">
       <mat-icon>logout</mat-icon>
       <span>Cerrar Sesión</span>

@@ -13,8 +13,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./page-list.component.css'],
 })
 export class PageListComponent {
+  // Datos que se mostrarán en la tabla
   data: any[] = [];
-
+  // Metadatos para las columnas de la tabla
   metaDataColumns: MetaDataColumn[] = [
     { field: 'ced_inst', title: 'Cédula' },
     { field: 'nom_pat_inst', title: 'Nombre Paterno' },
@@ -28,11 +29,11 @@ export class PageListComponent {
     { field: 'puesto_inst', title: 'Puesto' },
     { field: 'url_firma', title: 'URL Firma' },
   ];
-
+  // Botones del teclado con icono, tooltip, color y acción asociada
   keypadButtons: KeypadButton[] = [
     { icon: 'add', tooltip: 'AGREGAR', color: 'primary', action: 'NEW' },
   ];
-
+  // Total de registros para la paginación
   totalRecords = 0;
   constructor(
     private dialog: MatDialog,
@@ -41,10 +42,11 @@ export class PageListComponent {
   ) {
     this.loadInstructores();
   }
+  // Función que se ejecuta al cambiar de página en la paginación
   changePage(page: number) {
     const pageSize = environment.PAGE_SIZE;
     const skip = pageSize * page;
-    // Aquí debe asegurarse de que la paginación se maneje adecuadamente
+    // Carga de instructores con manejo de paginación
     this.instructoresService.loadInstructores().subscribe({
       next: (res) => {
         // Si el backend ya maneja la paginación, ajuste la llamada para pasar `page` y `pageSize`.
@@ -54,6 +56,7 @@ export class PageListComponent {
       error: (err) => this.showMessage('Error al cargar los instructores'),
     });
   }
+  // Carga inicial de instructores al inicializar el componente
   loadInstructores() {
     this.instructoresService.loadInstructores().subscribe((data) => {
       this.data = data.data;
@@ -61,7 +64,7 @@ export class PageListComponent {
       this.changePage(0);
     });
   }
-
+  // Acciones a realizar según la acción del teclado
   doAction(action: string) {
     switch (action) {
       case 'DOWNLOAD':
@@ -71,14 +74,14 @@ export class PageListComponent {
         break;
     }
   }
-
+  // Función para mostrar un Bottom Sheet (hoja inferior)
   showBottonSheet(
     title: string,
     fileName: string,
     data: any,
     metaDataColumn: MetaDataColumn[]
   ) {}
-
+  // Abrir formulario para editar o agregar instructor
   openForm(row: any = null) {
     const options = {
       panelClass: 'panel-container',
@@ -93,7 +96,7 @@ export class PageListComponent {
       this.loadInstructores();
     });
   }
-
+  // Eliminar instructor según su ID
   delete(id: number) {
     this.instructoresService.deleteInstructor(id).subscribe({
       next: (res) => {
@@ -106,6 +109,7 @@ export class PageListComponent {
       },
     });
   }
+  // Mostrar mensaje en la parte superior de la pantalla
   showMessage(
     message: string,
     duration: number = 3000,

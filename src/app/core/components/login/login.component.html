@@ -1,5 +1,8 @@
+<!-- Formulario con diseño de columna usando Angular Flex Layout -->
 <form fxLayout="column" [formGroup]="loginForm" (ngSubmit)="proceedLogin()">
+  <!-- Título del formulario -->
   <h2 id="title_credential">Credenciales</h2>
+  <!-- Campo de entrada para el usuario -->
   <mat-form-field>
     <mat-label>Usuario</mat-label>
     <input
@@ -11,6 +14,7 @@
     />
     <mat-icon matSuffix>account_circle</mat-icon>
   </mat-form-field>
+  <!-- Campo de entrada para la contraseña -->
   <mat-form-field>
     <mat-label>Contraseña</mat-label>
     <input
@@ -20,15 +24,18 @@
       placeholder="Ingrese su contraseña"
       formControlName="pass_usu"
     />
+    <!-- Botón para alternar la visibilidad de la contraseña -->
     <button
       mat-icon-button
       matSuffix
       type="button"
       (click)="togglePassword = !togglePassword"
     >
+      <!-- Icono que cambia según si la contraseña es visible o no -->
       <mat-icon matSuffix>{{ togglePassword ? "lock" : "lock_open" }}</mat-icon>
     </button>
   </mat-form-field>
+  <!-- Botón para enviar el formulario -->
   <button
     mat-raised-button
     color="primary"
