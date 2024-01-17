@@ -73,6 +73,17 @@ export class FormComponent implements OnInit {
     this.isEdit = data ? true : false;
     this.emp_form = this.formBuilder.group({});
   }
+  // isSlideChecked: boolean = true;
+  //toggleEvents: string[] = [];
+  toggleChanges($event: MatSlideToggleChange) {
+    //this.toggleEvents.push('Toggle Event: ' + $event.checked);
+    this.estado_cur = $event.checked;
+    if (this.estado_cur === false) {
+      this.emp_form.disable();
+    } else {
+      this.emp_form.enable();
+    }
+  }
   instructores_form: any[] = [];
 
   ngOnInit(): void {
@@ -92,6 +103,9 @@ export class FormComponent implements OnInit {
     });
   }
   loadForm() {
+    this.estado_cur =
+      this.data?.estado_cur === 1 || this.data?.estado_cur === undefined;
+
     this.emp_form = this.formBuilder.group({
       nom_cur: [this.data?.nom_cur || '', Validators.required],
       fecha_inicio_cur: [
@@ -104,6 +118,7 @@ export class FormComponent implements OnInit {
       ced_inst: [this.data?.ced_inst || '', Validators.required],
       det_cer: [this.data?.det_cer || ''],
       url_cer: [this.data?.url_cer || ''],
+      estado_cur: [this.estado_cur],
     });
     if (this.emp_form.value.det_cer == '') {
       this.certificadoContent = `<p>
@@ -122,6 +137,9 @@ export class FormComponent implements OnInit {
   }
 
   saveData() {
+    // console.log('VALIDO : ', this.emp_form.valid);
+    this.emp_form.enable();
+    console.log('ESTADO : ', this.estado_cur);
     if (this.emp_form.valid) {
       const formData = this.buildFormData();
       if (this.data) {
@@ -204,6 +222,7 @@ export class FormComponent implements OnInit {
     formData.append('id_cate_cur', this.emp_form.value.id_cate_cur);
     formData.append('ced_inst', this.emp_form.value.ced_inst);
     formData.append('det_cer', this.emp_form.value.det_cer);
+    formData.append('estado_cur', `${this.estado_cur === true ? 1 : 0} `);
 
     const nuevaImagen = this.archivos[0];
     if (nuevaImagen) {

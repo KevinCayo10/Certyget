@@ -67,17 +67,25 @@
       <div class="outline" style=" width: 500px">
         <mat-label>Detalle del Certificado</mat-label>
         <ejs-richtexteditor [(ngModel)]="certificadoContent" formControlName="det_cer"
-          [toolbarSettings]="toolbarSettings">
+          [toolbarSettings]="toolbarSettings" [enabled]='estado_cur === true'>
 
         </ejs-richtexteditor>
       </div>
     </div>
+
     <div class="row">
       <label for="fileInput" class="custom-upload-btn">Subir Archivo</label>
-      <input type="file" id="fileInput" (change)="capturarFile($event)" />
+      <input type="file" id="fileInput" (change)="capturarFile($event)" [disabled]="estado_cur==false" />
     </div>
     <div class="preview-container" *ngIf="previsualizacion">
       <img [src]="previsualizacion" alt="" width="250px" height="250px" class="imgp" />
+    </div>
+
+    <div class="row">
+      <div class="outline">
+        <mat-label>Estado</mat-label>
+        <mat-slide-toggle [checked]="estado_cur" color="primary" (change)="toggleChanges($event)"></mat-slide-toggle>
+      </div>
     </div>
   </div>
   <div mat-dialog-actions class="action">
