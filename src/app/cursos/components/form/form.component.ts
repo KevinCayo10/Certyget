@@ -10,6 +10,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { CursosService } from '../../services/cursos.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ToolbarSettingsModel } from '@syncfusion/ej2-angular-richtexteditor';
+import { registerLicense } from '@syncfusion/ej2-base';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+registerLicense(
+  'Ngo9BigBOggjHTQxAR8/V1NAaF5cWWZCfEx3Rnxbf1x0ZFREal5UTndZUiweQnxTdEFjWH5acHRXQGFbUkF1XA=='
+);
+
 @Component({
   selector: 'cer-form',
   templateUrl: './form.component.html',
@@ -30,12 +36,8 @@ export class FormComponent implements OnInit {
   previsualizacion!: string;
   archivos: any = [];
   detalleCursosInstructores: any = [];
-  certificadoContent = ` <p>
-            Por haber completado satisfactoriamente el diplomado de {{nom_cur}} de la categoria {{nom_cate}}
-            realizado el
-            {{fecha_inicio_cur}} con una duración de
-            {{dur_cur}}
-          </p>`;
+  certificadoContent: any;
+  estado_cur!: boolean;
   public toolbarSettings: ToolbarSettingsModel = {
     items: [
       'Bold',
@@ -49,10 +51,11 @@ export class FormComponent implements OnInit {
     ],
   };
 
-  nom_cur: any = '';
-  fecha_inicio_cur: any = '';
-  dur_cur: any = '';
-  nom_cate: any = '';
+  evento: any = '';
+  fecha_inicio: any = '';
+  duración: any = '';
+  categoria: any = '';
+  estado: any = false; // Inicializa el estado según sea necesario
 
   // Definir las etiquetas HTML permitidas
 
@@ -102,7 +105,19 @@ export class FormComponent implements OnInit {
       det_cer: [this.data?.det_cer || ''],
       url_cer: [this.data?.url_cer || ''],
     });
-
+    if (this.emp_form.value.det_cer == '') {
+      this.certificadoContent = `<p>
+            Por haber completado satisfactoriamente el diplomado de {{evento}} de la categoria {{categoria}}
+            realizado el
+            {{fecha_inicio}} con una duración de
+            {{duración}}
+          </p>`;
+    } else {
+      this.certificadoContent = this.emp_form.value.det_cer;
+    }
+    if (this.estado_cur === false) {
+      this.emp_form.disable();
+    }
     this.previsualizacion = this.data?.url_cer || '';
   }
 

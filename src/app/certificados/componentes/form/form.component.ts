@@ -77,10 +77,10 @@ export class FormComponent {
         console.log(contenidoHtml);
         this.certificadoContent = this.sanitizer.bypassSecurityTrustHtml(
           contenidoHtml
-            .replace('{{nom_cur}}', this.nom_cur)
-            .replace('{{nom_cate}}', this.nom_cate)
-            .replace('{{fecha_inicio_cur}}', this.fecha_inicio_cur)
-            .replace('{{dur_cur}}', this.dur_cur)
+            .replace('{{evento}}', this.nom_cur)
+            .replace('{{categoria}}', this.nom_cate)
+            .replace('{{fecha_inicio}}', this.fecha_inicio_cur)
+            .replace('{{duración}}', this.dur_cur)
         );
       });
   }
