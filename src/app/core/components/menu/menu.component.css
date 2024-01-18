@@ -8,8 +8,8 @@ mat-nav-list {
   height: calc(100% - 64px);
 }
 mat-list-item {
-  background: #002326;
-  border: solid 1.9px black;
+  background: rgb(255, 28, 70);
+  border: solid 1px #434343;
   padding-top: 30px;
   padding-bottom: 30px;
 }
@@ -30,7 +30,7 @@ mat-list-item span {
   font-weight: bolder;
 }
 mat-list-item:hover {
-  background: #00636a;
+  background: rgba(67, 67, 67, 0.5);
   cursor: pointer;
 }
 mat-icon {
@@ -42,11 +42,12 @@ mat-icon {
 .menu {
   width: fit-content;
   height: fit-content;
-  background: #00636a;
+  background: rgba(67, 67, 67, 0.5);
   border: none;
   font-weight: bolder;
 }
 .menu:hover,
 menu:active {
   cursor: pointer;
+  background: rgba(67, 67, 67, 0.5);
 }

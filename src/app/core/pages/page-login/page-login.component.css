@@ -12,22 +12,19 @@
   background: white;
   width: 100%; /* Ajustar según sea necesario */
   height: 100%;
-  background-color: #f0f6f7;
-}
-
-.informacion {
+  background-color: rgba(253, 183, 196, 0.2);
 }
 
 .informacion img {
-  max-width: 60%;
+  width: 20%;
   height: auto;
 }
 
 .informacion h2 {
-  font-size: 28px;
+  font-size: 30px;
   line-height: 2;
   text-align: center;
-  padding: 10px;
+  padding: 15px;
   font-family: "Roboto", sans-serif;
   font-weight: bold;
   color: rgb(0, 0, 0);
@@ -45,7 +42,7 @@
     width: 60%;
   }
   .informacion img {
-    max-width: 60%;
+    max-width: 80%;
   }
   .container {
     width: 100%;

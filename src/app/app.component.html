@@ -2,9 +2,9 @@
   <!-- Sidebar (mat-sidenav) -->
   <mat-sidenav [opened]="abrir" mode="side" *ngIf="isMenuRequired">
     <div class="logo" fxLayout fxLayoutGap="20px" fxLayoutAlign="start center">
-      <mat-icon>face</mat-icon>
+      <mat-icon svgIcon="certificado"></mat-icon>
       <!-- Título del sistema, visible solo si la variable 'expanded' es verdadera -->
-      <h3 *ngIf="expanded">Sistema de Gestión</h3>
+      <h3 *ngIf="expanded">CERTYGET - FISEI</h3>
     </div>
     <!-- Componente 'cer-menu' para mostrar el menú -->
     <cer-menu (onToggleExpanded)="toggleExpanded($event)"></cer-menu>
