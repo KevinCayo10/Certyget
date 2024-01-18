@@ -11,39 +11,22 @@
 <form (ngSubmit)="saveData()" class="form-container">
   <!-- Contenedor de Botones -->
   <div class="button-container">
-    <input
-      type="file"
+    <input type="file"
       accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-      (change)="csvImport($event)"
-      style="display: none"
-      #fileInput
-    />
+      (change)="csvImport($event)" style="display: none" #fileInput />
     <!-- Botón para descargar la plantilla CSV -->
-    <a
-      href="../../../../assets/archives/participantes.csv"
-      download="participantes.csv"
-    >
+    <a href="../../../../assets/archives/participantes.xlsx" download="participantes.xlsx">
       <button mat-raised-button type="button" class="left-button">
-        <mat-icon>cloud_download</mat-icon>Plantilla CSV
+        <mat-icon>cloud_download</mat-icon>Plantilla
       </button>
     </a>
     <!-- Botón para cargar un archivo CSV -->
-    <button
-      mat-raised-button
-      type="button"
-      class="center-button"
-      (click)="fileInput.click()"
-    >
+    <button mat-raised-button type="button" class="center-button" (click)="fileInput.click()">
       <mat-icon>cloud_upload</mat-icon> Cargar CSV
     </button>
     <!-- Botón para generar certificados -->
-    <button
-      mat-raised-button
-      color="warn"
-      type="button"
-      class="right-button"
-      (click)="registerParticipantes(); generateCertificates()"
-    >
+    <button mat-raised-button color="warn" type="button" class="right-button"
+      (click)="registerParticipantes(); generateCertificates()">
       Generar Certificados
     </button>
   </div>
@@ -58,46 +41,39 @@
     <div id="certificates-section">
       <div id="certificates-section-container" style="display: block">
         <!-- Iteración sobre los datos para mostrar certificados -->
-        <div
-          *ngFor="let row of data; let i = index"
-          class="certificate-container"
-        >
+        <div *ngFor="let row of data; let i = index" class="certificate-container">
           <div class="certificate" id="certificate-container-{{ i }}">
             <!-- Contenido del Certificado -->
-            <img
-              [src]="detalleCursosInstructores.curso.url_cer"
-              alt="Certificado"
-            />
+            <img [src]="detalleCursosInstructores.curso.url_cer" alt="Certificado" />
+            <div class="title">
+              <h1>Confiere el presente</h1>
+              <h2>CERTIFICADO</h2>
+            </div>
+
             <div class="participanteNom">
               <h2>{{ row.nom_pat_par }} {{ row.ape_pat_par }}</h2>
             </div>
-            <div
-              *ngIf="certificadoContent"
-              class="certificadoInfo"
-              [innerHTML]="certificadoContent"
-            ></div>
+            <div *ngIf="certificadoContent" class="certificadoInfo" [innerHTML]="certificadoContent"></div>
             <!-- Información Adicional en el Certificado -->
             <div class="fechaHoy">
-              <p>{{ fecha_actual }}</p>
+              <p>Ambato, {{ fecha_actual }}</p>
             </div>
             <!-- Firma de Instructores -->
             <div class="container_firmas">
-              <div
-                class="block_firma"
-                *ngFor="
+              <div class="block_firma" *ngFor="
                   let instructor of detalleCursosInstructores.instructores
-                "
-              >
-                <img [src]="instructor.url_firma" alt="Firma" />
+                ">
+                <img [src]="instructor.url_firma" alt="Firma" class="firma_img" />
                 <h3 class="nombre_firma">
-                  {{ instructor.nom_pat_inst }} {{ instructor.ape_pat_inst }}
+                  Ing. {{ instructor.nom_pat_inst }} {{ instructor.ape_pat_inst }}
                 </h3>
                 <p class="puesto_firma">{{ instructor.puesto_inst }}</p>
               </div>
             </div>
             <div>
               <p class="codigo">
-                {{ detalleCursosInstructores.curso.id_cur }}{{ row.ced_par }}
+                Para verificar la autenticidad del certificado utilice el código: <span>{{
+                  detalleCursosInstructores.curso.id_cur }}{{ row.ced_par }}</span>
               </p>
             </div>
           </div>

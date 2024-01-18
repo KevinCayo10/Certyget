@@ -98,6 +98,7 @@ export class PageListComponent implements OnInit {
     this.snackBar.open(message, action, {
       duration: duration,
       verticalPosition: 'top',
+      panelClass: ['success-snackbar'],
     });
   }
 }

@@ -82,6 +82,10 @@ export class FormComponent {
   // Método para mostrar un mensaje en la interfaz usando el servicio SnackBar
 
   showMessage(message: string, duration: number = 5000, action: string = 'Ok') {
-    this.snackBar.open(message, action, { duration, verticalPosition: 'top' });
+    this.snackBar.open(message, action, {
+      duration,
+      verticalPosition: 'top',
+      panelClass: ['success-snackbar'],
+    });
   }
 }

@@ -221,7 +221,11 @@ export class FormComponent implements OnInit {
     });
   // Mostrar mensaje en el snackbar
   showMessage(message: string, duration: number = 5000, action: string = 'Ok') {
-    this.snackBar.open(message, action, { duration, verticalPosition: 'top' });
+    this.snackBar.open(message, action, {
+      duration,
+      verticalPosition: 'top',
+      panelClass: ['success-snackbar'],
+    });
   }
   // Construir FormData con los datos del formulario
   buildFormData(): FormData {
