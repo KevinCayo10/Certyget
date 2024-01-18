@@ -3,8 +3,8 @@ mat-sidenav-content {
 }
 
 mat-sidenav {
-  max-width: 280px;
-  background: #00636a;
+  max-width: 290px;
+  background: rgb(255, 28, 70);
   border: none;
 }
 
