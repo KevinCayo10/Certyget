@@ -80,6 +80,10 @@ export class FormComponent {
   }
   // Método para mostrar un mensaje emergente
   showMessage(message: string, duration: number = 5000, action: string = 'Ok') {
-    this.snackBar.open(message, action, { duration, verticalPosition: 'top' });
+    this.snackBar.open(message, action, {
+      duration,
+      verticalPosition: 'top',
+      panelClass: ['success-snackbar'], // Aplica la clase de estilo personalizado
+    });
   }
 }

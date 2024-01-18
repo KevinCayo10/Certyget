@@ -130,7 +130,11 @@ export class FormComponent implements OnInit {
   }
   // Método para mostrar mensajes en un Snackbar
   showMessage(message: string, duration: number = 5000, action: string = 'Ok') {
-    this.snackBar.open(message, action, { duration, verticalPosition: 'top' });
+    this.snackBar.open(message, action, {
+      duration,
+      verticalPosition: 'top',
+      panelClass: ['success-snackbar'],
+    });
   }
   // Método para capturar el archivo seleccionado por el usuario
   capturarFile(event: any): void {

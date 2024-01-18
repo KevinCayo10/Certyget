@@ -20,3 +20,9 @@ body {
 @import "../node_modules/@syncfusion/ej2-navigations/styles/material.css";
 @import "../node_modules/@syncfusion/ej2-popups/styles/material.css";
 @import "../node_modules/@syncfusion/ej2-richtexteditor/styles/material.css";
+.success-snackbar {
+  --mdc-snackbar-container-color: rgba(231, 231, 231, 0.897) !important;
+  --mdc-snackbar-supporting-text-color: rgb(0, 109, 45) !important;
+  --mat-mdc-snack-bar-button-color: rgba(10, 128, 49, 0.651) !important;
+  white-space: pre-wrap;
+}

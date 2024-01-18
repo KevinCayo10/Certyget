@@ -204,7 +204,11 @@ export class FormComponent {
   }
   // Método para mostrar mensajes con Snackbar
   showMessage(message: string, duration: number = 5000, action: string = 'Ok') {
-    this.snackBar.open(message, action, { duration, verticalPosition: 'top' });
+    this.snackBar.open(message, action, {
+      duration,
+      verticalPosition: 'top',
+      panelClass: ['success-snackbar'],
+    });
   }
   // Método para cambiar la página en la tabla paginada
   changePage(page: number) {
