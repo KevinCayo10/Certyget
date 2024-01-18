@@ -55,6 +55,32 @@
   color: black;
   font-size: 14px;
 }
+
+.certificate .title {
+  position: absolute;
+  top: 30%; /* Ajusta la posición vertical al 50% del contenedor */
+  left: 50%; /* Ajusta la posición horizontal al 50% del contenedor */
+  transform: translate(-50%, -50%); /* Centra el contenido */
+  width: auto;
+  height: fit-content;
+  text-align: center;
+}
+
+.certificate .title h1 {
+  font-family: "Roboto";
+  font-size: 28px;
+  font-weight: 200;
+  margin: 0;
+  padding: 0.2em;
+}
+.certificate .title h2 {
+  font-family: "Roboto";
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0;
+  padding: 0.2em;
+}
+
 .certificate .participanteNom {
   position: absolute;
   top: 40%;
@@ -64,7 +90,7 @@
 }
 .certificate .participanteNom h2 {
   font-family: "Pinyon Script", cursive;
-  font-size: 64px;
+  font-size: 56px;
   font-weight: bold;
   text-align: center;
   text-decoration: underline;
@@ -102,7 +128,7 @@
   align-content: center;
   justify-content: space-around;
   position: absolute;
-  top: 65%;
+  top: 70%;
   left: 10%;
 }
 
@@ -112,24 +138,29 @@
 }
 
 .block_firma img {
-  position: relative;
-  width: 100px;
-  height: auto;
+  width: 100px; /* Tamaño deseado */
+  height: 100px; /* Tamaño deseado */
+  object-fit: cover; /* Ajusta la imagen dentro del tamaño especificado */
   margin: 0;
   padding: 0;
   line-height: 0.5;
 }
+
 .nombre_firma {
   font-weight: bold;
-  margin-bottom: 3px; /* Reducir aún más el margen inferior del h2 */
+  font-family: "Roboto";
+
+  margin-bottom: 1px; /* Ajusta la distancia entre nombre y puesto */
 }
 
 .puesto_firma {
   font-size: 12px;
   text-align: center;
   letter-spacing: 0.01em;
+  font-family: "Roboto";
+
   margin: 0;
-  line-height: 13px;
+  line-height: 11px; /* Ajusta la altura de línea para reducir el espacio vertical */
 }
 
 /* Agrega cualquier estilo adicional necesario */
@@ -162,15 +193,17 @@
 .certificadoInfo {
   position: absolute;
   top: 50%;
-  left: 25%;
+  left: 15%;
   height: fit-content;
-  width: 50%;
+  width: 70%;
   align-items: center;
   padding-top: 10px;
+  text-align: center;
   /* background-color: green; */
 }
 .certificadoInfo p {
-  font-size: 12px;
+  font-size: 15px;
+  font-family: "Roboto";
   text-align: justify;
   letter-spacing: 001px;
   margin: 0; /* Elimina el margen predeterminado del p */
@@ -178,23 +211,24 @@
 }
 .fechaHoy {
   position: absolute;
-  width: 100%;
+  width: auto;
   height: fit-content;
-  top: 60%;
+  top: 66%;
   align-content: center;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  /* background-color: yellow; */
+  right: 15%;
 }
 
 .fechaHoy p {
-  font-size: 12px;
+  font-size: 14px;
   text-align: center; /* Centrar horizontalmente el texto */
   letter-spacing: 0.01em; /* Ajuste en el espaciado de las letras */
   margin: 0;
   line-height: 13px;
+  padding: 5px;
+  font-weight: bold;
+  font-style: italic;
 }
 
 .codigo {
@@ -202,8 +236,13 @@
   width: auto;
   height: fit-content;
   bottom: 1px;
-  left: 10px;
+  left: 25%;
   font-size: 12px;
   text-align: justify;
+  font-style: italic;
   /* background-color: yellow; */
+}
+
+.codigo span {
+  font-weight: bold;
 }
