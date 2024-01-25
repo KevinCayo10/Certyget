@@ -128,7 +128,9 @@ export class FormComponent {
     Promise.all(promises)
       .then(() => {
         console.log('Todos los certificados fueron procesados con éxito');
+        this.showMessage('Todos los certificados fueron procesados con éxito');
 
+        this.reference.close();
         if (certificatesContainer) {
           certificatesContainer.style.display = 'none';
         }
@@ -141,8 +143,6 @@ export class FormComponent {
         }
       });
   }
-  // Método para guardar datos (a implementar)
-  saveData() {}
   // Método para guardar o enviar imagen del certificado
   private saveOrSendImage(
     imageDataURL: string,
@@ -166,8 +166,8 @@ export class FormComponent {
       this.certificadoService.addCertificados(formData).subscribe(
         (response) => {
           console.log(response);
+          this.showMessage('Registro exitoso del certificado');
           resolve();
-          this.reference.close();
         },
         (error) => {
           console.error('Error al guardar el certificado como imagen:', error);
@@ -195,7 +195,6 @@ export class FormComponent {
     this.certificadoService.addParticipantes(this.data).subscribe(
       (response) => {
         console.log(response);
-        this.showMessage('Registro ingresado correctamente');
       },
       (err) => {
         this.showMessage(err.error.message);
