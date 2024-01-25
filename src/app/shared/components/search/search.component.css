@@ -1,0 +1,16 @@
+.container {
+  width: auto;
+}
+
+.form-inline {
+  display: flex;
+}
+
+.form-control {
+  width: 90%;
+  height: 56px;
+}
+
+.input-group {
+  display: flex;
+}

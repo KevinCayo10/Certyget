@@ -1,0 +1,11 @@
+<div class="container mat-form-field-wrapper">
+  <form [formGroup]="formulario" (ngSubmit)="buscar()" class="mat-form-field form-inline">
+    <mat-form-field class="form-group">
+      <mat-label>{{placeholder}}</mat-label>
+      <input matInput type="text" formControlName="terminoBusqueda">
+      <button mat-button matSuffix type="submit">
+        <mat-icon svgIcon="search"></mat-icon>
+      </button>
+    </mat-form-field>
+  </form>
+</div>
