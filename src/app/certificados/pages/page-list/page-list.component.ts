@@ -16,7 +16,7 @@ export class PageListComponent {
   // Propiedades públicas del componente
   public selectedCursoId: any;
   public selectedCursoNom!: string;
-
+  placeholder: any = 'Cédula, apellido o email';
   data: any[] = [];
   cursos: any[] = [];
   //COLUMNAS DE LA TABLA
@@ -39,12 +39,18 @@ export class PageListComponent {
     private certificadosService: CertificadosService
   ) {
     this.loadCursos();
-    this.loadCertificados('');
+    this.loadCertificados('', '');
+    console.log('constructor');
+  }
+  ngOnInit(): void {
+    console.log('ngOnInit');
+    sessionStorage.removeItem('selectedCursoId');
+    sessionStorage.removeItem('selectedCursoNom');
   }
   // Método para cambiar la página en la paginación
   changePage(page: number) {
     this.currentPage = page;
-    this.loadCertificados(this.selectedCursoId);
+    this.loadCertificados(this.selectedCursoId, '');
   }
   // Método para cargar la lista de cursos desde el servicio
   loadCursos() {
@@ -53,19 +59,10 @@ export class PageListComponent {
     });
   }
   // Método para cargar la lista de certificados según el curso seleccionado
-  loadCertificados(id_cur: any) {
-    if (id_cur === '') {
-      this.certificadosService.loadCertificados().subscribe((response) => {
-        this.totalRecords = response.data.length;
-        this.data = this.paginateData(
-          response.data,
-          this.currentPage,
-          this.pageSize
-        );
-      });
-    } else {
+  loadCertificados(id_cur: any, search: any) {
+    if (id_cur || search.length > 0) {
       this.certificadosService
-        .loadCertificadosByCursos(id_cur)
+        .loadSearchCertificados(search, id_cur)
         .subscribe((response) => {
           this.totalRecords = response.data.length;
           this.data = this.paginateData(
@@ -74,6 +71,15 @@ export class PageListComponent {
             this.pageSize
           );
         });
+    } else {
+      this.certificadosService.loadCertificados().subscribe((response) => {
+        this.totalRecords = response.data.length;
+        this.data = this.paginateData(
+          response.data,
+          this.currentPage,
+          this.pageSize
+        );
+      });
     }
   }
   // Método para paginar los datos según la página actual y tamaño de página
@@ -85,7 +91,7 @@ export class PageListComponent {
   // Método para manejar el cambio en la selección de cursos
   onCursoSelectionChange(selectedValue: any): void {
     console.log('Curso seleccionado:', selectedValue);
-    this.loadCertificados(selectedValue);
+    this.loadCertificados(selectedValue, '');
 
     const selectedCurso = this.cursos.find(
       (curso) => curso.id_cur === selectedValue
@@ -100,12 +106,19 @@ export class PageListComponent {
   // Método para eliminar un certificado
   delete(id: string) {
     this.certificadosService.deleteCertificados(id).subscribe((response) => {
-      this.loadCertificados(this.selectedCursoId);
+      this.loadCertificados(this.selectedCursoId, '');
     });
   }
   // Método para realizar una acción (abrir formulario)
   doAction(): void {
     this.openForm();
+  }
+
+  buscarData(searchData: any) {
+    console.log(searchData);
+    const id_cur_select = sessionStorage.getItem('selectedCursoId');
+    this.loadCertificados(id_cur_select, searchData.terminoBusqueda);
+    console.log('ID_CUR_SELE', id_cur_select);
   }
   // Método para abrir el formulario
   openForm(row: any = null) {
@@ -122,7 +135,11 @@ export class PageListComponent {
       FormComponent,
       options
     );
-    reference.afterClosed().subscribe((response) => {});
+    reference.afterClosed().subscribe((response) => {
+      const id_cur_select = sessionStorage.getItem('selectedCursoId');
+      console.log('AFTER CLOSE : ', id_cur_select);
+      this.loadCertificados(id_cur_select, '');
+    });
   }
   // Método para abrir el certificado en una nueva ventana
   openCertificate(url: string): void {

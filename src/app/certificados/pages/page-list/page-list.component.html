@@ -14,13 +14,15 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <cer-search (buscadorEnviado)="buscarData($event)" [placeholder]="placeholder"></cer-search>
       <!-- Botón para realizar alguna acción -->
-      <button mat-flat-button class="custom-button" (click)="doAction()">
+      <button mat-flat-button class="custom-button" (click)="doAction()" [disabled]="!selectedCursoId">
         <span>
           Participantes
           <mat-icon><span class="material-icons">accessibility</span></mat-icon>
         </span>
       </button>
+
     </div>
     <!-- Tabla de datos -->
     <cer-table [data]="data" [metaDataColumns]="metaDataColumns">
