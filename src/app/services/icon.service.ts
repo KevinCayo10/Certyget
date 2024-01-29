@@ -27,6 +27,11 @@ export class IconService {
     { name: 'firmas', path: './../../assets/imagenes/firmas.svg' },
     { name: 'certificado', path: './../../assets/imagenes/certificado.svg' },
     { name: 'search', path: './../../assets/imagenes/search.svg' },
+    { name: 'restart', path: './../../assets/imagenes/restart.svg' },
+    {
+      name: 'search_delete',
+      path: './../../assets/imagenes/search_delete.svg',
+    },
   ];
   constructor(
     private matIconRegistry: MatIconRegistry,
