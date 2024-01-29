@@ -2,19 +2,32 @@
 <cer-container>
   <!-- Contenedor con barra de desplazamiento -->
   <ng-scrollbar class="heightMaxScrollBar">
+    <div>
+
+    </div>
     <!-- Contenido del componente -->
     <div class="botones">
       <!-- Selector de cursos -->
-      <mat-form-field class="outline cursos">
-        <mat-label>Evento académico</mat-label>
-        <mat-select formControlName="id_cate_cur" placeholder="Seleccionar un evento académico"
-          (selectionChange)="onCursoSelectionChange($event.value)">
-          <mat-option *ngFor="let curso of cursos" [value]="curso.id_cur">
-            {{ curso.nom_cur }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <cer-search (buscadorEnviado)="buscarData($event)" [placeholder]="placeholder"></cer-search>
+      <div class="custom_filter">
+        <cer-search (buscadorEnviado)="buscarData($event)" [placeholder]="placeholder"
+          (reset)="clearFilter()"></cer-search>
+
+        <form [formGroup]="formulario">
+          <mat-form-field class="outline cursos">
+            <mat-label>Evento académico</mat-label>
+            <mat-select formControlName="id_cate_cur" placeholder="Seleccionar un evento académico"
+              (selectionChange)="onCursoSelectionChange($event.value)">
+              <mat-option *ngFor="let curso of cursos" [value]="curso.id_cur">
+                {{ curso.nom_cur }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </form>
+        <button mat-button matSuffix type="submit" class="custom-restart" *ngIf="selectedCursoId ||searchAny"
+          (click)="clearFilter()">
+          Limpiar
+        </button>
+      </div>
       <!-- Botón para realizar alguna acción -->
       <button mat-flat-button class="custom-button" (click)="doAction()" [disabled]="!selectedCursoId">
         <span>
