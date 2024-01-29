@@ -1,16 +1,9 @@
 .container {
   width: auto;
 }
-
-.form-inline {
-  display: flex;
+.form-group {
+  width: 333px;
 }
-
-.form-control {
-  width: 90%;
-  height: 56px;
-}
-
-.input-group {
-  display: flex;
+mat-icon {
+  color: #434343;
 }
