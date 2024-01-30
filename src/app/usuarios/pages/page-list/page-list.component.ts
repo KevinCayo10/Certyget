@@ -20,8 +20,8 @@ export class PageListComponent {
   metaDataColumns: MetaDataColumn[] = [
     { field: 'id_usu', title: 'ID' },
     { field: 'user_usu', title: 'Usuario' },
-    { field: 'pass_usu', title: 'Contraseña' },
-    { field: 'rol_usu', title: 'Rol' },
+    /* { field: 'pass_usu', title: 'Contraseña' },
+    { field: 'rol_usu', title: 'Rol' }, */
   ];
   // Arreglo que almacena información sobre roles
   rol: any[] = [];

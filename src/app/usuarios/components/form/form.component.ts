@@ -51,7 +51,11 @@ export class FormComponent {
   loadForm() {
     this.emp_form = this.formBuilder.group({
       id_usu: new FormControl(this.data?.id_usu),
-      user_usu: new FormControl(this.data?.user_usu, Validators.required),
+      user_usu: new FormControl(this.data?.user_usu, [
+        Validators.required,
+        Validators.email,
+        Validators.pattern('[a-z0-9._%+-]+@uta.edu.ec'),
+      ]),
       pass_usu: new FormControl('', Validators.required),
       rol_usu: new FormControl(this.data?.rol_usu, Validators.required),
     });
@@ -85,5 +89,19 @@ export class FormComponent {
       verticalPosition: 'top',
       panelClass: ['success-snackbar'], // Aplica la clase de estilo personalizado
     });
+  }
+  // Método para obtener mensajes de error personalizados
+  getErrorMessage() {
+    const userControl = this.emp_form.get('user_usu');
+    if (userControl?.hasError('required')) {
+      return 'Este campo es requerido';
+    }
+    if (userControl?.hasError('email')) {
+      return 'Ingresa un correo electrónico valido.';
+    }
+    if (userControl?.hasError('pattern')) {
+      return 'El dominio debe ser @uta.edu.ec';
+    }
+    return '';
   }
 }
