@@ -37,6 +37,12 @@ export class CursosService {
       `${this.myAppUrl}${this.myApiUrlCursos}`
     );
   }
+
+  loadCursosByName(nom_cur: any): Observable<{ success: number; data: any[] }> {
+    return this.http.get<{ success: number; data: any[] }>(
+      `${this.myAppUrl}${this.myApiUrlCursos}search/${nom_cur}`
+    );
+  }
   // Método para agregar cursos enviando datos mediante POST
   addCursos(formData: FormData): Observable<{ success: number; data: any }> {
     return this.http.post<{ success: number; data: any }>(

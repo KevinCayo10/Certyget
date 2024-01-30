@@ -4,6 +4,14 @@
 <cer-container>
   <!-- Barra de desplazamiento personalizada -->
   <ng-scrollbar class="heightMaxScrollBar">
+
+    <div>
+      <cer-search (buscadorEnviado)="buscarData($event)" [placeholder]="placeholder"
+        (reset)="clearFilter()"></cer-search>
+      <button mat-button matSuffix type="submit" class="custom-restart" *ngIf="search" (click)="clearFilter()">
+        Limpiar
+      </button>
+    </div>
     <!-- Componente de tabla con datos y metadatos de columnas -->
     <cer-table [data]="data" [metaDataColumns]="metaDataColumns">
       <!-- Definición de columna para acciones en la tabla -->

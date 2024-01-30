@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { KeypadButton } from 'src/app/shared/interfaces/keypadbutton.interface';
 import { MetaDataColumn } from 'src/app/shared/interfaces/metacolumn.interfaces';
@@ -7,6 +7,7 @@ import { FormComponent } from '../../components/form/form.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CursosService } from '../../services/cursos.service';
 import { Cursos } from '../../models/cursos.models';
+import { SearchComponent } from 'src/app/shared/components/search/search.component';
 
 @Component({
   selector: 'cer-page-list',
@@ -14,6 +15,9 @@ import { Cursos } from '../../models/cursos.models';
   styleUrls: ['./page-list.component.css'],
 })
 export class PageListComponent {
+  @ViewChild(SearchComponent) cerSearchComponent!: SearchComponent;
+  public placeholder: any = 'Nombre del evento académico';
+  search: any;
   // Propiedades del componente
   data: any[] = [];
   metaDataColumns: MetaDataColumn[] = [
@@ -37,35 +41,35 @@ export class PageListComponent {
     private cursosService: CursosService,
     private snackBar: MatSnackBar
   ) {
-    this.loadCursos();
+    this.loadCursos('');
   }
   // Método para cambiar la página de resultados
   changePage(page: number) {
     const pageSize = environment.PAGE_SIZE;
     const skip = pageSize * page;
-    this.cursosService.loadCursos().subscribe({
-      next: (res) => {
-        // Si el backend ya maneja la paginación, ajuste la llamada para pasar `page` y `pageSize`.
-        this.data = res.data.slice(skip, skip + pageSize);
-        this.totalRecords = res.data.length;
-      },
-      error: (err) => this.showMessage('Error al cargar las categorías'),
-    });
   }
   // Método para cargar los cursos desde el servicio
-  loadCursos() {
-    this.cursosService.loadCursos().subscribe((response) => {
-      /*this.data = this.registros;
-      this.totalRecords = this.data.length;
-      this.changePage(0);
-      console.log(this.data);*/
-      if (response.success == 1) {
-        this.data = response.data;
-        this.totalRecords = this.data.length;
-        this.changePage(0);
-        console.log('aqui esta cargando la data: ', this.data);
-      }
-    });
+  loadCursos(search: any) {
+    console.log('SEARCH : ', search);
+    if (search == '' || search == null) {
+      this.cursosService.loadCursos().subscribe((response) => {
+        if (response.success == 1) {
+          this.data = response.data;
+          this.totalRecords = this.data.length;
+          this.changePage(0);
+          console.log('aqui esta cargando la data: ', this.data);
+        }
+      });
+    } else {
+      this.cursosService.loadCursosByName(search).subscribe((response) => {
+        if (response.success == 1) {
+          this.data = response.data;
+          this.totalRecords = this.data.length;
+          this.changePage(0);
+          console.log('DATA DEL SEARCH: ', this.data);
+        }
+      });
+    }
   }
   // Método para realizar acciones según el botón presionado
   doAction(action: string) {
@@ -96,15 +100,26 @@ export class PageListComponent {
       options
     );
     reference.afterClosed().subscribe((response) => {
-      this.loadCursos();
+      this.loadCursos('');
     });
+  }
+
+  buscarData(search: any) {
+    this.search = search.terminoBusqueda;
+    this.loadCursos(this.search);
+  }
+
+  clearFilter() {
+    this.cerSearchComponent.resetComponent();
+    this.search = null;
+    this.loadCursos('');
   }
   // Método para eliminar un curso
   delete(id: number) {
     this.cursosService.deleteCurso(id).subscribe({
       next: (res) => {
         this.showMessage('Curso eliminado correctamente');
-        this.loadCursos();
+        this.loadCursos('');
       },
       error: (err) => this.showMessage('Error al eliminar el curso'),
     });
