@@ -10,6 +10,8 @@ export class SearchComponent {
   formulario!: FormGroup;
   @Output() buscadorEnviado: EventEmitter<any> = new EventEmitter();
   @Input() placeholder: any;
+  @Output() reset = new EventEmitter<void>();
+
   ngOnInit(): void {
     this.cargarFormulario();
   }
@@ -24,5 +26,9 @@ export class SearchComponent {
       const formData = this.formulario.value;
       this.buscadorEnviado.emit(formData);
     }
+  }
+  resetComponent() {
+    // Restablecer cualquier estado interno o valores aquí
+    this.formulario.reset();
   }
 }

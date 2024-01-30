@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MetaDataColumn } from 'src/app/shared/interfaces/metacolumn.interfaces';
 import { environment } from 'src/environments/environment.development';
@@ -6,6 +6,8 @@ import { CursosService } from 'src/app/cursos/services/cursos.service';
 import { CertificadosService } from '../../services/certificados.service';
 import { FormComponent } from '../../componentes/form/form.component';
 import { DomSanitizer } from '@angular/platform-browser';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { SearchComponent } from 'src/app/shared/components/search/search.component';
 
 @Component({
   selector: 'cer-page-list',
@@ -14,8 +16,11 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class PageListComponent {
   // Propiedades públicas del componente
+  @ViewChild(SearchComponent) cerSearchComponent!: SearchComponent;
+
   public selectedCursoId: any;
   public selectedCursoNom!: string;
+  public searchAny: any;
   placeholder: any = 'Cédula, apellido o email';
   data: any[] = [];
   cursos: any[] = [];
@@ -26,24 +31,27 @@ export class PageListComponent {
     { field: 'ced_par', title: 'CEDULA PARTICIPANTE' },
     { field: 'email_par', title: 'EMAIL PARTICIPANTE' },
     { field: 'url_gen_cer', title: 'CERTIFICADO' },
-    { field: 'estado_cer', title: 'ESTADO' },
+    // { field: 'estado_cer', title: 'ESTADO' },
   ];
 
   totalRecords = 0;
   currentPage = 0;
   pageSize = environment.PAGE_SIZE;
+  formulario!: FormGroup;
 
   constructor(
     private dialog: MatDialog,
     private cursosService: CursosService,
-    private certificadosService: CertificadosService
+    private certificadosService: CertificadosService,
+    private fb: FormBuilder
   ) {
     this.loadCursos();
     this.loadCertificados('', '');
-    console.log('constructor');
   }
   ngOnInit(): void {
-    console.log('ngOnInit');
+    this.formulario = this.fb.group({
+      id_cate_cur: [null],
+    });
     sessionStorage.removeItem('selectedCursoId');
     sessionStorage.removeItem('selectedCursoNom');
   }
@@ -115,14 +123,13 @@ export class PageListComponent {
   }
 
   buscarData(searchData: any) {
-    console.log(searchData);
+    this.searchAny = searchData.terminoBusqueda;
     const id_cur_select = sessionStorage.getItem('selectedCursoId');
     this.loadCertificados(id_cur_select, searchData.terminoBusqueda);
     console.log('ID_CUR_SELE', id_cur_select);
   }
   // Método para abrir el formulario
   openForm(row: any = null) {
-    console.log('Datos que se pasan al FormComponent:', row);
     const options = {
       panelClass: 'panel-container',
       disableClose: true,
@@ -137,9 +144,16 @@ export class PageListComponent {
     );
     reference.afterClosed().subscribe((response) => {
       const id_cur_select = sessionStorage.getItem('selectedCursoId');
-      console.log('AFTER CLOSE : ', id_cur_select);
       this.loadCertificados(id_cur_select, '');
     });
+  }
+
+  clearFilter() {
+    this.formulario.reset();
+    this.cerSearchComponent.resetComponent();
+    this.searchAny = null;
+    this.selectedCursoId = null;
+    this.loadCertificados('', '');
   }
   // Método para abrir el certificado en una nueva ventana
   openCertificate(url: string): void {

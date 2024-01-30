@@ -37,7 +37,6 @@ export class FormComponent {
     { field: 'ape_pat_par', title: '1ER APELLIDO' },
     { field: 'ape_mat_par', title: '2DO APELLIDO' },
     { field: 'email_par', title: 'EMAIL' },
-    { field: 'telf_par', title: 'TELEFONO' },
   ];
 
   constructor(
