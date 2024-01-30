@@ -22,9 +22,9 @@ export class PageListComponent {
     { field: 'nom_mat_inst', title: 'Nombre Materno' },
     { field: 'ape_pat_inst', title: 'Apellido Paterno' },
     { field: 'ape_mat_inst', title: 'Apellido Materno' },
-    { field: 'telf_inst', title: 'Teléfono' },
+    /* { field: 'telf_inst', title: 'Teléfono' },
     { field: 'dir_inst', title: 'Dirección' },
-    { field: 'ciud_inst', title: 'Ciudad' },
+    { field: 'ciud_inst', title: 'Ciudad' }, */
     { field: 'tit_inst', title: 'Título' },
     { field: 'puesto_inst', title: 'Puesto' },
     { field: 'url_firma', title: 'URL Firma' },
