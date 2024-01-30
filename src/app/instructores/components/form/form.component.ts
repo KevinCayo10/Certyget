@@ -9,7 +9,11 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { InstructoresService } from '../../services/instructores.service';
-
+import { Observable } from 'rxjs';
+interface GrupoTitulo {
+  name: string;
+  titulo: { value: string; viewValue: string }[];
+}
 @Component({
   selector: 'cer-form',
   templateUrl: './form.component.html',
@@ -23,10 +27,28 @@ export class FormComponent implements OnInit {
   title = '';
   isEdit: boolean = false;
   puestos: string[] = [
-    'Decano',
-    'Coordinador de Carrera',
-    'Docente',
-    'Coordinador de Unidad de Investigación',
+    'DECANO/A',
+    'SUBDECANO/A',
+    'COORDINADOR/A',
+    'DOCENTE',
+    'UODIDE',
+  ];
+  tituloGrupo: GrupoTitulo[] = [
+    {
+      name: 'Tercer Nivel',
+      titulo: [
+        { value: 'Ing.', viewValue: 'Ingeniero/a' },
+        { value: 'Tnlgo.', viewValue: 'Tecnólogo/a' },
+        { value: 'Lic.', viewValue: 'Licenciado/a' },
+      ],
+    },
+    {
+      name: 'Cuarto Nivel',
+      titulo: [
+        { value: 'Mgtr.', viewValue: 'Magister' },
+        { value: 'PhD.', viewValue: 'Doctor/a' },
+      ],
+    },
   ];
 
   constructor(
@@ -46,14 +68,15 @@ export class FormComponent implements OnInit {
   // Método para cargar el formulario
   loadForm() {
     this.emp_form = this.formBuilder.group({
-      ced_inst: [this.data?.ced_inst || '', Validators.required],
+      ced_inst: [
+        this.data?.ced_inst || '',
+        Validators.required,
+        this.validateCedula.bind(this),
+      ],
       nom_pat_inst: [this.data?.nom_pat_inst || '', Validators.required],
-      nom_mat_inst: [this.data?.nom_mat_inst || '', Validators.required],
+      nom_mat_inst: [this.data?.nom_mat_inst || ''],
       ape_pat_inst: [this.data?.ape_pat_inst || '', Validators.required],
-      ape_mat_inst: [this.data?.ape_mat_inst || '', Validators.required],
-      telf_inst: [this.data?.telf_inst || '', Validators.required],
-      dir_inst: [this.data?.dir_inst || '', Validators.required],
-      ciud_inst: [this.data?.ciud_inst || '', Validators.required],
+      ape_mat_inst: [this.data?.ape_mat_inst || ''],
       tit_inst: [this.data?.tit_inst || '', Validators.required],
       puesto_inst: [this.data?.puesto_inst || '', Validators.required],
       url_firma: [this.data?.url_firma || ''],
@@ -61,6 +84,54 @@ export class FormComponent implements OnInit {
 
     this.previsualizacion = this.data?.url_firma || '';
   }
+  validateCedula(control: FormControl): Promise<any> | Observable<any> {
+    return new Promise<any>((resolve, reject) => {
+      const cedula = control.value;
+      if (!/^\d+$/.test(cedula) || cedula.length !== 10) {
+        resolve({ required: true });
+      } else {
+        const digitos = cedula.split('').map(Number);
+        if (
+          digitos[0] < 0 ||
+          digitos[0] > 24 ||
+          digitos[2] > 5 ||
+          digitos[9] !== this.obtenerDigitoVerificador(digitos)
+        ) {
+          resolve({ invalidCedula: true });
+        } else if (new Set(digitos).size === 1) {
+          resolve({ invalidCedula: true });
+        } else {
+          resolve(null);
+        }
+      }
+    });
+  }
+
+  obtenerDigitoVerificador(digitos: number[]): number {
+    const coeficientes = [2, 1, 2, 1, 2, 1, 2, 1, 2];
+    let suma = 0;
+
+    for (let i = 0; i < coeficientes.length; i++) {
+      const producto = digitos[i] * coeficientes[i];
+      suma += producto > 9 ? producto - 9 : producto;
+    }
+
+    const residuo = suma % 10;
+    return residuo === 0 ? 0 : 10 - residuo;
+  }
+
+  getErrorMessage() {
+    console.log(
+      'Cédula invalida:',
+      this.emp_form.get('ced_inst')?.hasError('invalidCedula')
+    );
+    return this.emp_form.get('ced_inst')?.hasError('required')
+      ? 'Campo requerido'
+      : this.emp_form.get('ced_inst')?.hasError('invalidCedula')
+      ? 'Cédula inválida'
+      : '';
+  }
+
   // Método para guardar los datos del formulario
   saveData() {
     if (this.emp_form.valid) {
@@ -136,9 +207,35 @@ export class FormComponent implements OnInit {
       panelClass: ['success-snackbar'],
     });
   }
+  showMessageError(
+    message: string,
+    duration: number = 5000,
+    action: string = 'Ok'
+  ) {
+    this.snackBar.open(message, action, {
+      duration, // Establecer la duración aquí
+      verticalPosition: 'top',
+      panelClass: ['error-snackbar'],
+    });
+  }
+
   // Método para capturar el archivo seleccionado por el usuario
   capturarFile(event: any): void {
     const archivoCapturado = event.target.files[0];
+
+    // Verificar la extensión del archivo
+    if (!archivoCapturado.name.toLowerCase().endsWith('.png')) {
+      this.showMessageError(
+        'Archivo no soportado',
+        archivoCapturado.name.toLowerCase
+      );
+      // Mostrar un mensaje de error o realizar alguna acción apropiada
+      console.error('Solo se permiten archivos con extensión .png');
+      return;
+    }
+    this.showMessage('Archivo cargado correctamente');
+
+    // Continuar con el procesamiento del archivo
     this.extraerBase64(archivoCapturado).then((imagen: any) => {
       this.previsualizacion = imagen.base;
       console.log(imagen);
@@ -175,4 +272,12 @@ export class FormComponent implements OnInit {
         });
       }
     });
+  // Método para manejar el evento keypress en el input de cédula
+  onCedulaKeyPress(event: KeyboardEvent) {
+    const pattern = /[0-9]/;
+    const inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar)) {
+      event.preventDefault();
+    }
+  }
 }
