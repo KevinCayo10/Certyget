@@ -17,11 +17,20 @@
         <mat-label>Usuario</mat-label>
         <input
           matInput
-          type="text"
-          placeholder="Nombre de usuario"
+          type="email"
+          placeholder="Correo electrónico"
           formControlName="user_usu"
         />
         <mat-icon matSuffix>account_box</mat-icon>
+        <mat-error
+          *ngIf="
+            emp_form.get('user_usu')?.invalid &&
+            (emp_form.get('user_usu')?.dirty ||
+              emp_form.get('user_usu')?.touched)
+          "
+        >
+          {{ getErrorMessage() }}
+        </mat-error>
       </mat-form-field>
     </div>
 
