@@ -12,27 +12,27 @@ export class MenuService {
   // Lista privada de elementos de menú, cada uno representado por la interfaz IMenu
   private listMenu: IMenu[] = [
     {
-      title: 'Categorías',
+      title: 'CATEGORIAS',
       url: '/categorias',
       icon: 'categorias',
     },
     {
-      title: 'Certificados',
+      title: 'CERTIFICADOS',
       url: '/certificados',
       icon: 'certificados',
     },
     {
-      title: 'Eventos académicos',
+      title: 'EVENTOS ACADEMICOS',
       url: '/cursos',
       icon: 'cursos',
     },
     {
-      title: 'Firmas',
+      title: 'FIRMAS',
       url: '/instructores',
       icon: 'firmas',
     },
     {
-      title: 'Usuarios',
+      title: 'USUARIOS',
       url: '/usuarios',
       icon: 'usuarios',
     },

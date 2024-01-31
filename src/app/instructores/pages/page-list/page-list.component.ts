@@ -18,16 +18,16 @@ export class PageListComponent {
   // Metadatos para las columnas de la tabla
   metaDataColumns: MetaDataColumn[] = [
     { field: 'ced_inst', title: 'Cédula' },
-    { field: 'nom_pat_inst', title: 'Nombre Paterno' },
-    { field: 'nom_mat_inst', title: 'Nombre Materno' },
-    { field: 'ape_pat_inst', title: 'Apellido Paterno' },
-    { field: 'ape_mat_inst', title: 'Apellido Materno' },
-    { field: 'telf_inst', title: 'Teléfono' },
-    { field: 'dir_inst', title: 'Dirección' },
-    { field: 'ciud_inst', title: 'Ciudad' },
-    { field: 'tit_inst', title: 'Título' },
-    { field: 'puesto_inst', title: 'Puesto' },
-    { field: 'url_firma', title: 'URL Firma' },
+    { field: 'nom_pat_inst', title: 'NOMBRE PRIMARIO' },
+    { field: 'nom_mat_inst', title: 'NOMBRE SECUNDARIO' },
+    { field: 'ape_pat_inst', title: 'APELLIDO PATERNO ' },
+    { field: 'ape_mat_inst', title: 'APELLIDO MATERNO' },
+    { field: 'telf_inst', title: 'TELEFONO' },
+    { field: 'dir_inst', title: 'DIRECCIÓN' },
+    { field: 'ciud_inst', title: 'CUIDAD' },
+    { field: 'tit_inst', title: 'TÍTULO' },
+    { field: 'puesto_inst', title: 'PUESTO' },
+    { field: 'url_firma', title: 'URL FIRMA' },
   ];
   // Botones del teclado con icono, tooltip, color y acción asociada
   keypadButtons: KeypadButton[] = [
