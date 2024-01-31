@@ -129,12 +129,10 @@ export class FormComponent implements OnInit {
       estado_cur: [this.estado_cur],
     });
     if (this.emp_form.value.det_cer == '') {
-      this.certificadoContent = `<p>
-            Por haber completado satisfactoriamente el diplomado de {{evento}} de la categoria {{categoria}}
-            realizado el
-            {{fecha_inicio}} con una duración de
-            {{duración}}
-          </p>`;
+      this.certificadoContent = `<p><span style="font-size: 14pt;">Por haber participado y aprobado el {{categoria}} de:</span></p>
+<p><span style="font-size: 14pt;"><strong>{{evento}}</strong></span></p>
+<p><span style="font-size: 14pt;">&nbsp;Realizado el {{fecha_inicio}}, con una duración de&nbsp; {{duración}} académicas</span></p>
+`;
     } else {
       this.certificadoContent = this.emp_form.value.det_cer;
     }
