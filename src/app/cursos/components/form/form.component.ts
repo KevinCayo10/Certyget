@@ -5,16 +5,17 @@ import {
   FormControl,
   Validators,
 } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatDialog,
+} from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CursosService } from '../../services/cursos.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ToolbarSettingsModel } from '@syncfusion/ej2-angular-richtexteditor';
-import { registerLicense } from '@syncfusion/ej2-base';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-registerLicense(
-  'Ngo9BigBOggjHTQxAR8/V1NAaF5cWWZCfEx3Rnxbf1x0ZFREal5UTndZUiweQnxTdEFjWH5acHRXQGFbUkF1XA=='
-);
+import { InfoComponent } from '../info/info.component';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
   selector: 'cer-form',
@@ -24,6 +25,46 @@ registerLicense(
 export class FormComponent implements OnInit {
   // Función para comparar instructores
   compareInstructores = (a: any, b: any) => a.ced_inst === b.ced_inst;
+
+  editorConfig: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: 'auto',
+    minHeight: '5rem',
+    maxHeight: 'auto',
+    width: 'auto',
+    minWidth: '0',
+    translate: 'no',
+    enableToolbar: true,
+    showToolbar: true,
+    placeholder: 'Enter text here...',
+    fonts: [
+      { class: 'arial', name: 'Arial' },
+      { class: 'calibri', name: 'Calibri' },
+    ],
+    toolbarHiddenButtons: [
+      [
+        'strikeThrough',
+        'undo',
+        'redo',
+        'subscript',
+        'superscript',
+        'insertUnorderedList',
+        'insertOrderedList',
+        'heading',
+        'backgroundColor',
+        'customClasses',
+        'insertVideo',
+        'insertImage',
+
+        'link',
+        'unlink',
+        'insertHorizontalRule',
+        'removeFormat',
+      ],
+    ],
+  };
+
   // Configuración personalizada de la barra de herramientas
   customToolbar: Object = {
     items: ['bold', 'Italic', 'Undo', 'Redo'],
@@ -42,18 +83,6 @@ export class FormComponent implements OnInit {
   detalleCursosInstructores: any = [];
   certificadoContent: any;
   estado_cur!: boolean;
-  public toolbarSettings: ToolbarSettingsModel = {
-    items: [
-      'Bold',
-      'Italic',
-      'Underline',
-      '|',
-      'FontSize',
-      'FontColor',
-      '|',
-      'SourceCode',
-    ],
-  };
 
   evento: any = '';
   fecha_inicio: any = '';
@@ -85,6 +114,7 @@ export class FormComponent implements OnInit {
     this.estado_cur = $event.checked;
     if (this.estado_cur === false) {
       this.emp_form.disable();
+      this.editorConfig.editable = false;
     } else {
       this.emp_form.enable();
     }

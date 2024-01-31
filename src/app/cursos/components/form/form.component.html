@@ -80,12 +80,18 @@
       </mat-form-field>
     </div>
     <div class="row">
-      <div class="outline" style="width: 500px">
-        <mat-label>Detalle del Certificado</mat-label>
-        <ejs-richtexteditor [(ngModel)]="certificadoContent" formControlName="det_cer"
-          [toolbarSettings]="toolbarSettings" [enabled]='estado_cur === true'>
+      <div class="outline" style="width: 520px">
+        <div style="display: flex; align-items: center;">
+          <mat-label>Detalle del Certificado</mat-label> <button mat-icon-button color="primary" type="button"
+            (click)="openInfo()">
+            <mat-icon svgIcon="info"></mat-icon>
+          </button>
+        </div>
+        <angular-editor formControlName="det_cer" [config]="editorConfig"
+          [(ngModel)]="certificadoContent"></angular-editor>
 
-        </ejs-richtexteditor>
+
+
       </div>
     </div>
 
