@@ -13,7 +13,7 @@
   <div mat-dialog-content class="content">
     <div class="row">
       <mat-form-field class="outline">
-        <mat-label>Nombre del Curso</mat-label>
+        <mat-label>Nombre del Evento Académico</mat-label>
         <textarea matInput placeholder="Nombre del curso" formControlName="nom_cur"></textarea>
         <mat-icon matSuffix>text_fields</mat-icon>
       </mat-form-field>
@@ -28,7 +28,9 @@
         <mat-datepicker-toggle matIconSuffix [for]="fecha_inicio_cur">
           <mat-icon matDatepickerToggleIcon>event</mat-icon>
         </mat-datepicker-toggle>
-        <mat-datepicker #fecha_inicio_cur></mat-datepicker> </mat-form-field><mat-form-field class="outline">
+        <mat-datepicker #fecha_inicio_cur></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field class="outline">
         <mat-label>Fecha de Finalización</mat-label>
         <input matInput type="text" (click)="fecha_fin_cur.open()" [matDatepicker]="fecha_fin_cur"
           formControlName="fecha_fin_cur" />
@@ -38,18 +40,29 @@
         </mat-datepicker-toggle>
         <mat-datepicker #fecha_fin_cur></mat-datepicker>
       </mat-form-field>
+
     </div>
 
     <div class="row">
       <mat-form-field class="outline">
-        <mat-label>Duración del Curso</mat-label>
-        <textarea matInput placeholder="Duración del curso" formControlName="dur_cur"></textarea>
+        <mat-label>Duración (Horas)</mat-label>
+        <input type="text" matInput placeholder="Duración del curso" formControlName="dur_cur" />
         <mat-icon matSuffix>access_time</mat-icon>
+      </mat-form-field>
+      <mat-form-field class="outline">
+        <mat-label>Fecha de Emisión</mat-label>
+        <input matInput type="text" (click)="fecha_gen_cer.open()" [matDatepicker]="fecha_gen_cer"
+          formControlName="fecha_gen_cer" />
+        <mat-hint>dd-mm-yyyy</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="fecha_gen_cer">
+          <mat-icon matDatepickerToggleIcon>event</mat-icon>
+        </mat-datepicker-toggle>
+        <mat-datepicker #fecha_gen_cer></mat-datepicker>
       </mat-form-field>
     </div>
     <div class="row">
       <mat-form-field class="outline">
-        <mat-label>Categoría del Curso</mat-label>
+        <mat-label>Categoría del evento</mat-label>
         <mat-select formControlName="id_cate_cur" placeholder="Selecciona una categoría">
           <mat-option *ngFor="let categoria of categorias" [value]="categoria.id_cate">
             {{ categoria.nom_cate }}
@@ -57,7 +70,7 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field class="outline">
-        <mat-label>Instructores</mat-label>
+        <mat-label>Firmas</mat-label>
         <mat-select multiple formControlName="ced_inst" placeholder="Selecciona instructores"
           [compareWith]="compareInstructores">
           <mat-option *ngFor="let instructor of instructores" [value]="instructor.ced_inst">

@@ -123,6 +123,7 @@ export class FormComponent implements OnInit {
       dur_cur: [this.data?.dur_cur || '', Validators.required],
       id_cate_cur: [this.data?.id_cate_cur || '', Validators.required],
       ced_inst: [this.data?.ced_inst || '', Validators.required],
+      fecha_gen_cer: [this.data?.fecha_gen_cer || ''],
       det_cer: [this.data?.det_cer || ''],
       url_cer: [this.data?.url_cer || ''],
       estado_cur: [this.estado_cur],
@@ -234,6 +235,7 @@ export class FormComponent implements OnInit {
     formData.append('nom_cur', this.emp_form.value.nom_cur);
     formData.append('fecha_inicio_cur', this.emp_form.value.fecha_inicio_cur);
     formData.append('fecha_fin_cur', this.emp_form.value.fecha_fin_cur);
+    formData.append('fecha_gen_cer', this.emp_form.value.fecha_gen_cer);
     formData.append('dur_cur', this.emp_form.value.dur_cur);
     formData.append('id_cate_cur', this.emp_form.value.id_cate_cur);
     formData.append('ced_inst', this.emp_form.value.ced_inst);
