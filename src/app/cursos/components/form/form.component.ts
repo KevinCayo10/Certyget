@@ -99,6 +99,7 @@ export class FormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     private sanitizer: DomSanitizer,
+    private dialog: MatDialog,
 
     //private seccionService: SeccionService, // Cambiado a seccionService
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -208,6 +209,17 @@ export class FormComponent implements OnInit {
         }
       }
     }
+  }
+  openInfo() {
+    console.log('ENTRO');
+    const reference: MatDialogRef<InfoComponent> = this.dialog.open(
+      InfoComponent,
+      {
+        data: {
+          animal: 'panda',
+        },
+      }
+    );
   }
   // Capturar archivo seleccionado
   capturarFile(event: any): any {

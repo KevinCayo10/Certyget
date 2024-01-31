@@ -18,7 +18,6 @@ import { InfoComponent } from './components/info/info.component';
     CursosRoutingModule,
     SharedModule,
     MatDatepickerModule,
-    RichTextEditorModule,
     MatSlideToggleModule,
     MatListModule,
     AngularEditorModule,

@@ -1,5 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
-
 html,
 body {
   height: 100%;
@@ -26,3 +25,5 @@ body {
   --mat-mdc-snack-bar-button-color: rgba(10, 128, 49, 0.651) !important;
   white-space: pre-wrap;
 }
+
+@import "../node_modules/font-awesome/css/font-awesome.css";

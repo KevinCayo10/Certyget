@@ -32,6 +32,10 @@ export class IconService {
       name: 'search_delete',
       path: './../../assets/imagenes/search_delete.svg',
     },
+    {
+      name: 'info',
+      path: './../../assets/imagenes/info.svg',
+    },
   ];
   constructor(
     private matIconRegistry: MatIconRegistry,
