@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
@@ -35,6 +35,18 @@ export class CertificadosService {
   }> {
     return this.http.get<{ success: number; data: any[] }>(
       `${this.myAppUrl}${this.myApiUrlCertificados}detalle/${id_cur}`
+    );
+  }
+
+  loadSearchCertificados(
+    search: any,
+    id_cur: any
+  ): Observable<{ success: number; data: any[] }> {
+    const params = new HttpParams({ fromObject: { search, id_cur } });
+
+    return this.http.get<{ success: number; data: any[] }>(
+      `${this.myAppUrl}${this.myApiUrlCertificados}search`,
+      { params }
     );
   }
   // Método para agregar participantes

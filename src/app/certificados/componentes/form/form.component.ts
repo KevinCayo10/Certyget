@@ -37,7 +37,6 @@ export class FormComponent {
     { field: 'ape_pat_par', title: '1ER APELLIDO' },
     { field: 'ape_mat_par', title: '2DO APELLIDO' },
     { field: 'email_par', title: 'EMAIL' },
-    { field: 'telf_par', title: 'TELEFONO' },
   ];
 
   constructor(
@@ -128,7 +127,9 @@ export class FormComponent {
     Promise.all(promises)
       .then(() => {
         console.log('Todos los certificados fueron procesados con éxito');
+        this.showMessage('Todos los certificados fueron procesados con éxito');
 
+        this.reference.close();
         if (certificatesContainer) {
           certificatesContainer.style.display = 'none';
         }
@@ -141,8 +142,6 @@ export class FormComponent {
         }
       });
   }
-  // Método para guardar datos (a implementar)
-  saveData() {}
   // Método para guardar o enviar imagen del certificado
   private saveOrSendImage(
     imageDataURL: string,
@@ -162,12 +161,13 @@ export class FormComponent {
       formData.append('ape_par', participante.ape_pat_par);
       formData.append('email_par', participante.email_par);
       formData.append('nom_cur', this.nom_cur);
+      formData.append('cod_gen_cer', participante.cod_gen_cer);
 
       this.certificadoService.addCertificados(formData).subscribe(
         (response) => {
           console.log(response);
+          this.showMessage('Registro exitoso del certificado');
           resolve();
-          this.reference.close();
         },
         (error) => {
           console.error('Error al guardar el certificado como imagen:', error);
@@ -195,7 +195,6 @@ export class FormComponent {
     this.certificadoService.addParticipantes(this.data).subscribe(
       (response) => {
         console.log(response);
-        this.showMessage('Registro ingresado correctamente');
       },
       (err) => {
         this.showMessage(err.error.message);
@@ -233,7 +232,19 @@ export class FormComponent {
         if (sheets.length) {
           const row = utils.sheet_to_json(wb.Sheets[sheets[0]]);
           this.data = row;
-          console.log('DATA : ', this.data);
+          console.log('ANTES del FOR');
+          this.data = this.data.map((row) => {
+            // Construye el código y agrégalo como un nuevo atributo llamado 'codigo'
+            const cod_gen_cer = this.buildCode(
+              row.nom_pat_par,
+              row.ape_pat_par,
+              row.ced_par
+            );
+
+            // Retorna un nuevo objeto que incluye todas las propiedades originales más 'codigo'
+            return { ...row, cod_gen_cer };
+          });
+          console.log('DESPUES DEL COD', this.data);
         }
       };
       reader.readAsArrayBuffer(file);
@@ -244,5 +255,26 @@ export class FormComponent {
     console.log(sessionStorage.getItem('selectedCursoId'));
 
     this.changePage(0);
+  }
+  buildCode(nom_pat_par: string, ape_pat_par: string, ced_par: string): string {
+    const ultimosCuatroDigitos: string = ced_par.toString().slice(-4);
+    const primerDigitoNombre: string = nom_pat_par.toString().charAt(0);
+    const primerDigitoApellido: string = ape_pat_par.toString().charAt(0);
+    const letrasRamdoms: string = this.makeid(2);
+
+    const code: string = `${primerDigitoNombre}${this.id_cur}${primerDigitoApellido}${ultimosCuatroDigitos}${letrasRamdoms}`;
+    return code;
+  }
+  makeid(length: number) {
+    let result = '';
+    const characters =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < length) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      counter += 1;
+    }
+    return result;
   }
 }

@@ -1,8 +1,10 @@
 .content {
   padding-top: 10px;
+  width: 400px;
 }
 .row {
   display: flex;
+  flex-direction: column;
   gap: 15px;
 }
 .action {
@@ -16,4 +18,7 @@ mat-toolbar {
   color: whitesmoke;
   border-bottom: 1px solid #ccc;
   border-radius: 0px 60px 0px 0px;
+}
+.mat-form-field {
+  width: 100%; /* Hacer que el campo ocupe todo el ancho disponible */
 }

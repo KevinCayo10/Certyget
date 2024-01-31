@@ -23,7 +23,18 @@
         placeholder="Cédula"
         formControlName="ced_inst"
         [readonly]="isEdit"
+        maxlength="10"
+        (keypress)="onCedulaKeyPress($event)"
       />
+      <mat-error
+        *ngIf="
+          emp_form.get('ced_inst')?.invalid &&
+          (emp_form.get('ced_inst')?.dirty || emp_form.get('ced_inst')?.touched)
+        "
+      >
+        {{ getErrorMessage() }}
+      </mat-error>
+
       <mat-icon matSuffix>credit_card</mat-icon>
     </mat-form-field>
     <!-- Sección de nombres y apellidos -->
@@ -72,50 +83,24 @@
         <mat-icon matSuffix>person</mat-icon>
       </mat-form-field>
     </div>
-    <div class="row">
-      <mat-form-field class="outline">
-        <mat-label>Teléfono</mat-label>
-        <input
-          matInput
-          type="text"
-          placeholder="Teléfono"
-          formControlName="telf_inst"
-        />
-        <mat-icon matSuffix>phone</mat-icon>
-      </mat-form-field>
 
-      <mat-form-field class="outline">
-        <mat-label>Dirección</mat-label>
-        <input
-          matInput
-          type="text"
-          placeholder="Dirección"
-          formControlName="dir_inst"
-        />
-        <mat-icon matSuffix>location_on</mat-icon>
-      </mat-form-field>
-    </div>
     <div class="row">
-      <mat-form-field class="outline">
-        <mat-label>Ciudad</mat-label>
-        <input
-          matInput
-          type="text"
-          placeholder="Ciudad"
-          formControlName="ciud_inst"
-        />
-        <mat-icon matSuffix>location_city</mat-icon>
-      </mat-form-field>
-
       <mat-form-field class="outline">
         <mat-label>Título</mat-label>
-        <input
-          matInput
-          type="text"
-          placeholder="Título"
-          formControlName="tit_inst"
-        />
-        <mat-icon matSuffix>school</mat-icon>
+        <mat-select placeholder="" formControlName="tit_inst" multiple>
+          <!-- Iterar sobre los grupos de títulos -->
+          <ng-container *ngFor="let grupo of tituloGrupo">
+            <mat-optgroup [label]="grupo.name">
+              <!-- Iterar sobre los títulos dentro de cada grupo -->
+              <mat-option
+                *ngFor="let titulo of grupo.titulo"
+                [value]="titulo.value"
+              >
+                {{ titulo.viewValue }}
+              </mat-option>
+            </mat-optgroup>
+          </ng-container>
+        </mat-select>
       </mat-form-field>
     </div>
     <div class="row">
@@ -133,8 +118,20 @@
     </div>
     <!-- Sección para cargar un archivo -->
     <div class="row">
-      <label for="fileInput" class="custom-upload-btn">Subir Archivo</label>
+      <label for="fileInput" class="custom-upload-btn" color="primary"
+        >Subir Archivo</label
+      >
       <input type="file" id="fileInput" (change)="capturarFile($event)" />
+    </div>
+    <!-- Mensaje informativo sobre el formato de la firma -->
+    <div class="row file-format-info">
+      <span class="info-icon">
+        <i class="material-icons">info</i>
+      </span>
+      <span>
+        Para garantizar un procesamiento óptimo, te recomendamos cargar tu firma
+        en formato PNG.
+      </span>
     </div>
     <!-- Vista previa de la imagen cargada (mostrada si hay una imagen cargada) -->
     <div class="preview-container" *ngIf="previsualizacion">

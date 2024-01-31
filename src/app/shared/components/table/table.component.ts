@@ -50,4 +50,19 @@ export class TableComponent {
 
     return imageFields.includes(field);
   }
+
+  logEstadoCer(row: string) {
+    console.log(row);
+  }
+  isRowDisabled(row: any): boolean {
+    if (row.estado_cer === '1') {
+      return true;
+    } else if (row.estado_cur === '1') {
+      return true;
+    } else if (row.estado_par === '1') {
+      return true;
+    }
+    // Ajusta la lógica según tus necesidades
+    return false;
+  }
 }

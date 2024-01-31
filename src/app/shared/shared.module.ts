@@ -23,11 +23,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
-
 import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatMenuModule } from '@angular/material/menu';
-import { ModalCertificadosComponent } from './components/modal-certificados/modal-certificados.component';
+import { SearchComponent } from './components/search/search.component';
 @NgModule({
   declarations: [
     TitleComponent,
@@ -35,6 +34,7 @@ import { ModalCertificadosComponent } from './components/modal-certificados/moda
     TableComponent,
     KeypadButtonComponent,
     PaginatorComponent,
+    SearchComponent,
   ],
   imports: [
     CommonModule,
@@ -51,6 +51,7 @@ import { ModalCertificadosComponent } from './components/modal-certificados/moda
     MatListModule,
     MatGridListModule,
     MatMenuModule,
+    ReactiveFormsModule,
   ],
   exports: [
     TitleComponent,
@@ -77,6 +78,7 @@ import { ModalCertificadosComponent } from './components/modal-certificados/moda
     MatNativeDateModule,
     MatSelectModule,
     MatInputModule,
+    SearchComponent,
   ],
 })
 export class SharedModule {}

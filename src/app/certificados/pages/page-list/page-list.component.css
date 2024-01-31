@@ -4,8 +4,27 @@
   border: 1px solid black;
   border-radius: 8px;
 }
-mat-form-field {
+.custom-restart {
+  width: auto;
+  height: 56px;
+  border-radius: 8px;
+}
+
+div mat-icon {
+  color: #434343;
+}
+
+.custom_filter {
+  width: 100%;
+  display: flex;
+  margin-right: 1%;
+}
+form {
   width: 30%;
+}
+form mat-form-field {
+  width: 100%;
+  margin: 0 1%;
 }
 .botones {
   display: flex;

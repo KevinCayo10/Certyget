@@ -1,0 +1,9 @@
+.container {
+  width: auto;
+}
+.form-group {
+  width: 333px;
+}
+mat-icon {
+  color: #434343;
+}
