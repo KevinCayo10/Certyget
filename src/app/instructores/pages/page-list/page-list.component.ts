@@ -18,6 +18,7 @@ export class PageListComponent {
   // Metadatos para las columnas de la tabla
   metaDataColumns: MetaDataColumn[] = [
     { field: 'ced_inst', title: 'Cédula' },
+
     { field: 'nom_pat_inst', title: 'Nombre Paterno' },
     { field: 'nom_mat_inst', title: 'Nombre Materno' },
     { field: 'ape_pat_inst', title: 'Apellido Paterno' },
@@ -28,6 +29,7 @@ export class PageListComponent {
     { field: 'tit_inst', title: 'Título' },
     { field: 'puesto_inst', title: 'Puesto' },
     { field: 'url_firma', title: 'URL Firma' },
+
   ];
   // Botones del teclado con icono, tooltip, color y acción asociada
   keypadButtons: KeypadButton[] = [

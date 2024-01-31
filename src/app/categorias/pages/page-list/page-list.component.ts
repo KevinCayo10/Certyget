@@ -54,7 +54,7 @@ export class PageListComponent implements OnInit {
   loadCategory() {
     this.changePage(0);
   }
-  // Método para realizar acciones según el botón del teclado numérico presionado
+  // Método para realizar según el botón del teclado numérico presionado
   doAction(action: string) {
     switch (action) {
       case 'DOWNLOAD':
